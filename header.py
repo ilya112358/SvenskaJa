@@ -1,3 +1,4 @@
+import configparser
 import json
 import signal
 import sys
@@ -24,5 +25,8 @@ def initiate():
 
     signal.signal(signal.SIGINT, ctrlc_handler)
     print('Press Ctrl-C to exit at any time.')
+    config = configparser.ConfigParser()
+    config.read('myproj.ini')
+    num_opt = config['Translations'].getint('NumberOfOptions')
     with open(wordbase, encoding='utf-8') as f:
-        return json.load(f)
+        return json.load(f), num_opt

@@ -2,7 +2,7 @@ import random
 import header
 
 if __name__ == "__main__":
-    verbs = header.initiate()
+    verbs, num_opt = header.initiate()
     forms = ['inf', 'pres', 'past', 'supin', 'trans']
     words = []
     for verb in verbs:
@@ -49,8 +49,8 @@ if __name__ == "__main__":
         wordscopy = words.copy()
         random.shuffle(wordscopy)
         good = 0
-        num_opt = header.input_num('Choose from how many options? [2-7] ',
-                                   range(2, 8))
+##        num_opt = header.input_num('Choose from how many options? [2-7] ',
+##                                   range(2, 8))
         while wordscopy:
             word = wordscopy.pop()
             print('\nInfinitive:', word['inf'])
