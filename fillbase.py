@@ -13,7 +13,7 @@ def get_infs():
         line += (f'{infs[(i+1)*5+k]:12}')
     print(line)
     return infs
-    
+
 def fill_wordbase():
     done = False
     while not done:
@@ -52,7 +52,7 @@ def del_el():
             infs.pop(x)
         inp = input('\nAnother? [Y/Other] ')
         done = (inp != 'Y' and inp != 'y')
-    
+
 if __name__ == "__main__":
     verbs = header.initiate()
     print(f'{len(verbs)} verbs loaded')
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         with open(header.wordbase,'w', encoding='utf-8') as f:
             del_el()
             json.dump(verbs, f)
-    elif inp == 2:    
+    elif inp == 2:
         with open(header.wordbase,'w', encoding='utf-8') as f:
             json.dump(verbs, f)
             fill_wordbase()
@@ -74,4 +74,3 @@ if __name__ == "__main__":
         with open(header.wordbase_mock,'w', encoding='utf-8') as f:
             json.dump(verbs[:7], f)
     input('Press Enter to exit')
-    

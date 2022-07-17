@@ -44,7 +44,7 @@ if __name__ == "__main__":
                 good += 1
             else:
                 print('Incorrect!', verb['reply'])
-        print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct') 
+        print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
     elif inp == 2:
         wordscopy = words.copy()
         random.shuffle(wordscopy)
