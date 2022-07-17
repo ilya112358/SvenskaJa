@@ -1,0 +1,6 @@
+__pycache__/
+virtenv/
+build/
+dist/
+*.spec
+testit.py
