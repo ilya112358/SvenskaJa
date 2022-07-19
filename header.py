@@ -2,10 +2,6 @@ import configparser
 import signal
 import sys
 
-##wordbase = r"C:\Users\Public\Downloads\dist\Base\wordbase.json"
-##wordbase_bak = r"C:\Users\Public\Downloads\dist\Base\wordbase.bak"
-##wordbase_mock = r"C:\Users\Public\Downloads\dist\Base\wordbase.mock"
-
 def input_num(msg, dia):
     """Get number in range from user. Dia must be non-empty range."""
     try:
@@ -25,8 +21,6 @@ def initiate():
     signal.signal(signal.SIGINT, ctrlc_handler)
     print('Press Ctrl-C to exit at any time.')
     config = configparser.ConfigParser()
-    config.read('myproj.ini')
+    with open('myproj.ini') as f:
+        config.read_file(f)
     return config
-##    num_opt = config['Translations'].getint('NumberOfOptions')
-##    with open(wordbase, encoding='utf-8') as f:
-##        return json.load(f), num_opt
