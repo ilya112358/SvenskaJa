@@ -5,7 +5,8 @@ import header
 if __name__ == "__main__":
 ##    verbs, num_opt = header.initiate()
     config = header.initiate()
-    with open(header.wordbase, encoding='utf-8') as f:
+    wordbase = config['Path']['WordBase']
+    with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
     forms = ['inf', 'pres', 'past', 'supin', 'trans']
     words = []

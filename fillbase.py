@@ -55,24 +55,27 @@ def del_el():
 
 if __name__ == "__main__":
     config = header.initiate()
-    with open(header.wordbase, encoding='utf-8') as f:
+    wordbase = config['Path']['WordBase']
+    wordbase_bak = config['Path']['Backup']
+    wordbase_mock = config['Path']['Mock']
+    with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
     print(f'{len(verbs)} verbs loaded')
-    with open(header.wordbase_bak,'w', encoding='utf-8') as f:
+    with open(wordbase_bak,'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     verbs.sort(key=lambda verb: verb[0])
     infs = get_infs()
     inp = header.input_num('Choose 1 to del, 2 to input new, '
                            '3 to make mock base ', range(1,4))
     if inp == 1:
-        with open(header.wordbase,'w', encoding='utf-8') as f:
+        with open(wordbase,'w', encoding='utf-8') as f:
             del_el()
             json.dump(verbs, f)
     elif inp == 2:
-        with open(header.wordbase,'w', encoding='utf-8') as f:
+        with open(wordbase,'w', encoding='utf-8') as f:
             json.dump(verbs, f)
             fill_wordbase()
     elif inp == 3:
-        with open(header.wordbase_mock,'w', encoding='utf-8') as f:
+        with open(wordbase_mock,'w', encoding='utf-8') as f:
             json.dump(verbs[:7], f)
     input('Press Enter to exit')

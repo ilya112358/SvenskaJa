@@ -2,9 +2,9 @@ import configparser
 import signal
 import sys
 
-wordbase = r"C:\Users\Public\Downloads\dist\Base\wordbase.json"
-wordbase_bak = r"C:\Users\Public\Downloads\dist\Base\wordbase.bak"
-wordbase_mock = r"C:\Users\Public\Downloads\dist\Base\wordbase.mock"
+##wordbase = r"C:\Users\Public\Downloads\dist\Base\wordbase.json"
+##wordbase_bak = r"C:\Users\Public\Downloads\dist\Base\wordbase.bak"
+##wordbase_mock = r"C:\Users\Public\Downloads\dist\Base\wordbase.mock"
 
 def input_num(msg, dia):
     """Get number in range from user. Dia must be non-empty range."""
