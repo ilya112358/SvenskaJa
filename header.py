@@ -1,5 +1,4 @@
 import configparser
-import json
 import signal
 import sys
 
@@ -18,7 +17,7 @@ def input_num(msg, dia):
         return input_num(f'Enter a number from {dia}: ', dia)
 
 def initiate():
-    """Set Ctrl-C handler. Read wordbase. Return list of verbs."""
+    """Set Ctrl-C handler. Read and return config."""
     def ctrlc_handler(signal, frame):
         print('\nCtrl-C pressed, exiting...')
         sys.exit(0)
@@ -27,6 +26,7 @@ def initiate():
     print('Press Ctrl-C to exit at any time.')
     config = configparser.ConfigParser()
     config.read('myproj.ini')
-    num_opt = config['Translations'].getint('NumberOfOptions')
-    with open(wordbase, encoding='utf-8') as f:
-        return json.load(f), num_opt
+    return config
+##    num_opt = config['Translations'].getint('NumberOfOptions')
+##    with open(wordbase, encoding='utf-8') as f:
+##        return json.load(f), num_opt

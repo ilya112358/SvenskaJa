@@ -54,7 +54,9 @@ def del_el():
         done = (inp != 'Y' and inp != 'y')
 
 if __name__ == "__main__":
-    verbs, _ = header.initiate()
+    config = header.initiate()
+    with open(header.wordbase, encoding='utf-8') as f:
+        verbs = json.load(f)
     print(f'{len(verbs)} verbs loaded')
     with open(header.wordbase_bak,'w', encoding='utf-8') as f:
         json.dump(verbs, f)

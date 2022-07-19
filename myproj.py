@@ -1,8 +1,12 @@
+import json
 import random
 import header
 
 if __name__ == "__main__":
-    verbs, num_opt = header.initiate()
+##    verbs, num_opt = header.initiate()
+    config = header.initiate()
+    with open(header.wordbase, encoding='utf-8') as f:
+        verbs = json.load(f)
     forms = ['inf', 'pres', 'past', 'supin', 'trans']
     words = []
     for verb in verbs:
@@ -49,8 +53,7 @@ if __name__ == "__main__":
         wordscopy = words.copy()
         random.shuffle(wordscopy)
         good = 0
-##        num_opt = header.input_num('Choose from how many options? [2-7] ',
-##                                   range(2, 8))
+        num_opt = config['Translations'].getint('NumberOfOptions')
         while wordscopy:
             word = wordscopy.pop()
             print('\nInfinitive:', word['inf'])
