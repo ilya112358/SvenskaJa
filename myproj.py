@@ -3,9 +3,11 @@ import random
 import header
 
 if __name__ == "__main__":
-##    verbs, num_opt = header.initiate()
     config = header.initiate()
-    wordbase = config['Path']['WordBase']
+    if config['Options'].getboolean('Mock'):
+        wordbase = config['Path']['Mock']
+    else:
+        wordbase = config['Path']['WordBase']
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
     forms = ['inf', 'pres', 'past', 'supin', 'trans']
@@ -54,7 +56,7 @@ if __name__ == "__main__":
         wordscopy = words.copy()
         random.shuffle(wordscopy)
         good = 0
-        num_opt = config['Translations'].getint('NumberOfOptions')
+        num_opt = config['Options'].getint('NumberOfTrans')
         while wordscopy:
             word = wordscopy.pop()
             print('\nInfinitive:', word['inf'])
