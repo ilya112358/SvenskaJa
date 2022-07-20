@@ -34,24 +34,34 @@ if __name__ == "__main__":
         num = header.input_num('How many forms to practice? ',
                                range(1, total+1))
         del practice[num:]
-        good = 0
-        while practice:
-            verb = practice.pop()
-            prompt = f"\n {verb['inf']}: in "
-            match verb['form']:
-                case 1:
-                    prompt += "Presens (Jag...) "
-                case 2:
-                    prompt += "Preteritum (I går...) "
-                case 3:
-                    prompt += "Supinum (Jag har...) "
-            reply = input(prompt)
-            if reply == verb['reply']:
-                print('Correct.')
-                good += 1
-            else:
-                print('Incorrect!', verb['reply'])
-        print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
+        def repeat(practice):
+            num = len(practice)
+            good = 0
+            torepeat = []
+            while practice:
+                verb = practice.pop()
+                prompt = f"\n {verb['inf']}: in "
+                match verb['form']:
+                    case 1:
+                        prompt += 'Presens (Jag...) '
+                    case 2:
+                        prompt += 'Preteritum (I går...) '
+                    case 3:
+                        prompt += 'Supinum (Jag har...) '
+                reply = input(prompt)
+                if reply == verb['reply']:
+                    print('Correct.')
+                    good += 1
+                else:
+                    print('Incorrect!', verb['reply'])
+                    torepeat.append(verb)
+            print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
+            rep = input('Repeat incorrect ones? [Y] ')
+            if rep == 'Y' or rep == 'y':
+                repeat(torepeat)
+
+        repeat(practice)
+            
     elif inp == 2:
         wordscopy = words.copy()
         random.shuffle(wordscopy)
@@ -83,4 +93,5 @@ if __name__ == "__main__":
             input('Press Enter to continue:')
         print(f'\nOut of {num_words} translations '
               f'{good} ({good/num_words:.0%}) correct')
+
     input('Press Enter to exit')
