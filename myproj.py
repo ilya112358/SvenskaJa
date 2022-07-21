@@ -56,9 +56,10 @@ if __name__ == "__main__":
                     print('Incorrect!', verb['reply'])
                     torepeat.append(verb)
             print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
-            rep = input('Repeat incorrect ones? [Y] ')
-            if rep == 'Y' or rep == 'y':
-                repeat(torepeat)
+            if torepeat:
+                rep = input('Repeat incorrect ones? [Y] ')
+                if rep == 'Y' or rep == 'y':
+                    repeat(torepeat)
 
         repeat(practice)
             
