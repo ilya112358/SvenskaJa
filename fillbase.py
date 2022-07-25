@@ -21,8 +21,8 @@ def fill_wordbase():
         if inf in infs:
             print('Already exists!')
             continue
-        pres = input('Present? ')
-        past = input('Past? ')
+        pres = input('Presens? ')
+        past = input('Preteritum? ')
         supin = input('Supinum? ')
         trans = input('Translation? ')
         verb = [inf, pres, past, supin, trans]
@@ -33,8 +33,6 @@ def fill_wordbase():
             infs.append(inf)
             f.seek(0) # rewrite
             json.dump(verbs, f)
-        inp = input('\nAnother? [Y/Other] ')
-        done = (inp != 'Y' and inp != 'y')
 
 def del_el():
     done = False
