@@ -10,6 +10,7 @@ if __name__ == "__main__":
         wordbase = config['Path']['WordBase']
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
+    infs = header.infinitives(verbs)
     forms = ['inf', 'pres', 'past', 'supin', 'trans']
     words = []
     for verb in verbs:
@@ -62,7 +63,7 @@ if __name__ == "__main__":
                     repeat(torepeat)
 
         repeat(practice)
-            
+
     elif inp == 2:
         wordscopy = words.copy()
         random.shuffle(wordscopy)

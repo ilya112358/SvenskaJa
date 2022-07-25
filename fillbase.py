@@ -1,19 +1,6 @@
 import json
 import header
 
-def get_infs():
-    infs = [verb[0] for verb in verbs]
-    for i in range(len(infs)//5):
-        line = ' '
-        for k in range(5):
-            line += (f'{infs[i*5+k]:12}')
-        print(line)
-    line = ' '
-    for k in range(len(infs)%5):
-        line += (f'{infs[(i+1)*5+k]:12}')
-    print(line)
-    return infs
-
 def fill_wordbase():
     done = False
     while not done:
@@ -51,6 +38,21 @@ def del_el():
         inp = input('\nAnother? [Y/Other] ')
         done = (inp != 'Y' and inp != 'y')
 
+def makemock():
+    mock = []
+    n = 0
+    while len(mock) < 7:
+        candidate = verbs[n]
+        n += 1
+        bad = False
+        for k in range(4):
+            for l in ['ö', 'å', 'ä']:
+                if l in candidate[k]:
+                    bad = True
+        if not bad:
+            mock.append(candidate)
+    return mock
+
 if __name__ == "__main__":
     config = header.initiate()
     wordbase = config['Path']['WordBase']
@@ -62,7 +64,7 @@ if __name__ == "__main__":
     with open(wordbase_bak,'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     verbs.sort(key=lambda verb: verb[0])
-    infs = get_infs()
+    infs = header.infinitives(verbs)
     inp = header.input_num('Choose 1 to del, 2 to input new, '
                            '3 to make mock base ', range(1,4))
     if inp == 1:
@@ -74,6 +76,7 @@ if __name__ == "__main__":
             json.dump(verbs, f)
             fill_wordbase()
     elif inp == 3:
+        mock = makemock()
         with open(wordbase_mock,'w', encoding='utf-8') as f:
-            json.dump(verbs[:7], f)
+            json.dump(mock, f)
     input('Press Enter to exit')
