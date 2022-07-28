@@ -69,7 +69,9 @@ if __name__ == "__main__":
         random.shuffle(wordscopy)
         good = 0
         num_opt = config['Options'].getint('NumberOfTrans')
-        while wordscopy:
+        num = header.input_num('How many words to practice? ',
+                           range(1, num_words+1))
+        for _ in range(num):
             word = wordscopy.pop()
             print('\nInfinitive:', word['inf'])
             choice = [word['trans']]
@@ -93,7 +95,7 @@ if __name__ == "__main__":
                 first_try = False
                 print('Try again!')
             input('Press Enter to continue:')
-        print(f'\nOut of {num_words} translations '
-              f'{good} ({good/num_words:.0%}) correct')
+        print(f'\nOut of {num} translations '
+              f'{good} ({good/num:.0%}) correct')
 
     input('Press Enter to exit')
