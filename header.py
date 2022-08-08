@@ -2,15 +2,11 @@ import configparser
 import signal
 import sys
 
+import pyinputplus as pyip
+
 def input_num(msg, dia):
     """Get number in range from user. Dia must be non-empty range."""
-    try:
-        num = int(input(msg))
-        if num not in dia:
-            raise ValueError
-        return num
-    except ValueError:
-        return input_num(f'Enter a number from {dia}: ', dia)
+    return pyip.inputNum(msg, min=1, max=dia.stop-1)
 
 def initiate():
     """Set Ctrl-C handler. Read and return config."""
