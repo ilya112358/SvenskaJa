@@ -1,5 +1,6 @@
 import json
 import random
+import pyinputplus as pyip
 import header
 
 if __name__ == "__main__":
@@ -18,8 +19,8 @@ if __name__ == "__main__":
         words.append(word)
     num_words = len(words)
     print(f'{num_words} verbs loaded\n')
-    inp = header.input_num('Choose 1 to practice forms, '
-                           '2 to practice translations: ', range(1, 3))
+    inp = pyip.inputNum('Choose 1 to practice forms, '
+                        '2 to practice translations: ', min=1, max=2)
     if inp == 1:
         practice = []
         for word in words:
@@ -32,8 +33,7 @@ if __name__ == "__main__":
         random.shuffle(practice)
         total = len(practice)
         print(f'\n{total} total forms')
-        num = header.input_num('How many forms to practice? ',
-                               range(1, total+1))
+        num = pyip.inputNum('How many forms to practice? ', min=1, max=total)
         del practice[num:]
         def repeat(practice):
             num = len(practice)
@@ -69,8 +69,8 @@ if __name__ == "__main__":
         random.shuffle(wordscopy)
         good = 0
         num_opt = config['Options'].getint('NumberOfTrans')
-        num = header.input_num('How many words to practice? ',
-                           range(1, num_words+1))
+        num = pyip.inputNum('How many words to practice? ',
+                            min=1, max=num_words)
         for _ in range(num):
             word = wordscopy.pop()
             print('\nInfinitive:', word['inf'])
@@ -84,8 +84,8 @@ if __name__ == "__main__":
                 print(i+1, trans)
             first_try = True
             while True:
-                inp = header.input_num('Which translation is correct? ',
-                                       range(1, num_opt+1))
+                inp = pyip.inputNum('Which translation is correct? ',
+                                    min=1, max=num_opt)
                 if choice[inp-1] == word['trans']:
                     print(f"Yes, translation of _{word['inf']}_",
                           f"is _{word['trans']}_")

@@ -1,4 +1,5 @@
 import json
+import pyinputplus as pyip
 import header
 
 def fill_wordbase():
@@ -65,8 +66,8 @@ if __name__ == "__main__":
         json.dump(verbs, f)
     verbs.sort(key=lambda verb: verb[0])
     infs = header.infinitives(verbs)
-    inp = header.input_num('Choose 1 to del, 2 to input new, '
-                           '3 to make mock base ', range(1,4))
+    inp = pyip.inputNum('Choose 1 to del, 2 to input new, '
+                        '3 to make mock base ', min=1, max=3)
     if inp == 1:
         with open(wordbase,'w', encoding='utf-8') as f:
             del_el()
