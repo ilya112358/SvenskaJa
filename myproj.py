@@ -27,6 +27,7 @@ if __name__ == "__main__":
             for i in range(1, 4):
                 dct = {}
                 dct['inf'] = word['inf']
+                dct['trans'] = word['trans']
                 dct['form'] = i
                 dct['reply'] = word[forms[i]]
                 practice.append(dct)
@@ -41,7 +42,7 @@ if __name__ == "__main__":
             torepeat = []
             while practice:
                 verb = practice.pop()
-                prompt = f"\n {verb['inf']}: in "
+                prompt = f"\n att {verb['inf']} ({verb['trans']}): in "
                 match verb['form']:
                     case 1:
                         prompt += 'Presens (Jag...) '
@@ -49,7 +50,7 @@ if __name__ == "__main__":
                         prompt += 'Preteritum (I går...) '
                     case 3:
                         prompt += 'Supinum (Jag har...) '
-                reply = input(prompt)
+                reply = pyip.inputStr(prompt).casefold()
                 if reply == verb['reply']:
                     print('Correct.')
                     good += 1
