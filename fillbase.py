@@ -18,6 +18,7 @@ def fill_wordbase():
         correct = input('Correct? [Y/Other] ')
         if correct == 'Y' or correct == 'y':
             verbs.append(verb)
+            verbs.sort(key=lambda verb: verb[0])
             infs.append(inf)
             f.seek(0) # rewrite
             json.dump(verbs, f)
@@ -61,7 +62,7 @@ if __name__ == "__main__":
     wordbase_mock = config['Path']['Mock']
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
-    print(f'{len(verbs)} verbs loaded')
+    print(f'\n{len(verbs)} verbs loaded\n')
     with open(wordbase_bak,'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     verbs.sort(key=lambda verb: verb[0])
