@@ -6,7 +6,7 @@ import header
 if __name__ == "__main__":
     config = header.initiate()
     if config['Options'].getboolean('Mock'):
-        wordbase = config['Path']['Mock']
+        wordbase = 'mockbase.json'
     else:
         wordbase = config['Path']['WordBase']
     with open(wordbase, encoding='utf-8') as f:

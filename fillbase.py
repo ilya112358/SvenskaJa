@@ -61,40 +61,46 @@ def makemock():
                     bad = True
         if not bad:
             mock.append(candidate)
+    print(f'\n{len(mock)} verbs prepared')
     return mock
 
 if __name__ == "__main__":
     config = header.initiate()
     wordbase = config['Path']['WordBase']
-    wordbase_bak = config['Path']['Backup']
-    wordbase_mock = config['Path']['Mock']
+    backbase = config['Path']['Backup']
+    mockbase = 'mockbase.json'
+    repbase = 'repbase.json'
+    if config['Options'].getboolean('Mock'):
+        wordbase = mockbase
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
-    with open(wordbase_bak, 'w', encoding='utf-8') as f:
+    with open(backbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     while True:
         print(f'\n{len(verbs)} verbs loaded\n')
         verbs.sort(key=lambda verb: verb[0])
         infs = header.infinitives(verbs)
-        inp = pyip.inputNum('\nChoose 1 to del, 2 to input new, '
-                            '3 to create repetition base, '
-                            '4 to create mock base, 5 to exit ',
+        inp = pyip.inputNum('\nChoose:'
+                            '\n[1] to del, [2] to input new,'
+                            '\n[3] to create repetition base,'
+                            '\n[4] to create mock base, [5] to exit\n',
                             min=1, max=5)
-        if inp == 1:
-            with open(wordbase, 'w', encoding='utf-8') as f:
-                del_el()
-                json.dump(verbs, f)
-        elif inp == 2:
-            with open(wordbase, 'w', encoding='utf-8') as f:
-                json.dump(verbs, f)
-                fill_wordbase()
-        elif inp == 3:
-            rep = makerep()
-            with open('repbase.json', 'w', encoding='utf-8') as f:
-                json.dump(rep, f)
-        elif inp == 4:
-            mock = makemock()
-            with open(wordbase_mock, 'w', encoding='utf-8') as f:
-                json.dump(mock, f)
-        elif inp == 5:
-            break
+        match inp:
+            case 1:
+                with open(wordbase, 'w', encoding='utf-8') as f:
+                    del_el()
+                    json.dump(verbs, f)
+            case 2:
+                with open(wordbase, 'w', encoding='utf-8') as f:
+                    json.dump(verbs, f)
+                    fill_wordbase()
+            case 3:
+                rep = makerep()
+                with open(repbase, 'w', encoding='utf-8') as f:
+                    json.dump(rep, f)
+            case 4:
+                mock = makemock()
+                with open(mockbase, 'w', encoding='utf-8') as f:
+                    json.dump(mock, f)
+            case 5:
+                break
