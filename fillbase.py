@@ -1,4 +1,5 @@
 import json
+import random
 import pyinputplus as pyip
 import header
 
@@ -32,7 +33,22 @@ def del_el():
         verbs.pop(x)
         infs.pop(x)
 
+def makerep():
+    """(Re)Create and return repetition base."""
+    rep = []
+    for verb in verbs:
+        for i in range(1, 4):
+            lst = []
+            lst.append(verb[0]) # inf
+            lst.append(i) # form index
+            lst.append(verb[i]) # form
+            rep.append(lst)
+    random.shuffle(rep)
+    print(f'\n{len(rep)} forms prepared')
+    return rep
+
 def makemock():
+    """(Re)Create and return mock base."""
     mock = []
     n = 0
     while len(mock) < 7:
@@ -54,25 +70,31 @@ if __name__ == "__main__":
     wordbase_mock = config['Path']['Mock']
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
-    with open(wordbase_bak,'w', encoding='utf-8') as f:
+    with open(wordbase_bak, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     while True:
         print(f'\n{len(verbs)} verbs loaded\n')
         verbs.sort(key=lambda verb: verb[0])
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('\nChoose 1 to del, 2 to input new, '
-                            '3 to make mock base, 4 to exit ', min=1, max=4)
+                            '3 to create repetition base, '
+                            '4 to create mock base, 5 to exit ',
+                            min=1, max=5)
         if inp == 1:
-            with open(wordbase,'w', encoding='utf-8') as f:
+            with open(wordbase, 'w', encoding='utf-8') as f:
                 del_el()
                 json.dump(verbs, f)
         elif inp == 2:
-            with open(wordbase,'w', encoding='utf-8') as f:
+            with open(wordbase, 'w', encoding='utf-8') as f:
                 json.dump(verbs, f)
                 fill_wordbase()
         elif inp == 3:
-            mock = makemock()
-            with open(wordbase_mock,'w', encoding='utf-8') as f:
-                json.dump(mock, f)
+            rep = makerep()
+            with open('repbase.json', 'w', encoding='utf-8') as f:
+                json.dump(rep, f)
         elif inp == 4:
+            mock = makemock()
+            with open(wordbase_mock, 'w', encoding='utf-8') as f:
+                json.dump(mock, f)
+        elif inp == 5:
             break
