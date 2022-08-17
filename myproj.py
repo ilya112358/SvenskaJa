@@ -23,39 +23,48 @@ if __name__ == "__main__":
                         '2 to practice translations: ', min=1, max=2)
     if inp == 1:
         with open('repbase.json', encoding='utf-8') as f:
-            practice = json.load(f)
-        total = len(practice)
+            repbase = json.load(f)
+        total = len(repbase)
         print(f'\n{total} total forms')
         num = pyip.inputNum('How many forms to practice? ', min=1, max=total)
-        del practice[num:]
+        practice, base = repbase[:num], repbase[num:]
+        badlist, goodlist = [], []
+        good = 0
+        def test(verb):
+            prompt = f'\n {verb[0]}: in '
+            match verb[1]:
+                case 1:
+                    prompt += 'Presens (Jag...) '
+                case 2:
+                    prompt += 'Preteritum (I går...) '
+                case 3:
+                    prompt += 'Supinum (Jag har...) '
+            reply = pyip.inputStr(prompt).casefold()
+            return reply == verb[2]
 
-        def repeat(practice):
-            num = len(practice)
-            good = 0
-            torepeat = []
-            while practice:
-                verb = practice.pop()
-                prompt = f'\n {verb[0]}: in '
-                match verb[1]:
-                    case 1:
-                        prompt += 'Presens (Jag...) '
-                    case 2:
-                        prompt += 'Preteritum (I går...) '
-                    case 3:
-                        prompt += 'Supinum (Jag har...) '
-                reply = pyip.inputStr(prompt).casefold()
-                if reply == verb[2]:
-                    print('Correct.')
-                    good += 1
-                else:
-                    print('Incorrect!', verb[2])
-                    torepeat.append(verb)
-            print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
-            if torepeat:
-                if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
-                    repeat(torepeat)
-
-        repeat(practice)
+        while practice:
+            verb = practice.pop()
+            if test(verb):
+                print('Correct.')
+                good += 1
+                goodlist.append(verb)
+            else:
+                print('Incorrect!', verb[2])
+                badlist.append(verb)
+        print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
+        if badlist:
+            if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
+                practice = badlist.copy()
+                while practice:
+                    verb = practice.pop()
+                    if test(verb):
+                        print('Correct.')
+                    else:
+                        print('Incorrect!', verb[2])
+                        practice.append(verb)
+        repbase = badlist + base + goodlist
+        with open('repbase.json', 'w', encoding='utf-8') as f:
+            json.dump(repbase, f)
 
     elif inp == 2:
         wordscopy = words.copy()
