@@ -22,28 +22,21 @@ if __name__ == "__main__":
     inp = pyip.inputNum('Choose 1 to practice forms, '
                         '2 to practice translations: ', min=1, max=2)
     if inp == 1:
-        practice = []
-        for word in words:
-            for i in range(1, 4):
-                dct = {}
-                dct['inf'] = word['inf']
-                dct['trans'] = word['trans']
-                dct['form'] = i
-                dct['reply'] = word[forms[i]]
-                practice.append(dct)
-        random.shuffle(practice)
+        with open('repbase.json', encoding='utf-8') as f:
+            practice = json.load(f)
         total = len(practice)
         print(f'\n{total} total forms')
         num = pyip.inputNum('How many forms to practice? ', min=1, max=total)
         del practice[num:]
+
         def repeat(practice):
             num = len(practice)
             good = 0
             torepeat = []
             while practice:
                 verb = practice.pop()
-                prompt = f"\n att {verb['inf']} ({verb['trans']}): in "
-                match verb['form']:
+                prompt = f'\n {verb[0]}: in '
+                match verb[1]:
                     case 1:
                         prompt += 'Presens (Jag...) '
                     case 2:
@@ -51,16 +44,15 @@ if __name__ == "__main__":
                     case 3:
                         prompt += 'Supinum (Jag har...) '
                 reply = pyip.inputStr(prompt).casefold()
-                if reply == verb['reply']:
+                if reply == verb[2]:
                     print('Correct.')
                     good += 1
                 else:
-                    print('Incorrect!', verb['reply'])
+                    print('Incorrect!', verb[2])
                     torepeat.append(verb)
             print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
             if torepeat:
-                rep = input('Repeat incorrect ones? [Y] ')
-                if rep == 'Y' or rep == 'y':
+                if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
                     repeat(torepeat)
 
         repeat(practice)
