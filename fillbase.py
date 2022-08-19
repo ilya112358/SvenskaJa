@@ -22,19 +22,27 @@ def fill_wordbase():
         json.dump(verbs, f)
 
 def del_el():
-    inf = input('\nInfinitive to delete? ')
+    """Delete element from the list"""
+    inf = pyip.inputStr('\nInfinitive to delete? ').casefold()
     try:
         x = infs.index(inf)
     except ValueError:
         print('Not in the list!')
         return
     print(verbs[x])
-    if pyip.inputYesNo('Delete this entry? ') == 'yes':
-        verbs.pop(x)
-        infs.pop(x)
+    if pyip.inputYesNo('Delete this entry? ') == 'no':
+        return
+    verbs.pop(x)
+    infs.pop(x)
+    with open(repbase, encoding='utf-8') as f:
+        rep = json.load(f)
+    newbase = [lst for lst in rep if lst[0] != inf]
+    with open(repbase, 'w', encoding='utf-8') as f:
+        json.dump(newbase, f)
+    print(f'[{inf}] deleted from wordbase and repbase')
 
 def makerep():
-    """(Re)Create and return repetition base."""
+    """(Re)Create and return repetition base"""
     rep = []
     for verb in verbs:
         for i in range(1, 4):
@@ -48,7 +56,7 @@ def makerep():
     return rep
 
 def makemock():
-    """(Re)Create and return mock base."""
+    """(Re)Create and return mock base"""
     mock = []
     n = 0
     while len(mock) < 10:
@@ -66,16 +74,20 @@ def makemock():
 
 if __name__ == "__main__":
     config = header.initiate()
-    wordbase = config['Path']['WordBase']
-    backbase = config['Path']['Backup']
     mockbase = 'mockbase.json'
-    repbase = 'repbase.json'
     if config['Options'].getboolean('Mock'):
         wordbase = mockbase
-    with open(wordbase, encoding='utf-8') as f:
-        verbs = json.load(f)
-    with open(backbase, 'w', encoding='utf-8') as f:
-        json.dump(verbs, f)
+        repbase = 'repbase.json'
+        with open(wordbase, encoding='utf-8') as f:
+            verbs = json.load(f)
+    else:
+        wordbase = config['Path']['WordBase']
+        repbase = config['Path']['RepBase']
+        backbase = config['Path']['Backup']
+        with open(wordbase, encoding='utf-8') as f:
+            verbs = json.load(f)
+        with open(backbase, 'w', encoding='utf-8') as f:
+            json.dump(verbs, f)
     while True:
         verbs.sort(key=lambda verb: verb[0])
         infs = header.infinitives(verbs)

@@ -7,8 +7,10 @@ if __name__ == "__main__":
     config = header.initiate()
     if config['Options'].getboolean('Mock'):
         wordbase = 'mockbase.json'
+        repbase = 'repbase.json'
     else:
         wordbase = config['Path']['WordBase']
+        repbase = config['Path']['RepBase']
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
     infs = header.infinitives(verbs)
@@ -21,12 +23,12 @@ if __name__ == "__main__":
     inp = pyip.inputNum('Choose 1 to practice forms, '
                         '2 to practice translations: ', min=1, max=2)
     if inp == 1:
-        with open('repbase.json', encoding='utf-8') as f:
-            repbase = json.load(f)
-        total = len(repbase)
+        with open(repbase, encoding='utf-8') as f:
+            rep = json.load(f)
+        total = len(rep)
         print(f'\n{total} total forms')
         num = pyip.inputNum('How many forms to practice? ', min=1, max=total)
-        practice, base = repbase[:num], repbase[num:]
+        practice, base = rep[:num], rep[num:]
         badlist, goodlist = [], []
         good = 0
         def test(verb):
@@ -51,9 +53,9 @@ if __name__ == "__main__":
                 print('Incorrect!', verb[2])
                 badlist.append(verb)
         print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
-        repbase = badlist + base + goodlist
-        with open('repbase.json', 'w', encoding='utf-8') as f:
-            json.dump(repbase, f)
+        rep = badlist + base + goodlist
+        with open(repbase, 'w', encoding='utf-8') as f:
+            json.dump(rep, f)
         if badlist:
             if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
                 practice = badlist.copy()
