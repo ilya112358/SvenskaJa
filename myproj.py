@@ -18,7 +18,6 @@ if __name__ == "__main__":
         word = {forms[i]: verb[i] for i in range(5)}
         words.append(word)
     num_words = len(words)
-    print(f'{num_words} verbs loaded\n')
     inp = pyip.inputNum('Choose 1 to practice forms, '
                         '2 to practice translations: ', min=1, max=2)
     if inp == 1:
@@ -52,6 +51,9 @@ if __name__ == "__main__":
                 print('Incorrect!', verb[2])
                 badlist.append(verb)
         print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
+        repbase = badlist + base + goodlist
+        with open('repbase.json', 'w', encoding='utf-8') as f:
+            json.dump(repbase, f)
         if badlist:
             if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
                 practice = badlist.copy()
@@ -62,10 +64,6 @@ if __name__ == "__main__":
                     else:
                         print('Incorrect!', verb[2])
                         practice.append(verb)
-        repbase = badlist + base + goodlist
-        with open('repbase.json', 'w', encoding='utf-8') as f:
-            json.dump(repbase, f)
-
     elif inp == 2:
         wordscopy = words.copy()
         random.shuffle(wordscopy)
@@ -96,8 +94,5 @@ if __name__ == "__main__":
                     break
                 first_try = False
                 print('Try again!')
-            input('Press Enter to continue:')
-        print(f'\nOut of {num} translations '
-              f'{good} ({good/num:.0%}) correct')
-
+        print(f'\nOut of {num} translations {good} ({good/num:.0%}) correct')
     input('Press Enter to exit')

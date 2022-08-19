@@ -9,13 +9,15 @@ def initiate():
         sys.exit(0)
 
     signal.signal(signal.SIGINT, ctrlc_handler)
-    print('Press Ctrl-C to exit at any time.')
+    print('*** SvenskaJa ***')
+    print('(press Ctrl-C to exit at any time)')
     config = configparser.ConfigParser()
     with open('myproj.ini') as f:
         config.read_file(f)
     return config
 
 def infinitives(verbs):
+    print()
     infs = [verb[0] for verb in verbs]
     for i in range(len(infs)//5):
         line = ' '
@@ -26,4 +28,7 @@ def infinitives(verbs):
     for k in range(len(infs)%5):
         line += (f'{infs[(i+1)*5+k]:12}')
     print(line)
+    if len(infs)%5:
+        print()
+    print(f'{len(verbs)} verbs loaded\n')
     return infs

@@ -51,7 +51,7 @@ def makemock():
     """(Re)Create and return mock base."""
     mock = []
     n = 0
-    while len(mock) < 7:
+    while len(mock) < 10:
         candidate = verbs[n]
         n += 1
         bad = False
@@ -77,10 +77,9 @@ if __name__ == "__main__":
     with open(backbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     while True:
-        print(f'\n{len(verbs)} verbs loaded\n')
         verbs.sort(key=lambda verb: verb[0])
         infs = header.infinitives(verbs)
-        inp = pyip.inputNum('\nChoose:'
+        inp = pyip.inputNum('Choose:'
                             '\n[1] to del, [2] to input new,'
                             '\n[3] to create repetition base,'
                             '\n[4] to create mock base, [5] to exit\n',
