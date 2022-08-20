@@ -3,7 +3,8 @@ import random
 import pyinputplus as pyip
 import header
 
-def fill_wordbase():
+def add_el():
+    """Add element to the list"""
     inf = input('\nInfinitive to add? ')
     if inf in infs:
         print('Already exists!')
@@ -14,12 +15,18 @@ def fill_wordbase():
     trans = input('Translation? ')
     verb = [inf, pres, past, supin, trans]
     print(verb)
-    if pyip.inputYesNo('Correct? ') == 'yes':
-        verbs.append(verb)
-        verbs.sort(key=lambda verb: verb[0])
-        infs.append(inf)
-        f.seek(0) # rewrite
+    if pyip.inputYesNo('Add this entry? ') == 'no':
+        return
+    verbs.append(verb)
+    with open(repbase, encoding='utf-8') as f:
+        rep = json.load(f)
+    lst = [[inf, 1, pres], [inf, 2, past], [inf, 3, supin]]
+    newbase = lst + rep
+    with open(repbase, 'w', encoding='utf-8') as f:
+        json.dump(newbase, f)
+    with open(wordbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
+    print(f'[{inf}] added to wordbase and repbase')
 
 def del_el():
     """Delete element from the list"""
@@ -33,12 +40,13 @@ def del_el():
     if pyip.inputYesNo('Delete this entry? ') == 'no':
         return
     verbs.pop(x)
-    infs.pop(x)
     with open(repbase, encoding='utf-8') as f:
         rep = json.load(f)
     newbase = [lst for lst in rep if lst[0] != inf]
     with open(repbase, 'w', encoding='utf-8') as f:
         json.dump(newbase, f)
+    with open(wordbase, 'w', encoding='utf-8') as f:
+        json.dump(verbs, f)
     print(f'[{inf}] deleted from wordbase and repbase')
 
 def makerep():
@@ -92,13 +100,9 @@ if __name__ == "__main__":
                             min=1, max=5)
         match inp:
             case 1:
-                with open(wordbase, 'w', encoding='utf-8') as f:
-                    del_el()
-                    json.dump(verbs, f)
+                del_el()
             case 2:
-                with open(wordbase, 'w', encoding='utf-8') as f:
-                    json.dump(verbs, f)
-                    fill_wordbase()
+                add_el()
             case 3:
                 rep = makerep()
                 with open(repbase, 'w', encoding='utf-8') as f:
