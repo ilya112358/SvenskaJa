@@ -5,12 +5,8 @@ import header
 
 if __name__ == "__main__":
     config = header.initiate()
-    if config['Options'].getboolean('Mock'):
-        wordbase = 'mockbase.json'
-        repbase = 'repbase.json'
-    else:
-        wordbase = config['Path']['WordBase']
-        repbase = config['Path']['RepBase']
+    wordbase = config['Path']['WordBase']
+    repbase = config['Path']['RepBase']
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
     infs = header.infinitives(verbs)

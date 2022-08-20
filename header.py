@@ -12,7 +12,7 @@ def initiate():
     print('*** SvenskaJa ***')
     print('(press Ctrl-C to exit at any time)')
     config = configparser.ConfigParser()
-    with open('myproj.ini') as f:
+    with open('config.ini') as f:
         config.read_file(f)
     return config
 

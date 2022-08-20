@@ -75,19 +75,13 @@ def makemock():
 if __name__ == "__main__":
     config = header.initiate()
     mockbase = 'mockbase.json'
-    if config['Options'].getboolean('Mock'):
-        wordbase = mockbase
-        repbase = 'repbase.json'
-        with open(wordbase, encoding='utf-8') as f:
-            verbs = json.load(f)
-    else:
-        wordbase = config['Path']['WordBase']
-        repbase = config['Path']['RepBase']
-        backbase = config['Path']['Backup']
-        with open(wordbase, encoding='utf-8') as f:
-            verbs = json.load(f)
-        with open(backbase, 'w', encoding='utf-8') as f:
-            json.dump(verbs, f)
+    wordbase = config['Path']['WordBase']
+    repbase = config['Path']['RepBase']
+    backbase = config['Path']['Backup']
+    with open(wordbase, encoding='utf-8') as f:
+        verbs = json.load(f)
+    with open(backbase, 'w', encoding='utf-8') as f:
+        json.dump(verbs, f)
     while True:
         verbs.sort(key=lambda verb: verb[0])
         infs = header.infinitives(verbs)
