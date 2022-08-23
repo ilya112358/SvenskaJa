@@ -28,14 +28,14 @@ if __name__ == "__main__":
         badlist, goodlist = [], []
         good = 0
         def test(verb):
-            prompt = f'\n {verb[0]}: in '
+            prompt = f'\n att {verb[0]}: in '
             match verb[1]:
                 case 1:
-                    prompt += 'Presens (Jag...) '
+                    prompt += 'Presens? '
                 case 2:
-                    prompt += 'Preteritum (I går...) '
+                    prompt += 'Preteritum? '
                 case 3:
-                    prompt += 'Supinum (Jag har...) '
+                    prompt += 'Supinum? '
             reply = pyip.inputStr(prompt).casefold()
             return reply == verb[2]
 
@@ -85,8 +85,8 @@ if __name__ == "__main__":
                 inp = pyip.inputNum('Which translation is correct? ',
                                     min=1, max=num_opt)
                 if choice[inp-1] == word['trans']:
-                    print(f"Yes, translation of _{word['inf']}_",
-                          f"is _{word['trans']}_")
+                    print(f"Yes, [{word['inf']}] can be translated as "
+                          f"[{word['trans']}]")
                     if first_try:
                         good += 1
                     break

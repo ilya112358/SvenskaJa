@@ -5,14 +5,14 @@ import header
 
 def add_el():
     """Add element to the list"""
-    inf = input('\nInfinitive to add? ')
+    inf = pyip.inputStr('\nInfinitive to add? ')
     if inf in infs:
         print('Already exists!')
         return
-    pres = input('Presens? ')
-    past = input('Preteritum? ')
-    supin = input('Supinum? ')
-    trans = input('Translation? ')
+    pres = pyip.inputStr('Presens? ').casefold()
+    past = pyip.inputStr('Preteritum? ').casefold()
+    supin = pyip.inputStr('Supinum? ').casefold()
+    trans = pyip.inputStr('Translation? ').casefold()
     verb = [inf, pres, past, supin, trans]
     print(verb)
     if pyip.inputYesNo('Add this entry? ') == 'no':
