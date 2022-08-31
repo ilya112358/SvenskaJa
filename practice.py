@@ -69,9 +69,12 @@ if __name__ == "__main__":
         num_opt = config['Options'].getint('NumberOfTrans')
         num = pyip.inputNum('How many words to practice? ',
                             min=1, max=num_words)
+        print('Think of a translation then press Enter to choose from '
+              f'{num_opt} options.')
         for _ in range(num):
             word = wordscopy.pop()
-            print('\nInfinitive:', word['inf'])
+            print('\nVerb:', word['inf'])
+            input()
             choice = [word['trans']]
             while len(choice) < num_opt:
                 random_trans = random.choice(words)['trans']
