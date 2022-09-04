@@ -49,6 +49,12 @@ def del_el():
         json.dump(verbs, f)
     print(f'[{inf}] deleted from wordbase and repbase')
 
+def sortbase():
+    """Sort wordbase by infinitives and save"""
+    verbs.sort(key=lambda verb: verb[0])
+    with open(wordbase, 'w', encoding='utf-8') as f:
+        json.dump(verbs, f)
+
 def makerep():
     """(Re)Create and return repetition base"""
     rep = []
@@ -91,25 +97,26 @@ if __name__ == "__main__":
     with open(backbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     while True:
-        verbs.sort(key=lambda verb: verb[0])
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose:'
-                            '\n[1] to del, [2] to input new,'
-                            '\n[3] to create repetition base,'
-                            '\n[4] to create mock base, [5] to exit\n',
-                            min=1, max=5)
+                            '\n[1] to del, [2] to input new, [3] to sort'
+                            '\n[4] to create repetition base,'
+                            '\n[5] to create mock base, [6] to exit\n',
+                            min=1, max=6)
         match inp:
             case 1:
                 del_el()
             case 2:
                 add_el()
             case 3:
+                sortbase()
+            case 4:
                 rep = makerep()
                 with open(repbase, 'w', encoding='utf-8') as f:
                     json.dump(rep, f)
-            case 4:
+            case 5:
                 mock = makemock()
                 with open(mockbase, 'w', encoding='utf-8') as f:
                     json.dump(mock, f)
-            case 5:
+            case 6:
                 break
