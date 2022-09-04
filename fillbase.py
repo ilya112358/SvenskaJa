@@ -3,8 +3,19 @@ import random
 import pyinputplus as pyip
 import header
 
+def lookup():
+    """Look up a verb from the list"""
+    inf = pyip.inputStr('\nInfinitive? ').casefold()
+    try:
+        x = infs.index(inf)
+        print(verbs[x])
+    except ValueError:
+        print('Not in the list!')
+    finally:
+        input('Press Enter')
+
 def add_el():
-    """Add element to the list"""
+    """Add a verb to the list"""
     inf = pyip.inputStr('\nInfinitive to add? ')
     if inf in infs:
         print('Already exists!')
@@ -29,7 +40,7 @@ def add_el():
     print(f'[{inf}] added to wordbase and repbase')
 
 def del_el():
-    """Delete element from the list"""
+    """Delete a verb from the list"""
     inf = pyip.inputStr('\nInfinitive to delete? ').casefold()
     try:
         x = infs.index(inf)
@@ -99,11 +110,17 @@ if __name__ == "__main__":
     while True:
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose:'
-                            '\n[1] to del, [2] to input new, [3] to sort'
+                            '\n[0] to look up a verb,'
+                            '\n[1] to delete a verb,'
+                            '\n[2] to input a new verb,'
+                            '\n[3] to sort word base,'
                             '\n[4] to create repetition base,'
-                            '\n[5] to create mock base, [6] to exit\n',
-                            min=1, max=6)
+                            '\n[5] to create mock base,'
+                            '\n[6] to exit\n',
+                            min=0, max=6)
         match inp:
+            case 0:
+                lookup()
             case 1:
                 del_el()
             case 2:
