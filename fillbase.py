@@ -113,29 +113,16 @@ if __name__ == "__main__":
         verbs = json.load(f)
     with open(backbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
+    tasks = (lookup, del_el, add_el, sortbase, makerep, makemock)
     while True:
         infs = header.infinitives(verbs)
-        inp = pyip.inputNum('Choose:'
-                            '\n[0] to look up a verb,'
-                            '\n[1] to delete a verb,'
-                            '\n[2] to input a new verb,'
-                            '\n[3] to sort word base,'
-                            '\n[4] to create repetition base,'
-                            '\n[5] to create mock base,'
-                            '\n[6] to exit\n',
-                            min=0, max=6)
-        match inp:
-            case 0:
-                lookup()
-            case 1:
-                del_el()
-            case 2:
-                add_el()
-            case 3:
-                sortbase()
-            case 4:
-                rep = makerep()
-            case 5:
-                mock = makemock()
-            case 6:
-                break
+        inp = pyip.inputNum('Choose a number to:'
+                            '\n[0] look up,'
+                            '\n[1] delete,'
+                            '\n[2] input new,'
+                            '\n[3] sort,'
+                            '\n[4] create repetition base,'
+                            '\n[5] create mock base,'
+                            '\n[Ctrl-C] to exit\n',
+                            min=0, max=5)
+        tasks[inp]()
