@@ -3,16 +3,25 @@ import random
 import pyinputplus as pyip
 import header
 
+def input_verb(inf):
+    """Input verb forms"""
+    pres = pyip.inputStr('Presens? ').casefold()
+    past = pyip.inputStr('Preteritum? ').casefold()
+    supin = pyip.inputStr('Supinum? ').casefold()
+    trans = pyip.inputStr('Translation? ').casefold()
+    verb = [inf, pres, past, supin, trans]
+    print(verb)
+    return verb
+
 def lookup():
     """Look up a verb from the list"""
     inf = pyip.inputStr('\nInfinitive? ').casefold()
     try:
         x = infs.index(inf)
-        print(verbs[x])
     except ValueError:
         print('Not in the list!')
-    finally:
-        input('Press Enter')
+        return
+    print(verbs[x])
 
 def add_el():
     """Add a verb to the list"""
@@ -20,18 +29,13 @@ def add_el():
     if inf in infs:
         print('Already exists!')
         return
-    pres = pyip.inputStr('Presens? ').casefold()
-    past = pyip.inputStr('Preteritum? ').casefold()
-    supin = pyip.inputStr('Supinum? ').casefold()
-    trans = pyip.inputStr('Translation? ').casefold()
-    verb = [inf, pres, past, supin, trans]
-    print(verb)
+    verb = input_verb(inf)
     if pyip.inputYesNo('Add this entry? ') == 'no':
         return
     verbs.append(verb)
     with open(repbase, encoding='utf-8') as f:
         rep = json.load(f)
-    lst = [[inf, 1, pres], [inf, 2, past], [inf, 3, supin]]
+    lst = [[inf, 1, verb[1]], [inf, 2, verb[2]], [inf, 3, verb[3]]]
     newbase = lst + rep
     with open(repbase, 'w', encoding='utf-8') as f:
         json.dump(newbase, f)
@@ -65,6 +69,7 @@ def sortbase():
     verbs.sort(key=lambda verb: verb[0])
     with open(wordbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
+    print('Word base sorted')
 
 def makerep():
     """(Re)Create repetition base"""
@@ -82,6 +87,7 @@ def makerep():
         return
     with open(repbase, 'w', encoding='utf-8') as f:
         json.dump(rep, f)
+    print('Repetition base saved')
 
 def makemock():
     """(Re)Create mock base"""
@@ -102,6 +108,7 @@ def makemock():
         return
     with open(mockbase, 'w', encoding='utf-8') as f:
         json.dump(mock, f)
+    print('Mock base saved')
 
 if __name__ == "__main__":
     config = header.initiate()
@@ -126,3 +133,4 @@ if __name__ == "__main__":
                             '\n[Ctrl-C] to exit\n',
                             min=0, max=5)
         tasks[inp]()
+        input('Press Enter to return')
