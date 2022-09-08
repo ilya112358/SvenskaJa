@@ -67,7 +67,7 @@ def sortbase():
         json.dump(verbs, f)
 
 def makerep():
-    """(Re)Create and return repetition base"""
+    """(Re)Create repetition base"""
     rep = []
     for verb in verbs:
         for i in range(1, 4):
@@ -78,10 +78,13 @@ def makerep():
             rep.append(lst)
     random.shuffle(rep)
     print(f'\n{len(rep)} forms prepared')
-    return rep
+    if pyip.inputYesNo('Write new repetition base? ') == 'no':
+        return
+    with open(repbase, 'w', encoding='utf-8') as f:
+        json.dump(rep, f)
 
 def makemock():
-    """(Re)Create and return mock base"""
+    """(Re)Create mock base"""
     mock = []
     n = 0
     while len(mock) < 10:
@@ -95,7 +98,10 @@ def makemock():
         if not bad:
             mock.append(candidate)
     print(f'\n{len(mock)} verbs prepared')
-    return mock
+    if pyip.inputYesNo('Write new mock base? ') == 'no':
+        return
+    with open(mockbase, 'w', encoding='utf-8') as f:
+        json.dump(mock, f)
 
 if __name__ == "__main__":
     config = header.initiate()
@@ -129,11 +135,7 @@ if __name__ == "__main__":
                 sortbase()
             case 4:
                 rep = makerep()
-                with open(repbase, 'w', encoding='utf-8') as f:
-                    json.dump(rep, f)
             case 5:
                 mock = makemock()
-                with open(mockbase, 'w', encoding='utf-8') as f:
-                    json.dump(mock, f)
             case 6:
                 break
