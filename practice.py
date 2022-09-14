@@ -29,25 +29,24 @@ if __name__ == "__main__":
         badlist, goodlist = [], []
         good = 0
         def test(verb):
-            prompt = f'\n att {verb[0]}: in '
-            match verb[1]:
-                case 1:
-                    prompt += 'Presens? '
-                case 2:
-                    prompt += 'Preteritum? '
-                case 3:
-                    prompt += 'Supinum? '
-            reply = pyip.inputStr(prompt).casefold()
-            return reply == verb[2]
+            x = infs.index(verb)
+            for i in range(1, 4):
+                correct = words[x][forms[i]]
+                prompt = f'\n att {verb}: in {forms[i]}? '
+                reply = pyip.inputStr(prompt).casefold()
+                if reply != correct:
+                    print('Incorrect!', correct)
+                    return False
+                else:
+                    print('Correct.')
+            return True
 
         while practice:
             verb = practice.pop()
             if test(verb):
-                print('Correct.')
                 good += 1
                 goodlist.append(verb)
             else:
-                print('Incorrect!', verb[2])
                 badlist.append(verb)
         print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
         rep = badlist + base + goodlist
@@ -55,14 +54,10 @@ if __name__ == "__main__":
             json.dump(rep, f)
         if badlist:
             if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
-                practice = badlist.copy()
-                while practice:
-                    verb = practice.pop()
-                    if test(verb):
-                        print('Correct.')
-                    else:
-                        print('Incorrect!', verb[2])
-                        practice.append(verb)
+                while badlist:
+                    verb = badlist.pop()
+                    if not test(verb):
+                        badlist.append(verb)
     elif inp == 2:
         wordscopy = words.copy()
         random.shuffle(wordscopy)

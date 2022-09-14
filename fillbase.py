@@ -74,14 +74,7 @@ def sortbase():
 
 def makerep():
     """(Re)Create repetition base"""
-    rep = []
-    for verb in verbs:
-        for i in range(1, 4):
-            lst = []
-            lst.append(verb[0]) # inf
-            lst.append(i) # form index
-            lst.append(verb[i]) # form
-            rep.append(lst)
+    rep = [verb[0] for verb in verbs]
     random.shuffle(rep)
     print(f'\n{len(rep)} forms prepared')
     if pyip.inputYesNo('Write new repetition base? ') == 'no':
