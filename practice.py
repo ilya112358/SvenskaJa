@@ -11,7 +11,7 @@ if __name__ == "__main__":
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
     infs = header.infinitives(verbs)
-    forms = ['inf', 'pres', 'past', 'supin', 'trans']
+    forms = ['Infinitive', 'Presens', 'Preteritum', 'Supinum', 'Translation']
     words = []
     for verb in verbs:
         word = {forms[i]: verb[i] for i in range(5)}
@@ -69,11 +69,11 @@ if __name__ == "__main__":
               f'{num_opt} options.')
         for _ in range(num):
             word = wordscopy.pop()
-            print('\nVerb:', word['inf'])
+            print('\nVerb:', word['Infinitive'])
             input()
-            choice = [word['trans']]
+            choice = [word['Translation']]
             while len(choice) < num_opt:
-                random_trans = random.choice(words)['trans']
+                random_trans = random.choice(words)['Translation']
                 if random_trans not in choice:
                     choice.append(random_trans)
             random.shuffle(choice)
@@ -83,9 +83,9 @@ if __name__ == "__main__":
             while True:
                 inp = pyip.inputNum('Which translation is correct? ',
                                     min=1, max=num_opt)
-                if choice[inp-1] == word['trans']:
-                    print(f"Yes, [{word['inf']}] can be translated as "
-                          f"[{word['trans']}]")
+                if choice[inp-1] == word['Translation']:
+                    print(f"Yes, [{word['Infinitive']}] can be translated as "
+                          f"[{word['Translation']}]")
                     if first_try:
                         good += 1
                     break
