@@ -23,22 +23,29 @@ if __name__ == "__main__":
         with open(repbase, encoding='utf-8') as f:
             rep = json.load(f)
         total = len(rep)
-        print(f'\n{total} total forms')
-        num = pyip.inputNum('How many forms to practice? ', min=1, max=total)
+        print(f'{total} verbs loaded from the repetition base')
+        num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
+        hint = ('Type in three forms of the verb - '
+                f'{forms[1]}, {forms[2]}, {forms[3]} - '
+                'separated by spaces')
+        print(hint)
         practice, base = rep[:num], rep[num:]
         badlist, goodlist = [], []
         good = 0
         def test(verb):
             x = infs.index(verb)
-            for i in range(1, 4):
-                correct = words[x][forms[i]]
-                prompt = f'\n att {verb}: in {forms[i]}? '
-                reply = pyip.inputStr(prompt).casefold()
-                if reply != correct:
-                    print('Incorrect!', correct)
+            while True:
+                prompt = f'\n{forms[0]}: att {verb}, three forms? '
+                reply = pyip.inputStr(prompt).casefold().split()
+                if len(reply) == 3:
+                    break
+                print(hint)
+            for i in range(3):
+                correct = words[x][forms[i+1]]
+                if reply[i] != correct:
+                    print(f'Incorrect {forms[i+1]}! {reply[i]} instead of {correct}')
                     return False
-                else:
-                    print('Correct.')
+            print('Correct.')
             return True
 
         while practice:
@@ -48,7 +55,7 @@ if __name__ == "__main__":
                 goodlist.append(verb)
             else:
                 badlist.append(verb)
-        print(f'\nOut of {num} forms {good} ({good/num:.0%}) correct')
+        print(f'\nOut of {num} verbs {good} ({good/num:.0%}) correct')
         rep = badlist + base + goodlist
         with open(repbase, 'w', encoding='utf-8') as f:
             json.dump(rep, f)

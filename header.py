@@ -30,5 +30,5 @@ def infinitives(verbs):
     print(line)
     if len(infs)%5:
         print()
-    print(f'{len(verbs)} verbs loaded\n')
+    print(f'{len(verbs)} verbs loaded from the word base\n')
     return infs
