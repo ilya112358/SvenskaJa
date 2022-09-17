@@ -104,17 +104,27 @@ def makemock():
         json.dump(mock, f)
     print('Mock base saved')
 
+def export():
+    """Export word base to text file"""
+    lines = []
+    for verb in verbs:
+        lines.append(f'{verb[0]} {verb[1]} {verb[2]} {verb[3]} {verb[4]}\n') 
+    with open(textbase, 'w', encoding='utf-8') as f:
+        f.writelines(lines)    
+    print('Word base exported')
+
 if __name__ == "__main__":
     config = header.initiate()
     mockbase = 'mockbase.json'
     wordbase = config['Path']['WordBase']
     repbase = config['Path']['RepBase']
     backbase = config['Path']['Backup']
+    textbase = config['Path']['TextBase']
     with open(wordbase, encoding='utf-8') as f:
         verbs = json.load(f)
     with open(backbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
-    tasks = (lookup, del_el, add_el, sortbase, makerep, makemock)
+    tasks = (lookup, del_el, add_el, sortbase, makerep, makemock, export)
     while True:
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose a number to:'
@@ -124,7 +134,8 @@ if __name__ == "__main__":
                             '\n[3] sort,'
                             '\n[4] create repetition base,'
                             '\n[5] create mock base,'
+                            '\n[6] export base to text,'
                             '\n[Ctrl-C] to exit\n',
-                            min=0, max=5)
+                            min=0, max=6)
         tasks[inp]()
         input('Press Enter to return')
