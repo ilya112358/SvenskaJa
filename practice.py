@@ -25,14 +25,15 @@ if __name__ == "__main__":
         total = len(rep)
         print(f'{total} verbs loaded from the repetition base')
         num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
-        hint = ('Type in three forms of the verb - '
-                f'{forms[1]}, {forms[2]}, {forms[3]} - '
+        hint = ('Type in three forms of the verb - \n'
+                f'{forms[1]}, {forms[2]}, {forms[3]} - \n'
                 'separated by spaces')
         print(hint)
         practice, base = rep[:num], rep[num:]
         badlist, goodlist = [], []
         good = 0
         def test(verb):
+            correct = True
             x = infs.index(verb)
             while True:
                 prompt = f'\n{forms[0]}: att {verb}, three forms? '
@@ -43,10 +44,12 @@ if __name__ == "__main__":
             for i in range(3):
                 correct = words[x][forms[i+1]]
                 if reply[i] != correct:
-                    print(f'Incorrect {forms[i+1]}! {reply[i]} instead of {correct}')
-                    return False
-            print('Correct.')
-            return True
+                    print(f'Incorrect {forms[i+1]}! '
+                          f'{reply[i]} instead of {correct}')
+                    correct = False
+            if correct:
+                print('Correct.')
+            return correct
 
         while practice:
             verb = practice.pop()
