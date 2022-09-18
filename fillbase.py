@@ -108,10 +108,38 @@ def export():
     """Export word base to text file"""
     lines = []
     for verb in verbs:
-        lines.append(f'{verb[0]} {verb[1]} {verb[2]} {verb[3]} {verb[4]}\n') 
+        lines.append(f'{verb[0]} {verb[1]} {verb[2]} {verb[3]} {verb[4]}\n')
     with open(textbase, 'w', encoding='utf-8') as f:
-        f.writelines(lines)    
+        f.writelines(lines)
     print('Word base exported')
+
+def import_verbs():
+    """Import verbs from text file"""
+    print(f'Adding only new verbs from {textbase}.\n'
+          'Verbs present in the word base are NOT changed.\n'
+          'Verbs not present in the text file are '
+          'NOT deleted from the word base.')
+    if pyip.inputYesNo('Proceed? ') == 'no':
+        return
+    with open(textbase, encoding='utf-8') as f:
+        lines = f.readlines()
+    with open(repbase, encoding='utf-8') as f:
+        rep = json.load(f)
+    i = 0
+    for line in lines:
+        new_el = line.split()
+        if new_el[0] not in infs:
+            trans = ' '.join(new_el[4:])    # multiword translation
+            verb = [new_el[0], new_el[1], new_el[2], new_el[3], trans]
+            verbs.append(verb)
+            rep.insert(0, verb[0])  # to go into the next practice
+            print(f'{verb} added')
+            i += 1
+    with open(wordbase, 'w', encoding='utf-8') as f:
+        json.dump(verbs, f)
+    with open(repbase, 'w', encoding='utf-8') as f:
+        json.dump(rep, f)
+    print(f'{i} verbs imported')
 
 if __name__ == "__main__":
     config = header.initiate()
@@ -124,7 +152,8 @@ if __name__ == "__main__":
         verbs = json.load(f)
     with open(backbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
-    tasks = (lookup, del_el, add_el, sortbase, makerep, makemock, export)
+    tasks = (lookup, del_el, add_el, sortbase, makerep, makemock, export,
+             import_verbs)
     while True:
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose a number to:'
@@ -134,8 +163,9 @@ if __name__ == "__main__":
                             '\n[3] sort,'
                             '\n[4] create repetition base,'
                             '\n[5] create mock base,'
-                            '\n[6] export base to text,'
+                            '\n[6] export base to text file,'
+                            '\n[7] import verbs from text file,'
                             '\n[Ctrl-C] to exit\n',
-                            min=0, max=6)
+                            min=0, max=7)
         tasks[inp]()
         input('Press Enter to return')
