@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-import json
 import random
 import pyinputplus as pyip
+
 import header
+load, dump = header.load, header.dump
 
 if __name__ == "__main__":
     config = header.initiate()
     wordbase = config['Path']['WordBase']
     repbase = config['Path']['RepBase']
-    with open(wordbase, encoding='utf-8') as f:
-        verbs = json.load(f)
+    verbs = load(wordbase)
     infs = header.infinitives(verbs)
     forms = ['Infinitive', 'Presens', 'Preteritum', 'Supinum', 'Translation']
     words = []
@@ -20,8 +20,7 @@ if __name__ == "__main__":
     inp = pyip.inputNum('Choose 1 to practice forms, '
                         '2 to practice translations: ', min=1, max=2)
     if inp == 1:
-        with open(repbase, encoding='utf-8') as f:
-            rep = json.load(f)
+        rep = load(repbase)
         total = len(rep)
         print(f'{total} verbs loaded from the repetition base')
         num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
@@ -60,8 +59,7 @@ if __name__ == "__main__":
                 badlist.append(verb)
         print(f'\nOut of {num} verbs {good} ({good/num:.0%}) correct')
         rep = badlist + base + goodlist
-        with open(repbase, 'w', encoding='utf-8') as f:
-            json.dump(rep, f)
+        dump(repbase, rep)
         if badlist:
             if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
                 while badlist:

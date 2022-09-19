@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-import json
+import os.path
 import random
 import pyinputplus as pyip
+
 import header
-import os.path
+load, dump = header.load, header.dump
 
 def input_verb(inf):
     """Input verb forms"""
@@ -35,13 +36,10 @@ def add_el():
     if pyip.inputYesNo('Add this entry? ') == 'no':
         return
     verbs.append(verb)
-    with open(repbase, encoding='utf-8') as f:
-        rep = json.load(f)
+    rep = load(repbase)
     rep.insert(0, inf)
-    with open(repbase, 'w', encoding='utf-8') as f:
-        json.dump(rep, f)
-    with open(wordbase, 'w', encoding='utf-8') as f:
-        json.dump(verbs, f)
+    dump(repbase, rep)
+    dump(wordbase, verbs)
     print(f'[{inf}] added to wordbase and repbase')
 
 def del_el():
@@ -56,20 +54,16 @@ def del_el():
     if pyip.inputYesNo('Delete this entry? ') == 'no':
         return
     verbs.pop(x)
-    with open(repbase, encoding='utf-8') as f:
-        rep = json.load(f)
+    rep = load(repbase)
     rep.remove(inf)
-    with open(repbase, 'w', encoding='utf-8') as f:
-        json.dump(rep, f)
-    with open(wordbase, 'w', encoding='utf-8') as f:
-        json.dump(verbs, f)
+    dump(repbase, rep)
+    dump(wordbase, verbs)
     print(f'[{inf}] deleted from wordbase and repbase')
 
 def sortbase():
     """Sort wordbase by infinitives and save"""
     verbs.sort(key=lambda verb: verb[0])
-    with open(wordbase, 'w', encoding='utf-8') as f:
-        json.dump(verbs, f)
+    dump(wordbase, verbs)
     print('Word base sorted')
 
 def makerep():
@@ -80,8 +74,7 @@ def makerep():
     if os.path.isfile(repbase):
         if pyip.inputYesNo(f'Rewrite existing {repbase}? ') == 'no':
             return
-    with open(repbase, 'w', encoding='utf-8') as f:
-        json.dump(rep, f)
+    dump(repbase, rep)
     print('Repetition base saved')
 
 def makemock():
@@ -102,8 +95,7 @@ def makemock():
     if os.path.isfile(mockbase):
         if pyip.inputYesNo(f'Rewrite existing {mockbase}? ') == 'no':
             return
-    with open(mockbase, 'w', encoding='utf-8') as f:
-        json.dump(mock, f)
+    dump(mockbase, mock)
     print('Mock base saved')
 
 def export():
@@ -128,8 +120,7 @@ def import_verbs():
         return
     with open(textbase, encoding='utf-8') as f:
         lines = f.readlines()
-    with open(repbase, encoding='utf-8') as f:
-        rep = json.load(f)
+    rep = load(repbase)
     i = 0
     for line in lines:
         new_el = line.split()
@@ -140,10 +131,8 @@ def import_verbs():
             rep.insert(0, verb[0])  # to go into the next practice
             print(f'{verb} added')
             i += 1
-    with open(wordbase, 'w', encoding='utf-8') as f:
-        json.dump(verbs, f)
-    with open(repbase, 'w', encoding='utf-8') as f:
-        json.dump(rep, f)
+    dump(repbase, rep)
+    dump(wordbase, verbs)
     print(f'{i} verbs imported')
 
 if __name__ == "__main__":
@@ -153,10 +142,8 @@ if __name__ == "__main__":
     repbase = config['Path']['RepBase']
     backbase = config['Path']['Backup']
     textbase = config['Path']['TextBase']
-    with open(wordbase, encoding='utf-8') as f:
-        verbs = json.load(f)
-    with open(backbase, 'w', encoding='utf-8') as f:
-        json.dump(verbs, f)
+    verbs = load(wordbase)
+    dump(backbase, verbs)
     tasks = (lookup, del_el, add_el, sortbase, makerep, makemock, export,
              import_verbs)
     while True:

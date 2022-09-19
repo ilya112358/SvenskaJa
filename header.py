@@ -1,4 +1,5 @@
 import configparser
+import json
 import signal
 import sys
 
@@ -32,3 +33,11 @@ def infinitives(verbs):
         print()
     print(f'{len(verbs)} verbs loaded from the word base\n')
     return infs
+
+def load(file):
+    with open(file, encoding='utf-8') as f:
+        return json.load(f)
+
+def dump(file, obj):
+    with open(file, 'w', encoding='utf-8') as f:
+        json.dump(obj, f)
