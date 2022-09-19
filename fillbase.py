@@ -36,10 +36,9 @@ def add_el():
     verbs.append(verb)
     with open(repbase, encoding='utf-8') as f:
         rep = json.load(f)
-    lst = [[inf, 1, verb[1]], [inf, 2, verb[2]], [inf, 3, verb[3]]]
-    newbase = lst + rep
+    rep.insert(0, inf)
     with open(repbase, 'w', encoding='utf-8') as f:
-        json.dump(newbase, f)
+        json.dump(rep, f)
     with open(wordbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     print(f'[{inf}] added to wordbase and repbase')
@@ -58,9 +57,9 @@ def del_el():
     verbs.pop(x)
     with open(repbase, encoding='utf-8') as f:
         rep = json.load(f)
-    newbase = [lst for lst in rep if lst[0] != inf]
+    rep.remove(inf)
     with open(repbase, 'w', encoding='utf-8') as f:
-        json.dump(newbase, f)
+        json.dump(rep, f)
     with open(wordbase, 'w', encoding='utf-8') as f:
         json.dump(verbs, f)
     print(f'[{inf}] deleted from wordbase and repbase')
