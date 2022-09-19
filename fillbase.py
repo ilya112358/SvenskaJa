@@ -3,6 +3,7 @@ import json
 import random
 import pyinputplus as pyip
 import header
+import os.path
 
 def input_verb(inf):
     """Input verb forms"""
@@ -75,9 +76,10 @@ def makerep():
     """(Re)Create repetition base"""
     rep = [verb[0] for verb in verbs]
     random.shuffle(rep)
-    print(f'\n{len(rep)} forms prepared')
-    if pyip.inputYesNo('Write new repetition base? ') == 'no':
-        return
+    print(f'\n{len(rep)} verbs prepared')
+    if os.path.isfile(repbase):
+        if pyip.inputYesNo(f'Rewrite existing {repbase}? ') == 'no':
+            return
     with open(repbase, 'w', encoding='utf-8') as f:
         json.dump(rep, f)
     print('Repetition base saved')
@@ -97,8 +99,9 @@ def makemock():
         if not bad:
             mock.append(candidate)
     print(f'\n{len(mock)} verbs prepared')
-    if pyip.inputYesNo('Write new mock base? ') == 'no':
-        return
+    if os.path.isfile(mockbase):
+        if pyip.inputYesNo(f'Rewrite existing {mockbase}? ') == 'no':
+            return
     with open(mockbase, 'w', encoding='utf-8') as f:
         json.dump(mock, f)
     print('Mock base saved')
@@ -107,7 +110,10 @@ def export():
     """Export word base to text file"""
     lines = []
     for verb in verbs:
-        lines.append(f'{verb[0]} {verb[1]} {verb[2]} {verb[3]} {verb[4]}\n')
+        lines.append(f"{' '.join(verb)}\n")
+    if os.path.isfile(textbase):
+        if pyip.inputYesNo(f'Rewrite existing {textbase}? ') == 'no':
+            return
     with open(textbase, 'w', encoding='utf-8') as f:
         f.writelines(lines)
     print('Word base exported')

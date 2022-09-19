@@ -9,4 +9,3 @@ bli blir blev blivit становиться
 bo bor bodde bott проживать
 brinna brinner brann brunnit гореть
 fakeword fakepres fakepret fakesupin faketrans
-newword newpres newpret newsupin new translation in several words
