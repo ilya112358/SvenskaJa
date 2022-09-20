@@ -32,7 +32,6 @@ if __name__ == "__main__":
         badlist, goodlist = [], []
         good = 0
         def test(verb):
-            correct = True
             x = infs.index(verb)
             while True:
                 prompt = f'\n{forms[0]}: att {verb}, three forms? '
@@ -40,15 +39,16 @@ if __name__ == "__main__":
                 if len(reply) == 3:
                     break
                 print(hint)
+            ok = True
             for i in range(3):
                 correct = words[x][forms[i+1]]
                 if reply[i] != correct:
                     print(f'Incorrect {forms[i+1]}! '
                           f'{reply[i]} instead of {correct}')
-                    correct = False
-            if correct:
+                    ok = False
+            if ok:
                 print('Correct.')
-            return correct
+            return ok
 
         while practice:
             verb = practice.pop()

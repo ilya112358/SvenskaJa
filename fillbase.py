@@ -142,7 +142,11 @@ if __name__ == "__main__":
     repbase = config['Path']['RepBase']
     backbase = config['Path']['Backup']
     textbase = config['Path']['TextBase']
-    verbs = load(wordbase)
+    try:
+        verbs = load(wordbase)
+    except FileNotFoundError:
+        print('\nNo word base found! Add a verb or import from a text file!')
+        verbs = []
     dump(backbase, verbs)
     tasks = (lookup, del_el, add_el, sortbase, makerep, makemock, export,
              import_verbs)

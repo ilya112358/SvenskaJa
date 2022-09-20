@@ -18,20 +18,23 @@ def initiate():
     return config
 
 def infinitives(verbs):
-    print()
     infs = [verb[0] for verb in verbs]
-    for i in range(len(infs)//5):
-        line = ' '
-        for k in range(5):
-            line += (f'{infs[i*5+k]:12}')
-        print(line)
-    line = ' '
-    for k in range(len(infs)%5):
-        line += (f'{infs[(i+1)*5+k]:12}')
-    print(line)
-    if len(infs)%5:
-        print()
-    print(f'{len(verbs)} verbs loaded from the word base\n')
+    list_verbs = '\nList of verbs in the word base:\n'
+    cols = 6    # number of columns 
+    if len(infs) < cols:   # no full lines
+        l = -1
+    else:
+        for l in range(len(infs)//cols):
+            line = '\n'
+            for k in range(cols):  # full lines
+                line += f'{infs[l*cols+k]:12}'
+            list_verbs += line
+    line = '\n'
+    for k in range(len(infs)%cols):    # last (tail) line
+        line += f'{infs[(l+1)*cols+k]:12}'
+    list_verbs += line
+    list_verbs += f'\n\n{len(verbs)} verbs loaded from the word base\n'
+    print(list_verbs)
     return infs
 
 def load(file):
