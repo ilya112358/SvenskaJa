@@ -144,10 +144,10 @@ if __name__ == "__main__":
     textbase = config['Path']['TextBase']
     try:
         verbs = load(wordbase)
+        dump(backbase, verbs)
     except FileNotFoundError:
-        print('\nNo word base found! Add a verb or import from a text file!')
+        print('\nNo word base found! Add a verb or import from a text file!\n')
         verbs = []
-    dump(backbase, verbs)
     tasks = (lookup, del_el, add_el, sortbase, makerep, makemock, export,
              import_verbs)
     while True:
@@ -155,7 +155,7 @@ if __name__ == "__main__":
         inp = pyip.inputNum('Choose a number to:'
                             '\n[0] look up,'
                             '\n[1] delete,'
-                            '\n[2] input new,'
+                            '\n[2] add new,'
                             '\n[3] sort,'
                             '\n[4] create repetition base,'
                             '\n[5] create mock base,'

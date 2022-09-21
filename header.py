@@ -18,21 +18,20 @@ def initiate():
     return config
 
 def infinitives(verbs):
+    """Fill infs. Print infs. Return infs."""
+    if not verbs:   # word base empty
+        return []
     infs = [verb[0] for verb in verbs]
     list_verbs = '\nList of verbs in the word base:\n'
-    cols = 6    # number of columns 
-    if len(infs) < cols:   # no full lines
-        l = -1
-    else:
-        for l in range(len(infs)//cols):
-            line = '\n'
-            for k in range(cols):  # full lines
-                line += f'{infs[l*cols+k]:12}'
-            list_verbs += line
+    width = len(max(infs, key=len)) + 3 # 3 spaces wider than the longest
     line = '\n'
-    for k in range(len(infs)%cols):    # last (tail) line
-        line += f'{infs[(l+1)*cols+k]:12}'
-    list_verbs += line
+    for inf in infs:
+        line += f'{inf:{width}}'
+        if len(line) > (80-width):  # rows are 80 chars max
+            list_verbs += line
+            line = '\n'
+    if len(line) > 1:   # add tailing row
+        list_verbs += line
     list_verbs += f'\n\n{len(verbs)} verbs loaded from the word base\n'
     print(list_verbs)
     return infs
