@@ -112,28 +112,31 @@ def export():
 
 def import_verbs():
     """Import verbs from text file"""
-    print(f'Adding only new verbs from {textbase}.\n'
-          'Verbs present in the word base are NOT changed.\n'
-          'Verbs not present in the text file are '
-          'NOT deleted from the word base.')
+    print(f'Adding with replacement from {textbase}')
     if pyip.inputYesNo('Proceed? ') == 'no':
         return
     with open(textbase, encoding='utf-8') as f:
         lines = f.readlines()
     rep = load(repbase)
-    i = 0
+    n_added, n_changed = 0, 0
     for line in lines:
         new_el = line.split()
-        if new_el[0] not in infs:
-            trans = ' '.join(new_el[4:])    # multiword translation
-            verb = [new_el[0], new_el[1], new_el[2], new_el[3], trans]
+        trans = ' '.join(new_el[4:])    # multiword translation
+        verb = [new_el[0], new_el[1], new_el[2], new_el[3], trans]
+        if verb[0] not in infs:
             verbs.append(verb)
-            rep.insert(0, verb[0])  # to go into the next practice
+            rep.insert(0, verb[0])  # into the next practice
             print(f'{verb} added')
-            i += 1
+            n_added += 1
+        else:
+            x = infs.index(verb[0])
+            if verb != verbs[x]:
+                verbs[x] = verb
+                print(f'{verb} changed')
+                n_changed += 1
     dump(repbase, rep)
     dump(wordbase, verbs)
-    print(f'{i} verbs imported')
+    print(f'{n_added} verbs added, {n_changed} verbs changed')
 
 if __name__ == "__main__":
     config = header.initiate()
