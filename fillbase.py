@@ -77,27 +77,6 @@ def makerep():
     dump(repbase, rep)
     print('Repetition base saved')
 
-def makemock():
-    """(Re)Create mock base"""
-    mock = []
-    n = 0
-    while len(mock) < 10:
-        candidate = verbs[n]
-        n += 1
-        bad = False
-        for k in range(4):
-            for l in ['ö', 'å', 'ä']:
-                if l in candidate[k]:
-                    bad = True
-        if not bad:
-            mock.append(candidate)
-    print(f'\n{len(mock)} verbs prepared')
-    if os.path.isfile(mockbase):
-        if pyip.inputYesNo(f'Rewrite existing {mockbase}? ') == 'no':
-            return
-    dump(mockbase, mock)
-    print('Mock base saved')
-
 def export():
     """Export word base to text file"""
     lines = []
@@ -140,7 +119,6 @@ def import_verbs():
 
 if __name__ == "__main__":
     config = header.initiate()
-    mockbase = 'mockbase.json'
     wordbase = config['Path']['WordBase']
     repbase = config['Path']['RepBase']
     backbase = config['Path']['Backup']
@@ -151,8 +129,7 @@ if __name__ == "__main__":
         print('\nNo word base found! Add a verb or import from a text file!')
         verbs = []
     dump(backbase, verbs)
-    tasks = (lookup, del_el, add_el, sortbase, makerep, makemock, export,
-             import_verbs)
+    tasks = (lookup, del_el, add_el, sortbase, makerep, export, import_verbs)
     while True:
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose a number to:'
@@ -161,10 +138,9 @@ if __name__ == "__main__":
                             '\n[2] input new,'
                             '\n[3] sort,'
                             '\n[4] create repetition base,'
-                            '\n[5] create mock base,'
-                            '\n[6] export base to text file,'
-                            '\n[7] import verbs from text file,'
+                            '\n[5] export base to text file,'
+                            '\n[6] import verbs from text file,'
                             '\n[Ctrl-C] to exit\n',
-                            min=0, max=7)
+                            min=0, max=6)
         tasks[inp]()
         input('Press Enter to return')
