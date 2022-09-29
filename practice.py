@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import random
+import sys
 import pyinputplus as pyip
 
 import header
@@ -9,7 +10,10 @@ if __name__ == "__main__":
     config = header.initiate()
     wordbase = config['Path']['WordBase']
     repbase = config['Path']['RepBase']
-    verbs = load(wordbase)
+    try:
+        verbs = load(wordbase)
+    except FileNotFoundError:
+        sys.exit('No word base found! Run fillbase!')
     infs = header.infinitives(verbs)
     forms = ['Infinitive', 'Presens', 'Preteritum', 'Supinum', 'Translation']
     words = []
