@@ -77,27 +77,6 @@ def makerep():
     dump(repbase, rep)
     print('Repetition base saved')
 
-def makemock():
-    """(Re)Create mock base"""
-    mock = []
-    n = 0
-    while len(mock) < 10:
-        candidate = verbs[n]
-        n += 1
-        bad = False
-        for k in range(4):
-            for l in ['ö', 'å', 'ä']:
-                if l in candidate[k]:
-                    bad = True
-        if not bad:
-            mock.append(candidate)
-    print(f'\n{len(mock)} verbs prepared')
-    if os.path.isfile(mockbase):
-        if pyip.inputYesNo(f'Rewrite existing {mockbase}? ') == 'no':
-            return
-    dump(mockbase, mock)
-    print('Mock base saved')
-
 def export():
     """Export word base to text file"""
     lines = []
@@ -112,32 +91,34 @@ def export():
 
 def import_verbs():
     """Import verbs from text file"""
-    print(f'Adding only new verbs from {textbase}.\n'
-          'Verbs present in the word base are NOT changed.\n'
-          'Verbs not present in the text file are '
-          'NOT deleted from the word base.')
+    print(f'Adding with replacement from {textbase}')
     if pyip.inputYesNo('Proceed? ') == 'no':
         return
     with open(textbase, encoding='utf-8') as f:
         lines = f.readlines()
     rep = load(repbase)
-    i = 0
+    n_added, n_changed = 0, 0
     for line in lines:
         new_el = line.split()
-        if new_el[0] not in infs:
-            trans = ' '.join(new_el[4:])    # multiword translation
-            verb = [new_el[0], new_el[1], new_el[2], new_el[3], trans]
+        trans = ' '.join(new_el[4:])    # multiword translation
+        verb = [new_el[0], new_el[1], new_el[2], new_el[3], trans]
+        if verb[0] not in infs:
             verbs.append(verb)
-            rep.insert(0, verb[0])  # to go into the next practice
+            rep.insert(0, verb[0])  # into the next practice
             print(f'{verb} added')
-            i += 1
+            n_added += 1
+        else:
+            x = infs.index(verb[0])
+            if verb != verbs[x]:
+                verbs[x] = verb
+                print(f'{verb} changed')
+                n_changed += 1
     dump(repbase, rep)
     dump(wordbase, verbs)
-    print(f'{i} verbs imported')
+    print(f'{n_added} verbs added, {n_changed} verbs changed')
 
 if __name__ == "__main__":
     config = header.initiate()
-    mockbase = 'mockbase.json'
     wordbase = config['Path']['WordBase']
     repbase = config['Path']['RepBase']
     backbase = config['Path']['Backup']
@@ -148,8 +129,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print('\nNo word base found! Add a verb or import from a text file!\n')
         verbs = []
-    tasks = (lookup, del_el, add_el, sortbase, makerep, makemock, export,
-             import_verbs)
+    tasks = (lookup, del_el, add_el, sortbase, makerep, export, import_verbs)
     while True:
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose a number to:'
@@ -158,10 +138,9 @@ if __name__ == "__main__":
                             '\n[2] add new,'
                             '\n[3] sort,'
                             '\n[4] create repetition base,'
-                            '\n[5] create mock base,'
-                            '\n[6] export base to text file,'
-                            '\n[7] import verbs from text file,'
+                            '\n[5] export base to text file,'
+                            '\n[6] import verbs from text file,'
                             '\n[Ctrl-C] to exit\n',
-                            min=0, max=7)
+                            min=0, max=6)
         tasks[inp]()
         input('Press Enter to return')
