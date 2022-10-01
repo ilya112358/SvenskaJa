@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os.path
 import random
+import re
 import pyinputplus as pyip
 
 import header
@@ -100,8 +101,20 @@ def import_verbs():
     n_added, n_changed = 0, 0
     for line in lines:
         new_el = line.split()
-        trans = ' '.join(new_el[4:])    # multiword translation
-        verb = [new_el[0], new_el[1], new_el[2], new_el[3], trans]
+        if len(new_el) < 4:
+            print(f'Too few forms in: [{line.rstrip()}]')
+            continue
+        verb = []
+        for i in range(4):
+            word = new_el[i].lower()
+            if not re.search('[^a-zöäå]', word):
+                verb.append(word)
+            else:
+                print(f'Incorrect word: [{word}] in [{line.rstrip()}]')
+                break
+        if len(verb) < 4:
+            continue
+        verb.append(' '.join(new_el[4:]))    # multiword translation
         if verb[0] not in infs:
             verbs.append(verb)
             rep.insert(0, verb[0])  # into the next practice
