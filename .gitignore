@@ -1,7 +1,9 @@
 __pycache__/
-env/
 build/
 dist/
+env/
 executable/
-*.spec
+!executable/SvenskaJaWin.zip
 *.bak
+*.json
+*.spec
