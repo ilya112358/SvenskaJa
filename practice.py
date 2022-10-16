@@ -24,7 +24,10 @@ if __name__ == "__main__":
     inp = pyip.inputNum('Choose 1 to practice forms, '
                         '2 to practice translations: ', min=1, max=2)
     if inp == 1:
-        rep = load(repbase)
+        try:
+            rep = load(repbase)
+        except FileNotFoundError:
+            sys.exit('No repetition base found! Run fillbase!')
         total = len(rep)
         print(f'{total} verbs loaded from the repetition base')
         num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
