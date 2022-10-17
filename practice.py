@@ -7,9 +7,9 @@ import header
 load, dump = header.load, header.dump
 
 if __name__ == "__main__":
-    config = header.initiate()
-    wordbase = config['Path']['WordBase']
-    repbase = config['Path']['RepBase']
+    header.initiate()
+    wordbase = 'wordbase.json'
+    repbase = 'repbase.json'
     try:
         verbs = load(wordbase)
     except FileNotFoundError:
@@ -77,7 +77,7 @@ if __name__ == "__main__":
         wordscopy = words.copy()
         random.shuffle(wordscopy)
         good = 0
-        num_opt = config['Options'].getint('NumberOfTrans')
+        num_opt = 6
         num = pyip.inputNum('How many words to practice? ',
                             min=1, max=num_words)
         print('Think of a translation then press Enter to choose from '

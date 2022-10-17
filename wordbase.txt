@@ -1,4 +1,5 @@
 acceptera accepterar accepterade accepterat принимать
+agera agerar agerade agerat действовать
 ange anger angav angett предписывать
 anlända anländer anlände anlänt прибывать
 anmäla anmäler anmälde anmält заявлять
@@ -8,6 +9,7 @@ använda använder använde använt использовать
 arbeta arbetar arbetade arbetat работать
 avse avser avsåg avsett намереваться
 be ber bad bett просить
+bedöma bedömer bedömde bedömt оценивать
 befinnas befinns befanns befunnits оказываться каким-либо
 behandla behandlar behandlade behandlat обращаться
 behöva behöver behövde behövt нуждаться
@@ -51,8 +53,10 @@ dyka dyker dök dykt нырять
 dö dör dog dött умирать
 döda dödar dödade dödat убивать
 dölja döljer dolde dolt скрывать
+döma dömer dömde dömt судить
 ena enar enade enat объединять
 erbjuda erbjuder erbjöd erbjudit предлагать
+erkänna erkänner erkände erkänt признавать
 falla faller föll fallit падать
 fara far for farit ехать
 fatta fattar fattade fattat охватывать
@@ -70,6 +74,7 @@ få får fick fått получать
 följa följer följde följt следовать
 föra för förde fört приносить
 förbyta förbyter förbytte förbytt менять
+förbättra förbättrar förbättrade förbättrat улучшать
 förekomma förekommer förekom förekommit быть распространенным
 föreslå föreslår föreslog föreslagit предлагать
 förklara förklarar förklarade förklarat объяснять
@@ -78,6 +83,7 @@ förstå förstår förstod förstått понимать
 försvinna försvinner försvann försvunnit исчезать
 försöka försöker försökte försökt пробовать
 förutsätta förutsätter förutsatte förutsatt предполагать
+förvänta förväntar förväntade förväntat ожидать
 förändra förändrar förändrade förändrat изменять
 ge ger gav gett давать
 genomföra genomför genomförde genomfört осуществлять
@@ -97,6 +103,7 @@ göra gör gjorde gjort делать
 ha har hade haft иметь
 hamna hamnar hamnade hamnat оказываться где-либо
 handla handlar handlade handlat иметь дело
+hantera hanterar hanterade hanterat справляться
 heta heter hette hetat называться
 hinna hinner hann hunnit успевать
 hitta hittar hittade hittat находить
@@ -107,21 +114,26 @@ hända händer hände hänt иметь место
 hänga hänger hängde hängt вешать
 hävda hävdar hävdade hävdat утверждать
 hålla håller höll hållit держать
+höja höjer höjde höjt поднимать
 höra hör hörde hört слышать
 införa inför införde infört ввозить
 ingå ingår ingick ingått входить в состав
+inleda inleder inledde inlett инициировать
 innebära innebär innebar inneburit означать
 innehålla innehåller innehöll innehållit содержать
 inse inser insåg insett осознавать
 jobba jobbar jobbade jobbat работать
+jämföra jämför jämförde jämfört сравнивать
 kalla kallar kallade kallat звать
 kapa kapar kapade kapat отрубать
+kasta kastar kastade kastat бросать
 klara klarar klarade klarat справляться
 knyta knyter knöt knutit завязывать
 kolla kollar kollade kollat проверять
 komma kommer kom kommit приходить
 kommentera kommenterar kommenterade kommenterat комментировать
 konstatera konstaterar konstaterade konstaterat констатировать
+kosta kostar kostade kostat стоить
 krypa kryper kröp krupit ползти
 kräva kräver krävde krävt требовать
 kunna kan kunde kunnat быть способным
@@ -171,9 +183,12 @@ rinna rinner rann runnit течь
 rita ritar ritade ritat рисовать
 riva river rev rivit царапать
 ro ror rodde rott грести
+rycka rycker ryckte ryckt дергать
 räcka räcker räckte räckt быть достаточным
+rädda räddar räddade räddat спасать
 räkna räknar räknade räknat считать
 rätta rättar rättade rättat исправлять
+råka råkar råkade råkat случайно встречать
 röra rör rörde rört трогать
 rösta röstar röstade röstat голосовать
 sakna saknar saknade saknat скучать
@@ -240,13 +255,16 @@ tillhöra tillhör tillhörde tillhört принадлежать
 tillåta tillåter tillät tillåtit позволять
 titta tittar tittade tittat смотреть
 tjäna tjänar tjänade tjänat зарабатывать
+toppa toppar toppade toppat быть наверху
 tro tror trodde trott верить
+trycka trycker tryckte tryckt нажимать
 trygga tryggar tryggade tryggat обеспечивать
 träffa träffar träffade träffat попадать в цель
 tvinga tvingar tvingade tvingat принуждать
 tvätta tvättar tvättade tvättat мыть
 tycka tycker tyckte tyckt полагать
 tyda tyder tydde tytt расшифровывать
+täcka täcker täckte täckt покрывать
 tänka tänker tänkte tänkt думать
 undervisa undervisar undervisade undervisat преподавать
 undra undrar undrade undrat интересоваться
@@ -256,8 +274,10 @@ uppbära uppbär uppbar uppburit получать платеж
 uppleva upplever upplevde upplevt испытывать
 uppnå uppnår uppnådde uppnått достигать
 uppstå uppstår uppstod uppstått возникать
+upptäcka upptäcker upptäckte upptäckt обнаруживать
 utföra utför utförde utfört выполнять
 utgöra utgör utgjorde utgjort составлять
+uttrycka uttrycker uttryckte uttryckt выражать
 utveckla utvecklar utvecklade utvecklat развивать
 vakna vaknar vaknade vaknat будить
 vara är var varit быть
@@ -288,13 +308,3 @@ våga vågar vågade vågat осмеливаться
 önska önskar önskade önskat желать
 öppna öppnar öppnade öppnat открывать
 öva övar övade övat практиковать
-rycka rycker ryckte ryckt дергать
-trycka trycker tryckte tryckt нажимать
-kosta kostar kostade kostat стоить
-uttrycka uttrycker uttryckte uttryckt выражать
-förbättra förbättrar förbättrade förbättrat улучшать
-rädda räddar räddade räddat спасать
-agera agerar agerade agerat действовать
-jämföra jämför jämförde jämfört сравнивать
-hantera hanterar hanterade hanterat справляться
-förvänta förväntar förväntade förväntat ожидать

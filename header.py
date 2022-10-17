@@ -1,10 +1,9 @@
-import configparser
 import json
 import signal
 import sys
 
 def initiate():
-    """Set Ctrl-C handler. Read and return config."""
+    """Set Ctrl-C handler"""
     def ctrlc_handler(signal, frame):
         print('\nCtrl-C pressed, exiting...')
         sys.exit(0)
@@ -12,10 +11,6 @@ def initiate():
     signal.signal(signal.SIGINT, ctrlc_handler)
     print('*** SvenskaJa ***')
     print('(press Ctrl-C to exit at any time)')
-    config = configparser.ConfigParser()
-    with open('config.ini') as f:
-        config.read_file(f)
-    return config
 
 def infinitives(verbs):
     """Fill infs. Print infs. Return infs."""

@@ -131,11 +131,11 @@ def import_verbs():
     print(f'{n_added} verbs added, {n_changed} verbs changed')
 
 if __name__ == "__main__":
-    config = header.initiate()
-    wordbase = config['Path']['WordBase']
-    repbase = config['Path']['RepBase']
-    backbase = config['Path']['Backup']
-    textbase = config['Path']['TextBase']
+    header.initiate()
+    wordbase = 'wordbase.json'
+    repbase = 'repbase.json'
+    backbase = 'wordbase.bak'
+    textbase = 'wordbase.txt'
     try:
         verbs = load(wordbase)
         dump(backbase, verbs)
