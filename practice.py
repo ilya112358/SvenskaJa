@@ -23,6 +23,7 @@ if __name__ == "__main__":
     num_words = len(words)
     inp = pyip.inputNum('Choose 1 to practice forms, '
                         '2 to practice translations: ', min=1, max=2)
+
     if inp == 1:
         try:
             rep = load(repbase)
@@ -36,8 +37,8 @@ if __name__ == "__main__":
                 'separated by spaces')
         print(hint)
         practice, base = rep[:num], rep[num:]
-        badlist, goodlist = [], []
-        good = 0
+        goodlist, badlist = [], []
+        good, bad = 0, 0
         def test(verb):
             x = infs.index(verb)
             while True:
@@ -63,7 +64,9 @@ if __name__ == "__main__":
                 good += 1
                 goodlist.append(verb)
             else:
+                bad += 1
                 badlist.append(verb)
+            print(f'{good} good, {bad} bad, {num-good-bad} to go')
         print(f'\nOut of {num} verbs {good} ({good/num:.0%}) correct')
         rep = badlist + base + goodlist
         dump(repbase, rep)
@@ -73,16 +76,16 @@ if __name__ == "__main__":
                     verb = badlist.pop()
                     if not test(verb):
                         badlist.append(verb)
+
     elif inp == 2:
         wordscopy = words.copy()
         random.shuffle(wordscopy)
-        good = 0
         num_opt = 6
         num = pyip.inputNum('How many words to practice? ',
                             min=1, max=num_words)
         print('Think of a translation then press Enter to choose from '
               f'{num_opt} options.')
-        for _ in range(num):
+        for k in range(num):
             word = wordscopy.pop()
             print('\nVerb:', word['Infinitive'])
             input()
@@ -94,17 +97,13 @@ if __name__ == "__main__":
             random.shuffle(choice)
             for i, trans in enumerate(choice):
                 print(i+1, trans)
-            first_try = True
             while True:
                 inp = pyip.inputNum('Which translation is correct? ',
                                     min=1, max=num_opt)
                 if choice[inp-1] == word['Translation']:
                     print(f"Yes, [{word['Infinitive']}] can be translated as "
                           f"[{word['Translation']}]")
-                    if first_try:
-                        good += 1
+                    print(f'{k+1} done, {num-k-1} to go')
                     break
-                first_try = False
                 print('Try again!')
-        print(f'\nOut of {num} translations {good} ({good/num:.0%}) correct')
     input('Press Enter to exit')
