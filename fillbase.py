@@ -134,11 +134,9 @@ if __name__ == "__main__":
     header.initiate()
     wordbase = 'wordbase.json'
     repbase = 'repbase.json'
-    backbase = 'wordbase.bak'
     textbase = 'wordbase.txt'
     try:
         verbs = load(wordbase)
-        dump(backbase, verbs)
     except FileNotFoundError:
         print('\nNo word base found! Add a verb or import from a text file!\n')
         verbs = []
