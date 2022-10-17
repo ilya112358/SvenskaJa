@@ -1,1 +1,0 @@
-copy /y wordbase.bak wordbase.json
