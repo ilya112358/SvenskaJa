@@ -22,12 +22,12 @@ def input_verb(inf):
 def lookup():
     """Look up a verb from the list"""
     inf = pyip.inputStr('\nInfinitive? ').casefold()
-    query = "SELECT * FROM VerbForms WHERE Infinitive = ?"
-    res = cur.execute(query, (inf,)).fetchone()
-    if res:
-        print(res)
-    else:
+    try:
+        x = infs.index(inf)
+    except ValueError:
         print('Not in the list!')
+        return
+    print(verbs[x])
 
 def add_el():
     """Add a verb to the list"""
@@ -52,7 +52,6 @@ def del_el():
     cur.execute(query, (inf,))
     con.commit()
     if cur.rowcount == 1:
-        verbs.pop(infs.index(inf))
         print(f'[{inf}] deleted from wordbase')
     else:
         print('Not in the list!')
@@ -141,11 +140,14 @@ def import_verbs():
     print(f'{n_added} verbs added, {n_changed} verbs changed')
 
 def loadbase():
-    """Load wordbase from db. Return lists of verbs."""
+    """Load wordbase from db. Return list of lists of verb forms."""
     verbs = []
     query = "SELECT * FROM VerbForms"
-    for row in cur.execute(query):
-        verbs.append(list(row))
+    try:
+        for row in cur.execute(query):
+            verbs.append(list(row))
+    except sqlite3.Error as e:
+        print('\n ERROR!',e)
     return verbs
 
 def end():
@@ -155,12 +157,9 @@ def end():
     sys.exit(0)
 
 if __name__ == "__main__":
-    header.initiate()
-    if not os.path.isfile('wordbase.db'):
-        print('\nNo word base found! Add a verb or import from a text file!\n')
+    print('*** SvenskaJa ***')
     con = sqlite3.connect('wordbase.db')
     cur = con.cursor()
-    verbs = loadbase()
 ##    wordbase = 'wordbase.json'
 ##    repbase = 'repbase.json'
 ##    textbase = 'wordbase.txt'
@@ -172,6 +171,10 @@ if __name__ == "__main__":
     tasks = (lookup, del_el, add_el, sortbase, makerep, export, import_verbs,
              end)
     while True:
+        verbs = loadbase()
+        if not verbs:
+            print('\nWord base is empty. '
+                  'Add a verb or import from a text file!\n')
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose a number to:'
                             '\n[0] look up,'
