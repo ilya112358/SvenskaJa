@@ -55,20 +55,6 @@ def del_el():
         print(f'[{inf}] deleted from wordbase')
     else:
         print('Not in the list!')
-##    try:
-##        x = infs.index(inf)
-##    except ValueError:
-##        print('Not in the list!')
-##        return
-##    print(verbs[x])
-##    if pyip.inputYesNo('Delete this entry? ') == 'no':
-##        return
-##    verbs.pop(x)
-##    rep = load(repbase)
-##    rep.remove(inf)
-##    dump(repbase, rep)
-##    dump(wordbase, verbs)
-##    print(f'[{inf}] deleted from wordbase and repbase')
 
 def sortbase():
     """Sort wordbase by infinitives and save"""
@@ -147,7 +133,19 @@ def loadbase():
         for row in cur.execute(query):
             verbs.append(list(row))
     except sqlite3.Error as e:
-        print('\n ERROR!',e)
+        if 'no such table' in str(e):
+            query = """
+                CREATE TABLE VerbForms (
+                    Infinitive TEXT NOT NULL PRIMARY KEY,
+                    Presens TEXT NOT NULL UNIQUE,
+                    Preteritum TEXT NOT NULL UNIQUE,
+                    Supinum TEXT NOT NULL UNIQUE
+                )"""
+            cur.execute(query)
+            con.commit()
+        else:
+            print('\nERROR!', type(e), e)
+            end()
     return verbs
 
 def end():
@@ -160,14 +158,6 @@ if __name__ == "__main__":
     print('*** SvenskaJa ***')
     con = sqlite3.connect('wordbase.db')
     cur = con.cursor()
-##    wordbase = 'wordbase.json'
-##    repbase = 'repbase.json'
-##    textbase = 'wordbase.txt'
-##    try:
-##        verbs = load(wordbase)
-##    except FileNotFoundError:
-##        print('\nNo word base found! Add a verb or import from a text file!\n')
-##        verbs = []
     tasks = (lookup, del_el, add_el, sortbase, makerep, export, import_verbs,
              end)
     while True:
