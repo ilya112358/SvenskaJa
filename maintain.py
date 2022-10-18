@@ -3,6 +3,7 @@ import os.path
 import random
 import re
 import sqlite3
+import sys
 import pyinputplus as pyip
 
 import header
@@ -21,13 +22,8 @@ def input_verb(inf):
 def lookup():
     """Look up a verb from the list"""
     inf = pyip.inputStr('\nInfinitive? ').casefold()
-    try:
-        x = infs.index(inf)
-        print(verbs[x])
-    except ValueError:
-        print('Not in the list!')
-    query = f"SELECT * FROM VerbForms WHERE Infinitive = '{inf}'"
-    res = cur.execute(query).fetchone()
+    query = "SELECT * FROM VerbForms WHERE Infinitive = ?"
+    res = cur.execute(query, (inf,)).fetchone()
     if res:
         print(res)
     else:
@@ -52,20 +48,28 @@ def add_el():
 def del_el():
     """Delete a verb from the list"""
     inf = pyip.inputStr('\nInfinitive to delete? ').casefold()
-    try:
-        x = infs.index(inf)
-    except ValueError:
+    query = "DELETE FROM VerbForms WHERE Infinitive = ?"
+    cur.execute(query, (inf,))
+    con.commit()
+    if cur.rowcount == 1:
+        verbs.pop(infs.index(inf))
+        print(f'[{inf}] deleted from wordbase')
+    else:
         print('Not in the list!')
-        return
-    print(verbs[x])
-    if pyip.inputYesNo('Delete this entry? ') == 'no':
-        return
-    verbs.pop(x)
-    rep = load(repbase)
-    rep.remove(inf)
-    dump(repbase, rep)
-    dump(wordbase, verbs)
-    print(f'[{inf}] deleted from wordbase and repbase')
+##    try:
+##        x = infs.index(inf)
+##    except ValueError:
+##        print('Not in the list!')
+##        return
+##    print(verbs[x])
+##    if pyip.inputYesNo('Delete this entry? ') == 'no':
+##        return
+##    verbs.pop(x)
+##    rep = load(repbase)
+##    rep.remove(inf)
+##    dump(repbase, rep)
+##    dump(wordbase, verbs)
+##    print(f'[{inf}] deleted from wordbase and repbase')
 
 def sortbase():
     """Sort wordbase by infinitives and save"""
@@ -136,21 +140,37 @@ def import_verbs():
     dump(wordbase, verbs)
     print(f'{n_added} verbs added, {n_changed} verbs changed')
 
+def loadbase():
+    """Load wordbase from db. Return lists of verbs."""
+    verbs = []
+    query = "SELECT * FROM VerbForms"
+    for row in cur.execute(query):
+        verbs.append(list(row))
+    return verbs
+
+def end():
+    """Cleanup and exit"""
+    con.close()
+    print('Goodbye!')
+    sys.exit(0)
+
 if __name__ == "__main__":
-    # sqlite
+    header.initiate()
+    if not os.path.isfile('wordbase.db'):
+        print('\nNo word base found! Add a verb or import from a text file!\n')
     con = sqlite3.connect('wordbase.db')
     cur = con.cursor()
-    #
-    header.initiate()
-    wordbase = 'wordbase.json'
-    repbase = 'repbase.json'
-    textbase = 'wordbase.txt'
-    try:
-        verbs = load(wordbase)
-    except FileNotFoundError:
-        print('\nNo word base found! Add a verb or import from a text file!\n')
-        verbs = []
-    tasks = (lookup, del_el, add_el, sortbase, makerep, export, import_verbs)
+    verbs = loadbase()
+##    wordbase = 'wordbase.json'
+##    repbase = 'repbase.json'
+##    textbase = 'wordbase.txt'
+##    try:
+##        verbs = load(wordbase)
+##    except FileNotFoundError:
+##        print('\nNo word base found! Add a verb or import from a text file!\n')
+##        verbs = []
+    tasks = (lookup, del_el, add_el, sortbase, makerep, export, import_verbs,
+             end)
     while True:
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose a number to:'
@@ -161,7 +181,7 @@ if __name__ == "__main__":
                             '\n[4] create repetition base,'
                             '\n[5] export base to text file,'
                             '\n[6] import verbs from text file,'
-                            '\n[Ctrl-C] to exit\n',
-                            min=0, max=6)
+                            '\n[7] to exit\n',
+                            min=0, max=7)
         tasks[inp]()
         input('Press Enter to return')
