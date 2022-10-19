@@ -50,12 +50,6 @@ def del_el():
     con.commit()
     print(f'[{inf}] deleted from wordbase')
 
-def sortbase():
-    """Sort wordbase by infinitives and save"""
-    verbs.sort(key=lambda verb: verb[0])
-    dump(wordbase, verbs)
-    print('Word base sorted')
-
 def makerep():
     """(Re)Create repetition base"""
     rep = [verb[0] for verb in verbs]
@@ -122,7 +116,7 @@ def import_verbs():
 def loadbase():
     """Load wordbase from db. Return list of lists of verb forms."""
     verbs = []
-    query = "SELECT * FROM VerbForms"
+    query = "SELECT * FROM VerbForms ORDER BY Infinitive"
     try:
         for row in cur.execute(query):
             verbs.append(list(row))
@@ -152,8 +146,7 @@ if __name__ == "__main__":
     print('*** SvenskaJa ***')
     con = sqlite3.connect('wordbase.db')
     cur = con.cursor()
-    tasks = (lookup, del_el, add_el, sortbase, makerep, export, import_verbs,
-             end)
+    tasks = (lookup, del_el, add_el, makerep, export, import_verbs, end)
     while True:
         verbs = loadbase()
         if not verbs:
@@ -161,14 +154,13 @@ if __name__ == "__main__":
                   'Add a verb or import from a text file!\n')
         infs = header.infinitives(verbs)
         inp = pyip.inputNum('Choose a number to:'
-                            '\n[0] look up,'
-                            '\n[1] delete,'
-                            '\n[2] add new,'
-                            '\n[3] sort,'
+                            '\n[1] look up,'
+                            '\n[2] delete,'
+                            '\n[3] add new,'
                             '\n[4] create repetition base,'
                             '\n[5] export base to text file,'
                             '\n[6] import verbs from text file,'
                             '\n[7] to exit\n',
-                            min=0, max=7)
-        tasks[inp]()
+                            min=1, max=7)
+        tasks[inp-1]()
         input('Press Enter to continue')
