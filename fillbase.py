@@ -97,7 +97,10 @@ def import_verbs():
         return
     with open(textbase, encoding='utf-8') as f:
         lines = f.readlines()
-    rep = load(repbase)
+    try:
+        rep = load(repbase)
+    except FileNotFoundError:
+        rep = []
     n_added, n_changed = 0, 0
     for line in lines:
         new_el = line.split()
