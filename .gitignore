@@ -7,3 +7,4 @@ executable/
 *.bak
 *.json
 *.spec
+*.txt

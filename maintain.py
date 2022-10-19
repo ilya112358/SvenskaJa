@@ -34,7 +34,7 @@ def add_el():
     if pyip.inputYesNo('Add this entry? ') == 'no':
         return
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
-    cur.execute(query, (verb[0], verb[1], verb[2], verb[3]))
+    cur.execute(query, tuple(verb))
     con.commit()
     print(f'[{inf}] added to wordbase')
 
@@ -63,6 +63,7 @@ def makerep():
 
 def export():
     """Export word base to text file"""
+    textbase = 'export.txt'
     lines = []
     for verb in verbs:
         lines.append(f"{' '.join(verb)}\n")
@@ -75,13 +76,17 @@ def export():
 
 def import_verbs():
     """Import verbs from text file"""
-    print(f'Adding with replacement from {textbase}')
-    if pyip.inputYesNo('Proceed? ') == 'no':
+    textbase = 'import.txt'
+    if not os.path.isfile(textbase):
+        print(f'{textbase} does not exist')
         return
     with open(textbase, encoding='utf-8') as f:
         lines = f.readlines()
-    rep = load(repbase)
+    print(f'Adding with replacement {len(lines)} entries from {textbase}')
+    if pyip.inputYesNo('Proceed? ') == 'no':
+        return
     n_added, n_changed = 0, 0
+    insert = []
     for line in lines:
         new_el = line.split()
         if len(new_el) < 4:
@@ -97,20 +102,18 @@ def import_verbs():
                 break
         if len(verb) < 4:
             continue
-        verb.append(' '.join(new_el[4:]))    # multiword translation
         if verb[0] not in infs:
-            verbs.append(verb)
-            rep.insert(0, verb[0])  # into the next practice
-            print(f'{verb} added')
+            insert.append(tuple(verb))
+            print(f'{verb} new')
             n_added += 1
         else:
-            x = infs.index(verb[0])
-            if verb != verbs[x]:
-                verbs[x] = verb
+            if verb != verbs[infs.index(verb[0])]:
+                insert.append(tuple(verb))
                 print(f'{verb} changed')
                 n_changed += 1
-    dump(repbase, rep)
-    dump(wordbase, verbs)
+    query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
+    cur.executemany(query, insert)
+    con.commit()
     print(f'{n_added} verbs added, {n_changed} verbs changed')
 
 def loadbase():
