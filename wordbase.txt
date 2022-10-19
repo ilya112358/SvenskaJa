@@ -57,6 +57,7 @@ döma dömer dömde dömt судить
 ena enar enade enat объединять
 erbjuda erbjuder erbjöd erbjudit предлагать
 erkänna erkänner erkände erkänt признавать
+ersätta ersätter ersatte ersatt компенсировать
 falla faller föll fallit падать
 fara far for farit ехать
 fatta fattar fattade fattat охватывать
@@ -80,6 +81,7 @@ föreslå föreslår föreslog föreslagit предлагать
 förklara förklarar förklarade förklarat объяснять
 förlora förlorar förlorade förlorat терять
 förstå förstår förstod förstått понимать
+försvara försvarar försvarade försvarat защищать
 försvinna försvinner försvann försvunnit исчезать
 försöka försöker försökte försökt пробовать
 förutsätta förutsätter förutsatte förutsatt предполагать
@@ -150,6 +152,7 @@ ligga ligger låg legat лежать
 ljuga ljuger ljög ljugit лгать
 luta lutar lutade lutat наклоняться
 lyckas lyckas lyckades lyckats добиваться успеха
+lyfta lyfter lyfte lyft поднимать
 lyssna lyssnar lyssnade lyssnat слушать
 lägga lägger lade lagt класть
 lämna lämnar lämnade lämnat оставлять
@@ -161,9 +164,11 @@ lösa löser löste löst решать
 mena menar menade menat иметь в виду
 minnas minns mindes mints вспоминать
 minska minskar minskade minskat уменьшать
+märka märker märkte märkt отмечать
 må mår mådde mått чувствовать
 möta möter mötte mött встречать
 njuta njuter njöt njutit наслаждаться
+nyttja nyttjar nyttjade nyttjat употреблять
 nämna nämner nämnde nämnt упоминать
 nå når nådde nått доставать
 omfatta omfattar omfattade omfattat включать в себя
@@ -174,6 +179,7 @@ plugga pluggar pluggade pluggat зубрить
 prata pratar pratade pratat разговаривать
 presentera presenterar presenterade presenterat представлять
 publicera publicerar publicerade publicerat публиковать
+pågå pågår pågick pågått продолжаться
 påstå påstår påstod påstått утверждать
 påverka påverkar påverkade påverkat влиять
 resa reser reste rest путешествовать
@@ -210,6 +216,7 @@ skratta skrattar skrattade skrattat смеяться
 skrika skriker skrek skrikit кричать
 skriva skriver skrev skrivit писать
 skryta skryter skröt skrutit хвастать
+skydda skyddar skyddade skyddat защищать
 skära skär skar skurit резать
 slita sliter slet slitit протирать до дыр
 sluta slutar slutade slutat заканчивать
@@ -277,6 +284,7 @@ uppstå uppstår uppstod uppstått возникать
 upptäcka upptäcker upptäckte upptäckt обнаруживать
 utföra utför utförde utfört выполнять
 utgöra utgör utgjorde utgjort составлять
+utnyttja utnyttjar utnyttjade utnyttjat пользоваться
 uttrycka uttrycker uttryckte uttryckt выражать
 utveckla utvecklar utvecklade utvecklat развивать
 vakna vaknar vaknade vaknat будить
@@ -297,6 +305,7 @@ vänta väntar väntade väntat ждать
 växa växer växte vuxit расти
 våga vågar vågade vågat осмеливаться
 äga äger ägde ägt владеть
+ägna ägnar ägnade ägnat уделять
 älska älskar älskade älskat любить
 ändra ändrar ändrade ändrat изменять
 äta äter åt ätit есть
@@ -307,4 +316,5 @@ våga vågar vågade vågat осмеливаться
 öka ökar ökade ökat повышать
 önska önskar önskade önskat желать
 öppna öppnar öppnade öppnat открывать
+ösa öser öste öst вычерпывать
 öva övar övade övat практиковать
