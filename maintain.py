@@ -9,52 +9,46 @@ import pyinputplus as pyip
 import header
 load, dump = header.load, header.dump
 
-def input_verb(inf):
-    """Input verb forms"""
-    pres = pyip.inputStr('Presens? ').casefold()
-    past = pyip.inputStr('Preteritum? ').casefold()
-    supin = pyip.inputStr('Supinum? ').casefold()
-    trans = pyip.inputStr('Translation? ').casefold()
-    verb = [inf, pres, past, supin, trans]
-    print(verb)
-    return verb
-
 def lookup():
-    """Look up a verb from the list"""
+    """Ask for an infinitive, look it up, print, return with found entry."""
     inf = pyip.inputStr('\nInfinitive? ').casefold()
-    try:
-        x = infs.index(inf)
-    except ValueError:
-        print('Not in the list!')
-        return
-    print(verbs[x])
+    entry = []
+    if inf in infs:
+        entry = verbs[infs.index(inf)]
+        print(entry)
+    else:
+        print(f'[{inf}] is not in the wordbase')
+    return inf, entry
 
 def add_el():
     """Add a verb to the list"""
-    inf = pyip.inputStr('\nInfinitive to add? ')
-    if inf in infs:
-        print('Already exists!')
-        return
-    verb = input_verb(inf)
+    inf, entry = lookup()
+    if entry:
+        if pyip.inputYesNo('Do you want to replace this entry? ') == 'no':
+            return
+    pres = pyip.inputStr('Presens? ').casefold()
+    past = pyip.inputStr('Preteritum? ').casefold()
+    supin = pyip.inputStr('Supinum? ').casefold()
+    verb = [inf, pres, past, supin]
+    print(verb)
     if pyip.inputYesNo('Add this entry? ') == 'no':
         return
-    verbs.append(verb)
-    rep = load(repbase)
-    rep.insert(0, inf)
-    dump(repbase, rep)
-    dump(wordbase, verbs)
-    print(f'[{inf}] added to wordbase and repbase')
+    query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
+    cur.execute(query, (verb[0], verb[1], verb[2], verb[3]))
+    con.commit()
+    print(f'[{inf}] added to wordbase')
 
 def del_el():
     """Delete a verb from the list"""
-    inf = pyip.inputStr('\nInfinitive to delete? ').casefold()
+    inf, entry = lookup()
+    if not entry:
+        return
+    if pyip.inputYesNo('Delete this entry? ') == 'no':
+        return
     query = "DELETE FROM VerbForms WHERE Infinitive = ?"
     cur.execute(query, (inf,))
     con.commit()
-    if cur.rowcount == 1:
-        print(f'[{inf}] deleted from wordbase')
-    else:
-        print('Not in the list!')
+    print(f'[{inf}] deleted from wordbase')
 
 def sortbase():
     """Sort wordbase by infinitives and save"""
@@ -177,4 +171,4 @@ if __name__ == "__main__":
                             '\n[7] to exit\n',
                             min=0, max=7)
         tasks[inp]()
-        input('Press Enter to return')
+        input('Press Enter to continue')
