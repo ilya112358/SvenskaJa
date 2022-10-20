@@ -35,7 +35,7 @@ def add_el():
         return
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
     cur.execute(query, tuple(verb))
-    con.commit()
+    conn.commit()
     print(f'[{inf}] added to wordbase')
 
 def del_el():
@@ -47,7 +47,7 @@ def del_el():
         return
     query = "DELETE FROM VerbForms WHERE Infinitive = ?"
     cur.execute(query, (inf,))
-    con.commit()
+    conn.commit()
     print(f'[{inf}] deleted from wordbase')
 
 def makerep():
@@ -113,7 +113,7 @@ def import_verbs():
                 n_changed += 1
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
     cur.executemany(query, insert)
-    con.commit()
+    conn.commit()
     print(f'{n_added} verbs added, {n_changed} verbs changed')
 
 def loadbase():
@@ -127,7 +127,16 @@ def loadbase():
             Supinum TEXT NOT NULL UNIQUE
         )"""
     cur.execute(query)
-    con.commit()
+    query = """
+        CREATE TABLE IF NOT EXISTS VerbFormsPractice (
+            Verb TEXT NOT NULL PRIMARY KEY,
+            Priority INTEGER NOT NULL,
+            FOREIGN KEY (Verb)
+            REFERENCES VerbForms (Infinitive)
+                ON DELETE CASCADE
+        )"""
+    cur.execute(query)
+    conn.commit()
     query = "SELECT * FROM VerbForms ORDER BY Infinitive"
     for row in cur.execute(query):
         verbs.append(list(row))
@@ -135,14 +144,15 @@ def loadbase():
 
 def end():
     """Cleanup and exit"""
-    con.close()
+    conn.close()
     print('Goodbye!')
     sys.exit(0)
 
 if __name__ == "__main__":
     print('*** SvenskaJa ***')
-    con = sqlite3.connect('wordbase.db')
-    cur = con.cursor()
+    conn = sqlite3.connect('wordbase.db')
+    conn.execute("PRAGMA foreign_keys = ON")
+    cur = conn.cursor()
     tasks = (lookup, del_el, add_el, makerep, export, import_verbs, end)
     while True:
         verbs = loadbase()
