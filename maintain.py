@@ -119,24 +119,18 @@ def import_verbs():
 def loadbase():
     """Load wordbase from db. Return list of lists of verb forms."""
     verbs = []
+    query = """
+        CREATE TABLE IF NOT EXISTS VerbForms (
+            Infinitive TEXT NOT NULL PRIMARY KEY,
+            Presens TEXT NOT NULL UNIQUE,
+            Preteritum TEXT NOT NULL UNIQUE,
+            Supinum TEXT NOT NULL UNIQUE
+        )"""
+    cur.execute(query)
+    con.commit()
     query = "SELECT * FROM VerbForms ORDER BY Infinitive"
-    try:
-        for row in cur.execute(query):
-            verbs.append(list(row))
-    except sqlite3.Error as e:
-        if 'no such table' in str(e):
-            query = """
-                CREATE TABLE VerbForms (
-                    Infinitive TEXT NOT NULL PRIMARY KEY,
-                    Presens TEXT NOT NULL UNIQUE,
-                    Preteritum TEXT NOT NULL UNIQUE,
-                    Supinum TEXT NOT NULL UNIQUE
-                )"""
-            cur.execute(query)
-            con.commit()
-        else:
-            print('\nERROR!', type(e), e)
-            end()
+    for row in cur.execute(query):
+        verbs.append(list(row))
     return verbs
 
 def end():
