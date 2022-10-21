@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os.path
 import random
 import re
 import sqlite3
@@ -7,11 +6,10 @@ import sys
 import pyinputplus as pyip
 
 import header
-load, dump = header.load, header.dump
 
 def lookup():
     """Ask for an infinitive, look it up, print, return with found entry."""
-    inf = pyip.inputStr('\nInfinitive? ').casefold()
+    inf = pyip.inputStr('\nInfinitiv? ').casefold()
     entry = []
     if inf in infs:
         entry = verbs[infs.index(inf)]
@@ -48,21 +46,10 @@ def del_el():
         return
     if pyip.inputYesNo('Delete this entry? ') == 'no':
         return
-    query = "DELETE FROM VerbForms WHERE Infinitive = ?"
+    query = "DELETE FROM VerbForms WHERE Infinitiv = ?"
     cur.execute(query, (inf,))
     conn.commit()
     print(f'[{inf}] deleted from wordbase')
-
-def makerep():
-    """(Re)Create repetition base"""
-    rep = [verb[0] for verb in verbs]
-    random.shuffle(rep)
-    print(f'\n{len(rep)} verbs prepared')
-    if os.path.isfile(repbase):
-        if pyip.inputYesNo(f'Rewrite existing {repbase}? ') == 'no':
-            return
-    dump(repbase, rep)
-    print('Repetition base saved')
 
 def export():
     """Export word base to text file"""
@@ -128,7 +115,7 @@ def loadbase():
     verbs = []
     query = """
         CREATE TABLE IF NOT EXISTS VerbForms (
-            Infinitive TEXT NOT NULL PRIMARY KEY,
+            Infinitiv TEXT NOT NULL PRIMARY KEY,
             Presens TEXT NOT NULL UNIQUE,
             Preteritum TEXT NOT NULL UNIQUE,
             Supinum TEXT NOT NULL UNIQUE
@@ -139,12 +126,12 @@ def loadbase():
             Verb TEXT NOT NULL PRIMARY KEY,
             Priority INTEGER NOT NULL,
             FOREIGN KEY (Verb)
-            REFERENCES VerbForms (Infinitive)
+            REFERENCES VerbForms (Infinitiv)
                 ON DELETE CASCADE
         )"""
     cur.execute(query)
     conn.commit()
-    query = "SELECT * FROM VerbForms ORDER BY Infinitive"
+    query = "SELECT * FROM VerbForms ORDER BY Infinitiv"
     for row in cur.execute(query):
         verbs.append(list(row))
     return verbs
@@ -160,7 +147,7 @@ if __name__ == "__main__":
     conn = sqlite3.connect('wordbase.db')
     conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
-    tasks = (lookup, del_el, add_el, makerep, export, import_verbs, end)
+    tasks = (lookup, del_el, add_el, export, import_verbs, end)
     while True:
         verbs = loadbase()
         if not verbs:
@@ -171,10 +158,9 @@ if __name__ == "__main__":
                             '\n[1] look up,'
                             '\n[2] delete,'
                             '\n[3] add new,'
-                            '\n[4] create repetition base,'
-                            '\n[5] export base to text file,'
-                            '\n[6] import verbs from text file,'
-                            '\n[7] to exit\n',
+                            '\n[4] export base to text file,'
+                            '\n[5] import verbs from text file,'
+                            '\n[6] to exit\n',
                             min=1, max=7)
         tasks[inp-1]()
         input('Press Enter to continue')
