@@ -59,9 +59,6 @@ def add_el():
         return
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
     cur.execute(query, verb)
-    practice = (inf, 0)
-    query = "INSERT INTO VerbFormsPractice VALUES (?, ?)"
-    cur.execute(query, practice)
     conn.commit()
     print(f'[{inf}] added to wordbase')
 
@@ -90,7 +87,7 @@ def import_verbs():
     if pyip.inputYesNo('Proceed? ') == 'no':
         return
     n_added, n_changed = 0, 0
-    insert, practice = [], []
+    insert = []
     for line in lines:
         new_el = line.split()
         if len(new_el) < 4:
@@ -108,19 +105,15 @@ def import_verbs():
             continue
         if verb[0] not in infs:
             insert.append(tuple(verb))
-            practice.append((verb[0], 0))
             print(f'{verb} new')
             n_added += 1
         else:
             if tuple(verb[1:]) != verbs[verb[0]]:
                 insert.append(tuple(verb))
-                practice.append((verb[0], 0))
                 print(f'{verb} changed')
                 n_changed += 1
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
     cur.executemany(query, insert)
-    query = "INSERT INTO VerbFormsPractice VALUES (?, ?)"
-    cur.executemany(query, practice)
     conn.commit()
     print(f'{n_added} verbs added, {n_changed} verbs changed')
 
@@ -139,17 +132,21 @@ def loadbase():
             Presens TEXT NOT NULL UNIQUE,
             Preteritum TEXT NOT NULL UNIQUE,
             Supinum TEXT NOT NULL UNIQUE
-        )"""
-    cur.execute(query)
-    query = """
+        );
         CREATE TABLE IF NOT EXISTS VerbFormsPractice (
             Verb TEXT NOT NULL PRIMARY KEY,
             Priority INTEGER NOT NULL,
             FOREIGN KEY (Verb)
             REFERENCES VerbForms (Infinitiv)
                 ON DELETE CASCADE
-        )"""
-    cur.execute(query)
+        );
+        CREATE TRIGGER IF NOT EXISTS VerbAddPractice
+            AFTER INSERT ON VerbForms
+        BEGIN
+            INSERT INTO VerbFormsPractice VALUES (NEW.Infinitiv, 0);
+        END;
+        """
+    cur.executescript(query)
     conn.commit()
     query = "SELECT * FROM VerbForms ORDER BY Infinitiv"
     for row in cur.execute(query):
