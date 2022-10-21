@@ -5,37 +5,32 @@ import sqlite3
 import sys
 import pyinputplus as pyip
 
+def infinitives():
+    """Pretty print infs"""
+    if not infs:
+        return []
+    list_verbs = '\nList of verbs in the word base:\n'
+    width = len(max(infs, key=len)) + 3 # 3 spaces wider than the longest
+    line = '\n'
+    for inf in infs:
+        line += f'{inf:{width}}'
+        if len(line) > (80-width):  # rows are 80 chars max
+            list_verbs += line
+            line = '\n'
+    if len(line) > 1:   # add tailing row
+        list_verbs += line
+    print(list_verbs)
+
 def lookup():
-    """Ask for an infinitive, look it up, print, return with found entry."""
+    """Ask for an infinitive, look it up, print, return with found boolean."""
     inf = pyip.inputStr('\nInfinitiv? ').casefold()
-    entry = []
     if inf in infs:
-        entry = verbs[infs.index(inf)]
-        print(entry)
+        entry = True
+        print(inf, verbs[inf])
     else:
+        entry = False
         print(f'[{inf}] is not in the wordbase')
     return inf, entry
-
-def add_el():
-    """Add a verb to the list"""
-    inf, entry = lookup()
-    if entry:
-        if pyip.inputYesNo('Do you want to replace this entry? ') == 'no':
-            return
-    pres = pyip.inputStr('Presens? ').casefold()
-    past = pyip.inputStr('Preteritum? ').casefold()
-    supin = pyip.inputStr('Supinum? ').casefold()
-    verb = [inf, pres, past, supin]
-    print(verb)
-    if pyip.inputYesNo('Add this entry? ') == 'no':
-        return
-    query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
-    cur.execute(query, tuple(verb))
-    practice = (inf, 0)
-    query = "INSERT INTO VerbFormsPractice VALUES (?, ?)"
-    cur.execute(query, practice)
-    conn.commit()
-    print(f'[{inf}] added to wordbase')
 
 def del_el():
     """Delete a verb from the list"""
@@ -49,12 +44,33 @@ def del_el():
     conn.commit()
     print(f'[{inf}] deleted from wordbase')
 
+def add_el():
+    """Add a verb to the list"""
+    inf, entry = lookup()
+    if entry:
+        if pyip.inputYesNo('Do you want to replace this entry? ') == 'no':
+            return
+    pres = pyip.inputStr('Presens? ').casefold()
+    past = pyip.inputStr('Preteritum? ').casefold()
+    supin = pyip.inputStr('Supinum? ').casefold()
+    verb = (inf, pres, past, supin)
+    print(verb)
+    if pyip.inputYesNo('Add this entry? ') == 'no':
+        return
+    query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
+    cur.execute(query, verb)
+    practice = (inf, 0)
+    query = "INSERT INTO VerbFormsPractice VALUES (?, ?)"
+    cur.execute(query, practice)
+    conn.commit()
+    print(f'[{inf}] added to wordbase')
+
 def export_verbs():
     """Export word base to text file"""
     textbase = 'export.txt'
     lines = []
-    for verb in verbs:
-        lines.append(f"{' '.join(verb)}\n")
+    for inf in infs:
+        lines.append(f"{inf} {' '.join(verbs[inf])}\n")
     if os.path.isfile(textbase):
         if pyip.inputYesNo(f'Rewrite existing {textbase}? ') == 'no':
             return
@@ -96,7 +112,7 @@ def import_verbs():
             print(f'{verb} new')
             n_added += 1
         else:
-            if verb != verbs[infs.index(verb[0])]:
+            if tuple(verb[1:]) != verbs[verb[0]]:
                 insert.append(tuple(verb))
                 practice.append((verb[0], 0))
                 print(f'{verb} changed')
@@ -108,9 +124,15 @@ def import_verbs():
     conn.commit()
     print(f'{n_added} verbs added, {n_changed} verbs changed')
 
+def end():
+    """Cleanup and exit"""
+    conn.close()
+    print('Goodbye!')
+    sys.exit(0)
+
 def loadbase():
-    """Load wordbase from db. Return list of lists of verb forms."""
-    verbs = []
+    """Load wordbase from db. Return dictionary of {inf: (verb forms)}."""
+    verbs = {}
     query = """
         CREATE TABLE IF NOT EXISTS VerbForms (
             Infinitiv TEXT NOT NULL PRIMARY KEY,
@@ -131,33 +153,8 @@ def loadbase():
     conn.commit()
     query = "SELECT * FROM VerbForms ORDER BY Infinitiv"
     for row in cur.execute(query):
-        verbs.append(list(row))
+        verbs[row[0]] = row[1:]
     return verbs
-
-def end():
-    """Cleanup and exit"""
-    conn.close()
-    print('Goodbye!')
-    sys.exit(0)
-
-def infinitives(verbs):
-    """Fill infs. Print infs. Return infs."""
-    if not verbs:   # word base empty
-        return []
-    infs = [verb[0] for verb in verbs]
-    list_verbs = '\nList of verbs in the word base:\n'
-    width = len(max(infs, key=len)) + 3 # 3 spaces wider than the longest
-    line = '\n'
-    for inf in infs:
-        line += f'{inf:{width}}'
-        if len(line) > (80-width):  # rows are 80 chars max
-            list_verbs += line
-            line = '\n'
-    if len(line) > 1:   # add tailing row
-        list_verbs += line
-    list_verbs += f'\n\n{len(verbs)} verbs loaded from the word base\n'
-    print(list_verbs)
-    return infs
 
 if __name__ == "__main__":
     print('*** SvenskaJa ***')
@@ -168,10 +165,11 @@ if __name__ == "__main__":
              end)
     while True:
         verbs = loadbase()
+        infs = list(verbs)
         if not verbs:
             print('\nWord base is empty. '
                   'Add a verb or import from a text file!\n')
-        infs = infinitives(verbs)
+        print(f'\n{len(verbs)} verbs loaded from the word base\n')
         inp = pyip.inputNum('Choose a number to:'
                             '\n[1] list all,'
                             '\n[2] look up,'
@@ -182,4 +180,4 @@ if __name__ == "__main__":
                             '\n[7] exit\n',
                             min=1, max=7)
         tasks[inp-1]()
-        input('Press Enter to continue')
+        input('\nPress Enter to continue')
