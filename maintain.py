@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-import random
+import os.path
 import re
 import sqlite3
 import sys
 import pyinputplus as pyip
-
-import header
 
 def lookup():
     """Ask for an infinitive, look it up, print, return with found entry."""
@@ -51,7 +49,7 @@ def del_el():
     conn.commit()
     print(f'[{inf}] deleted from wordbase')
 
-def export():
+def export_verbs():
     """Export word base to text file"""
     textbase = 'export.txt'
     lines = []
@@ -142,25 +140,46 @@ def end():
     print('Goodbye!')
     sys.exit(0)
 
+def infinitives(verbs):
+    """Fill infs. Print infs. Return infs."""
+    if not verbs:   # word base empty
+        return []
+    infs = [verb[0] for verb in verbs]
+    list_verbs = '\nList of verbs in the word base:\n'
+    width = len(max(infs, key=len)) + 3 # 3 spaces wider than the longest
+    line = '\n'
+    for inf in infs:
+        line += f'{inf:{width}}'
+        if len(line) > (80-width):  # rows are 80 chars max
+            list_verbs += line
+            line = '\n'
+    if len(line) > 1:   # add tailing row
+        list_verbs += line
+    list_verbs += f'\n\n{len(verbs)} verbs loaded from the word base\n'
+    print(list_verbs)
+    return infs
+
 if __name__ == "__main__":
     print('*** SvenskaJa ***')
     conn = sqlite3.connect('wordbase.db')
     conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
-    tasks = (lookup, del_el, add_el, export, import_verbs, end)
+    tasks = (infinitives, lookup, del_el, add_el, export_verbs, import_verbs,
+             end)
     while True:
         verbs = loadbase()
         if not verbs:
             print('\nWord base is empty. '
                   'Add a verb or import from a text file!\n')
-        infs = header.infinitives(verbs)
+        infs = infinitives(verbs)
         inp = pyip.inputNum('Choose a number to:'
-                            '\n[1] look up,'
-                            '\n[2] delete,'
-                            '\n[3] add new,'
-                            '\n[4] export base to text file,'
-                            '\n[5] import verbs from text file,'
-                            '\n[6] to exit\n',
+                            '\n[1] list all,'
+                            '\n[2] look up,'
+                            '\n[3] delete,'
+                            '\n[4] add new,'
+                            '\n[5] export to text file,'
+                            '\n[6] import from text file,'
+                            '\n[7] exit\n',
                             min=1, max=7)
         tasks[inp-1]()
         input('Press Enter to continue')
