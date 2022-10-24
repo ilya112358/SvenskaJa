@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import csv
 import os.path
 import re
 import sqlite3
@@ -62,44 +63,45 @@ def add_el():
     conn.commit()
     print(f'[{inf}] added to wordbase')
 
-def export_verbs():
-    """Export word base to text file"""
-    textbase = 'export.txt'
+def export_csv():
+    """Export word base to csv file"""
+    csvbase = 'export.txt'
+    if os.path.isfile(csvbase):
+        if pyip.inputYesNo(f'Rewrite existing {csvbase}? ') == 'no':
+            return
     lines = []
     for inf in infs:
-        lines.append(f"{inf} {' '.join(verbs[inf])}\n")
-    if os.path.isfile(textbase):
-        if pyip.inputYesNo(f'Rewrite existing {textbase}? ') == 'no':
-            return
-    with open(textbase, 'w', encoding='utf-8') as f:
-        f.writelines(lines)
+        lines.append([inf] + list(verbs[inf]))
+    with open(csvbase, 'w', newline='', encoding='utf-8') as csvfile:
+        csv.writer(csvfile).writerows(lines)
     print('Word base exported')
 
-def import_verbs():
-    """Import verbs from text file"""
-    textbase = 'import.txt'
-    if not os.path.isfile(textbase):
-        print(f'{textbase} does not exist')
+def import_csv():
+    """Import verbs from csv file"""
+    csvbase = 'import.txt'
+    if not os.path.isfile(csvbase):
+        print(f'{csvbase} does not exist')
         return
-    with open(textbase, encoding='utf-8') as f:
-        lines = f.readlines()
-    print(f'Adding with replacement {len(lines)} entries from {textbase}')
+    lines = []
+    with open(csvbase, newline='', encoding='utf-8') as csvfile:
+        for row in csv.reader(csvfile):
+            lines.append(row)
+    print(f'Adding with replacement {len(lines)} entries from {csvbase}')
     if pyip.inputYesNo('Proceed? ') == 'no':
         return
     n_added, n_changed = 0, 0
     insert = []
     for line in lines:
-        new_el = line.split()
-        if len(new_el) < 4:
-            print(f'Too few forms in: [{line.rstrip()}]')
+        if len(line) != 4:
+            print(f'Not 4 entries in: {line}')
             continue
         verb = []
-        for i in range(4):
-            word = new_el[i].lower()
+        for word in line:
+            word = word.strip().lower()
             if not re.search('[^a-zöäå]', word):
                 verb.append(word)
             else:
-                print(f'Incorrect word: [{word}] in [{line.rstrip()}]')
+                print(f'Incorrect word: [{word}] in {line}')
                 break
         if len(verb) < 4:
             continue
@@ -158,8 +160,7 @@ if __name__ == "__main__":
     conn = sqlite3.connect('wordbase.db')
     conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
-    tasks = (infinitives, lookup, del_el, add_el, export_verbs, import_verbs,
-             end)
+    tasks = (infinitives, lookup, del_el, add_el, export_csv, import_csv, end)
     while True:
         verbs = loadbase()
         infs = list(verbs)
@@ -172,8 +173,8 @@ if __name__ == "__main__":
                             '\n[2] look up,'
                             '\n[3] delete,'
                             '\n[4] add new,'
-                            '\n[5] export to text file,'
-                            '\n[6] import from text file,'
+                            '\n[5] export to csv file,'
+                            '\n[6] import from csv file,'
                             '\n[7] exit\n',
                             min=1, max=7)
         tasks[inp-1]()
