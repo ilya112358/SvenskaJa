@@ -164,7 +164,7 @@ if __name__ == "__main__":
         verbs = loadbase()
         infs = list(verbs)
         if not verbs:
-            print('\nWord base is empty. '
+            print('\nThe word base is empty. '
                   'Add a verb or import from a text file!\n')
         print(f'\n{len(verbs)} verbs loaded from the word base\n')
         inp = pyip.inputNum('Choose a number to:'
