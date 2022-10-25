@@ -82,7 +82,7 @@ def export():
     """Export word base to text file"""
     lines = []
     for verb in verbs:
-        lines.append(f"{' '.join(verb)}\n")
+        lines.append(f"{','.join(verb)}\n")
     if os.path.isfile(textbase):
         if pyip.inputYesNo(f'Rewrite existing {textbase}? ') == 'no':
             return

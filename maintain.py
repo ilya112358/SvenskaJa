@@ -42,6 +42,8 @@ def del_el():
         return
     query = "DELETE FROM VerbForms WHERE Infinitiv = ?"
     cur.execute(query, (inf,))
+    query = "DELETE FROM VerbTranslations WHERE Verb = ?"
+    cur.execute(query, (inf,))
     conn.commit()
     print(f'[{inf}] deleted from wordbase')
 
@@ -54,11 +56,15 @@ def add_el():
     pres = pyip.inputStr('Presens? ').casefold()
     past = pyip.inputStr('Preteritum? ').casefold()
     supin = pyip.inputStr('Supinum? ').casefold()
+    trans = pyip.inputStr('Russian translation? ').casefold()
     verb = (inf, pres, past, supin)
-    print(verb)
+    print(verb+(trans,))
     if pyip.inputYesNo('Add this entry? ') == 'no':
         return
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
+    cur.execute(query, verb)
+    verb = (inf, trans)
+    query = "INSERT OR REPLACE INTO VerbTranslations VALUES (?, ?)"
     cur.execute(query, verb)
     conn.commit()
     print(f'[{inf}] added to wordbase')
@@ -90,14 +96,14 @@ def import_csv():
     if pyip.inputYesNo('Proceed? ') == 'no':
         return
     n_added, n_changed = 0, 0
-    insert = []
+    in_forms, in_trans = [], []
     for line in lines:
-        if len(line) != 4:
-            print(f'Not 4 entries in: {line}')
+        if len(line) != 5:
+            print(f'Not 5 entries in: {line}')
             continue
         verb = []
-        for word in line:
-            word = word.strip().lower()
+        for i in range(4):
+            word = line[i].strip().lower()
             if not re.search('[^a-zöäå]', word):
                 verb.append(word)
             else:
@@ -105,17 +111,22 @@ def import_csv():
                 break
         if len(verb) < 4:
             continue
+        verb.append(line[4])
         if verb[0] not in infs:
-            insert.append(tuple(verb))
+            in_forms.append(tuple(verb[:4]))
+            in_trans.append((verb[0],verb[4]))
             print(f'{verb} new')
             n_added += 1
         else:
             if tuple(verb[1:]) != verbs[verb[0]]:
-                insert.append(tuple(verb))
+                in_forms.append(tuple(verb[:4]))
+                in_trans.append((verb[0],verb[4]))
                 print(f'{verb} changed')
                 n_changed += 1
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
-    cur.executemany(query, insert)
+    cur.executemany(query, in_forms)
+    query = "INSERT OR REPLACE INTO VerbTranslations VALUES (?, ?)"
+    cur.executemany(query, in_trans)
     conn.commit()
     print(f'{n_added} verbs added, {n_changed} verbs changed')
 
@@ -126,14 +137,14 @@ def end():
     sys.exit(0)
 
 def loadbase():
-    """Load wordbase from db. Return dictionary of {inf: (verb forms)}."""
+    """Load or create wordbase. Return {inf: (verb forms, trans),...}."""
     verbs = {}
     query = """
         CREATE TABLE IF NOT EXISTS VerbForms (
             Infinitiv TEXT NOT NULL PRIMARY KEY,
-            Presens TEXT NOT NULL UNIQUE,
-            Preteritum TEXT NOT NULL UNIQUE,
-            Supinum TEXT NOT NULL UNIQUE
+            Presens TEXT NOT NULL,
+            Preteritum TEXT NOT NULL,
+            Supinum TEXT NOT NULL
         );
         CREATE TABLE IF NOT EXISTS VerbFormsPractice (
             Verb TEXT NOT NULL PRIMARY KEY,
@@ -147,10 +158,19 @@ def loadbase():
         BEGIN
             INSERT INTO VerbFormsPractice VALUES (NEW.Infinitiv, 0);
         END;
+        CREATE TABLE IF NOT EXISTS VerbTranslations (
+            Verb TEXT NOT NULL PRIMARY KEY,
+            Russian TEXT NOT NULL
+        );
         """
     cur.executescript(query)
     conn.commit()
-    query = "SELECT * FROM VerbForms ORDER BY Infinitiv"
+    query = """
+        SELECT Infinitiv, Presens, Preteritum, Supinum, Russian
+        FROM VerbForms LEFT JOIN VerbTranslations
+        ON VerbTranslations.Verb = VerbForms.Infinitiv
+        ORDER BY Infinitiv
+        """
     for row in cur.execute(query):
         verbs[row[0]] = row[1:]
     return verbs
@@ -173,8 +193,8 @@ if __name__ == "__main__":
                             '\n[2] look up,'
                             '\n[3] delete,'
                             '\n[4] add new,'
-                            '\n[5] export to csv file,'
-                            '\n[6] import from csv file,'
+                            '\n[5] export to text file,'
+                            '\n[6] import from text file,'
                             '\n[7] exit\n',
                             min=1, max=7)
         tasks[inp-1]()
