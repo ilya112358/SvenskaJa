@@ -30,7 +30,7 @@ def lookup():
         print(inf, verbs[inf])
     else:
         entry = False
-        print(f'[{inf}] is not in the wordbase')
+        print(f'[{inf}] is not in the word base')
     return inf, entry
 
 def del_el():
@@ -45,7 +45,7 @@ def del_el():
     query = "DELETE FROM VerbTranslations WHERE Verb = ?"
     cur.execute(query, (inf,))
     conn.commit()
-    print(f'[{inf}] deleted from wordbase')
+    print(f'[{inf}] deleted from word base')
 
 def add_el():
     """Add a verb to the list"""
@@ -67,7 +67,7 @@ def add_el():
     query = "INSERT OR REPLACE INTO VerbTranslations VALUES (?, ?)"
     cur.execute(query, verb)
     conn.commit()
-    print(f'[{inf}] added to wordbase')
+    print(f'[{inf}] added to word base')
 
 def export_csv():
     """Export word base to csv file"""
@@ -99,7 +99,7 @@ def import_csv():
     in_forms, in_trans = [], []
     for line in lines:
         if len(line) != 5:
-            print(f'Not 5 entries in: {line}')
+            print(f'Not 5 entries in {line}')
             continue
         verb = []
         for i in range(4):
@@ -112,6 +112,9 @@ def import_csv():
         if len(verb) < 4:
             continue
         verb.append(line[4])
+        if '' in verb:
+            print(f'Blank fields not allowed in {line}')
+            continue
         if verb[0] not in infs:
             in_forms.append(tuple(verb[:4]))
             in_trans.append((verb[0],verb[4]))
@@ -137,7 +140,7 @@ def end():
     sys.exit(0)
 
 def loadbase():
-    """Load or create wordbase. Return {inf: (verb forms, trans),...}."""
+    """Load or create word base. Return {inf: (verb forms, trans),...}."""
     verbs = {}
     query = """
         CREATE TABLE IF NOT EXISTS VerbForms (
