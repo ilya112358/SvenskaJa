@@ -14,17 +14,9 @@ if __name__ == "__main__":
     conn = sqlite3.connect('wordbase.db')
     conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
-    verbs = []
-    inp = pyip.inputNum('Choose 1 to practice forms, '
-                        '2 to practice translations: ', min=1, max=2)
-    # verb forms practice
-    if inp == 1:
-        query = """
-            SELECT Infinitiv, Presens, Preteritum, Supinum, Priority
-            FROM VerbForms INNER JOIN VerbFormsPractice
-            ON VerbFormsPractice.Verb = VerbForms.Infinitiv
-            ORDER BY Priority
-            """
+    def loadbase(query):
+        """Query wordbase. Return verbs, number of exercises. Exit if empty."""
+        verbs = []
         for row in cur.execute(query):
             verbs.append(row) 
         if not verbs:
@@ -34,6 +26,20 @@ if __name__ == "__main__":
         total = len(verbs)
         print(f'\n{total} verbs loaded from the word base\n')
         num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
+        return verbs, num
+
+    inp = pyip.inputNum('Choose 1 to practice forms, '
+                        '2 to practice translations, '
+                        '3 to exit: ', min=1, max=3)
+    # verb forms practice
+    if inp == 1:
+        query = """
+            SELECT Infinitiv, Presens, Preteritum, Supinum, Priority
+            FROM VerbForms INNER JOIN VerbFormsPractice
+            ON VerbFormsPractice.Verb = VerbForms.Infinitiv
+            ORDER BY Priority
+            """
+        verbs, num = loadbase(query)
         hint = ('Type in three forms of the verb - \n'
                 'Presens, Preteritum, Supinum - \n'
                 'separated by spaces')
@@ -77,18 +83,11 @@ if __name__ == "__main__":
                     inf, forms = verb[0], verb[1:4]
                     if not test():
                         badlist.append(verb)
+        input('\nWell done! Press Enter to exit')
     # translations practice
     elif inp == 2:
         query = "SELECT Verb, Russian FROM VerbTranslations"
-        for row in cur.execute(query):
-            verbs.append(row) 
-        if not verbs:
-            print(f'\nThe word base is empty. Run maintenance.')
-            conn.close()
-            sys.exit(0)
-        total = len(verbs)
-        print(f'\n{total} verbs loaded from the word base\n')
-        num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
+        verbs, num = loadbase(query)
         random.shuffle(verbs)
         print('Think of a translation then press Enter to choose from options')
         for k in range(num):
@@ -111,5 +110,7 @@ if __name__ == "__main__":
                     print(f'{k+1} done, {num-k-1} to go')
                     break
                 print('Try again!')
-    input('\nJob well done! Press Enter to exit')        
+        input('\nWell done! Press Enter to exit')
+    else:
+        print('Remember, practice makes perfect!')
     conn.close()
