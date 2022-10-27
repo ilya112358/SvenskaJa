@@ -53,21 +53,26 @@ def add_el():
     if entry:
         if pyip.inputYesNo('Do you want to replace this entry? ') == 'no':
             return
-    pres = pyip.inputStr('Presens? ').casefold()
-    past = pyip.inputStr('Preteritum? ').casefold()
-    supin = pyip.inputStr('Supinum? ').casefold()
-    trans = pyip.inputStr('Russian translation? ').casefold()
-    verb = (inf, pres, past, supin)
-    print(verb+(trans,))
-    if pyip.inputYesNo('Add this entry? ') == 'no':
+    e1 = [inf, '', '', '']
+    if pyip.inputYesNo('Do you want to enter verb forms? ') == 'yes':
+        e1[1] = pyip.inputStr('Presens? ').casefold()
+        e1[2] = pyip.inputStr('Preteritum? ').casefold()
+        e1[3] = pyip.inputStr('Supinum? ').casefold()
+        query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
+        cur.execute(query, tuple(e1))
+    e2 = [inf, '']
+    if pyip.inputYesNo('Do you want to enter a translation? ') == 'yes':
+        e2[1] = pyip.inputStr('Russian translation? ')
+        query = "INSERT OR REPLACE INTO VerbTranslations VALUES (?, ?)"
+        cur.execute(query, tuple(e2))
+    if not e1[1] and not e2[1]:
         return
-    query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
-    cur.execute(query, verb)
-    verb = (inf, trans)
-    query = "INSERT OR REPLACE INTO VerbTranslations VALUES (?, ?)"
-    cur.execute(query, verb)
-    conn.commit()
-    print(f'[{inf}] added to word base')
+    print(e1 + e2[1:])
+    if pyip.inputYesNo('Add this entry? ') == 'no':
+        conn.rollback()
+    else:
+        conn.commit()
+        print(f'[{inf}] added to word base')
 
 def export_csv():
     """Export word base to csv file"""
@@ -103,7 +108,7 @@ def import_csv():
             continue
         verb = []
         for i in range(4):
-            word = line[i].strip().lower()
+            word = line[i].strip().casefold()
             if not re.search('[^a-zöäå]', word):
                 verb.append(word)
             else:
@@ -168,10 +173,16 @@ def loadbase():
         """
     cur.executescript(query)
     conn.commit()
+    # emulate FULL OUTER JOIN
     query = """
         SELECT Infinitiv, Presens, Preteritum, Supinum, Russian
         FROM VerbForms LEFT JOIN VerbTranslations
         ON VerbTranslations.Verb = VerbForms.Infinitiv
+        UNION ALL
+        SELECT Verb, Presens, Preteritum, Supinum, Russian
+        FROM VerbTranslations LEFT JOIN VerbForms
+        ON VerbForms.Infinitiv = VerbTranslations.Verb
+        WHERE Presens IS NULL
         ORDER BY Infinitiv
         """
     for row in cur.execute(query):
