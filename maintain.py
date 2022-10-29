@@ -103,32 +103,31 @@ def import_csv():
     n_added, n_changed = 0, 0
     in_forms, in_trans = [], []
     for line in lines:
-        if len(line) != 5:
-            print(f'Not 5 entries in {line}')
+        if len(line) != 5 or not line[0] or not any(line[1:]):
+            print(f'Incorrect format in {line}')
             continue
         verb = []
         for i in range(4):
             word = line[i].strip().casefold()
-            if not re.search('[^a-zöäå]', word):
+            if not re.search('[^a-zöäå ]', word):
                 verb.append(word)
-            else:
-                print(f'Incorrect word: [{word}] in {line}')
-                break
-        if len(verb) < 4:
+        if len(verb) < 4 or (any(verb[1:4]) and not all(verb[1:4])):
+            print(f'Incorrect or empty verb form in {line}')
             continue
-        verb.append(line[4])
-        if '' in verb:
-            print(f'Blank fields not allowed in {line}')
-            continue
+        verb.append(line[4].strip())
+        def ins_rep():
+            if all(verb[1:4]):
+                in_forms.append(tuple(verb[:4]))
+            if verb[4]:
+                in_trans.append((verb[0],verb[4]))
+            
         if verb[0] not in infs:
-            in_forms.append(tuple(verb[:4]))
-            in_trans.append((verb[0],verb[4]))
+            ins_rep()
             print(f'{verb} new')
             n_added += 1
         else:
             if tuple(verb[1:]) != verbs[verb[0]]:
-                in_forms.append(tuple(verb[:4]))
-                in_trans.append((verb[0],verb[4]))
+                ins_rep()
                 print(f'{verb} changed')
                 n_changed += 1
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
