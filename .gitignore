@@ -4,8 +4,5 @@ dist/
 env/
 executable/
 !executable/SvenskaJaWin.zip
-*.bak
-*.json
 *.spec
-*.txt
 *.db
