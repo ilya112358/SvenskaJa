@@ -1,97 +1,102 @@
 #!/usr/bin/env python3
+import os.path
 import random
+import sqlite3
 import sys
 import pyinputplus as pyip
 
-import header
-load, dump = header.load, header.dump
-
 if __name__ == "__main__":
-    header.initiate()
-    wordbase = 'wordbase.json'
-    repbase = 'repbase.json'
-    try:
-        verbs = load(wordbase)
-    except FileNotFoundError:
-        sys.exit('No word base found! Run fillbase!')
-    infs = header.infinitives(verbs)
-    forms = ['Infinitive', 'Presens', 'Preteritum', 'Supinum', 'Translation']
-    words = []
-    for verb in verbs:
-        word = {forms[i]: verb[i] for i in range(5)}
-        words.append(word)
-    num_words = len(words)
-    inp = pyip.inputNum('Choose 1 to practice forms, '
-                        '2 to practice translations: ', min=1, max=2)
-
-    if inp == 1:
-        try:
-            rep = load(repbase)
-        except FileNotFoundError:
-            sys.exit('No repetition base found! Run fillbase!')
-        total = len(rep)
-        print(f'{total} verbs loaded from the repetition base')
+    print('*** SvenskaJa ***')
+    wordbase = 'wordbase.db'
+    if not os.path.isfile(wordbase):
+        print(f'\nNo {wordbase} found. Run maintenance.')
+        sys.exit(0)
+    conn = sqlite3.connect('wordbase.db')
+    conn.execute("PRAGMA foreign_keys = ON")
+    cur = conn.cursor()
+    def loadbase(query):
+        """Query wordbase. Return verbs, number of exercises. Exit if empty."""
+        verbs = []
+        for row in cur.execute(query):
+            verbs.append(row) 
+        if not verbs:
+            print(f'\nThe word base is empty. Run maintenance.')
+            conn.close()
+            sys.exit(0)
+        total = len(verbs)
+        print(f'\n{total} verbs loaded from the word base\n')
         num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
+        return verbs, num
+
+    inp = pyip.inputNum('Choose 1 to practice forms, '
+                        '2 to practice translations, '
+                        '3 to exit: ', min=1, max=3)
+    # verb forms practice
+    if inp == 1:
+        query = """
+            SELECT Infinitiv, Presens, Preteritum, Supinum, Priority
+            FROM VerbForms INNER JOIN VerbFormsPractice
+            ON VerbFormsPractice.Verb = VerbForms.Infinitiv
+            ORDER BY Priority
+            """
+        verbs, num = loadbase(query)
         hint = ('Type in three forms of the verb - \n'
-                f'{forms[1]}, {forms[2]}, {forms[3]} - \n'
+                'Presens, Preteritum, Supinum - \n'
                 'separated by spaces')
         print(hint)
-        practice, base = rep[:num], rep[num:]
-        goodlist, badlist = [], []
-        good, bad = 0, 0
-        def test(verb):
-            x = infs.index(verb)
+        def test():
             while True:
-                prompt = f'\n{forms[0]}: att {verb}, three forms? '
+                prompt = f'\nInfinitiv: att {inf}, three forms? '
                 reply = pyip.inputStr(prompt).casefold().split()
                 if len(reply) == 3:
                     break
                 print(hint)
             ok = True
             for i in range(3):
-                correct = words[x][forms[i+1]]
-                if reply[i] != correct:
-                    print(f'Incorrect {forms[i+1]}! '
-                          f'{reply[i]} instead of {correct}')
+                if reply[i] != forms[i]:
+                    print(f'Incorrect form! {reply[i]} instead of {forms[i]}')
                     ok = False
             if ok:
-                print('Correct.')
+                print('Correct')
             return ok
-
-        while practice:
-            verb = practice.pop()
-            if test(verb):
-                good += 1
-                goodlist.append(verb)
+        
+        n_good, n_bad, badlist = 0, 0, []
+        for i in range(num):
+            verb = verbs[i]
+            inf, forms, priority = verb[0], verb[1:4], verb[4]
+            if test():
+                n_good += 1
+                priority += 1
             else:
-                bad += 1
+                n_bad += 1
+                priority = 0
                 badlist.append(verb)
-            print(f'{good} good, {bad} bad, {num-good-bad} to go')
-        print(f'\nOut of {num} verbs {good} ({good/num:.0%}) correct')
-        rep = badlist + base + goodlist
-        dump(repbase, rep)
+            query = "UPDATE VerbFormsPractice SET Priority = ? WHERE Verb = ?"
+            cur.execute(query, (priority, inf))
+            conn.commit()
+            print(f'{n_good} good, {n_bad} bad, {num-n_good-n_bad} to go')
+        print(f'\nOut of {num} verbs {n_good} ({n_good/num:.0%}) correct')
         if badlist:
             if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
                 while badlist:
                     verb = badlist.pop()
-                    if not test(verb):
+                    inf, forms = verb[0], verb[1:4]
+                    if not test():
                         badlist.append(verb)
-
+        input('\nWell done! Press Enter to exit')
+    # translations practice
     elif inp == 2:
-        wordscopy = words.copy()
-        random.shuffle(wordscopy)
-        num_opt = 6
-        num = pyip.inputNum('How many words to practice? ',
-                            min=1, max=num_words)
-        print('Think of a translation then press Enter to choose from '
-              f'{num_opt} options.')
+        query = "SELECT Verb, Russian FROM VerbTranslations"
+        verbs, num = loadbase(query)
+        random.shuffle(verbs)
+        print('Think of a translation then press Enter to choose from options')
         for k in range(num):
-            word = wordscopy.pop()
-            print('\nVerb:', word['Infinitive'])
+            word = verbs.pop()
+            print('\nVerb:', word[0])
             input()
-            choice = [word['Translation']]
-            while len(choice) < num_opt:
-                random_trans = random.choice(words)['Translation']
+            choice = [word[1]]
+            while len(choice) < 6:
+                random_trans = random.choice(verbs)[1]
                 if random_trans not in choice:
                     choice.append(random_trans)
             random.shuffle(choice)
@@ -99,11 +104,13 @@ if __name__ == "__main__":
                 print(i+1, trans)
             while True:
                 inp = pyip.inputNum('Which translation is correct? ',
-                                    min=1, max=num_opt)
-                if choice[inp-1] == word['Translation']:
-                    print(f"Yes, [{word['Infinitive']}] can be translated as "
-                          f"[{word['Translation']}]")
+                                    min=1, max=6)
+                if choice[inp-1] == word[1]:
+                    print(f"Yes, '{word[0]}' can be translated as '{word[1]}'")
                     print(f'{k+1} done, {num-k-1} to go')
                     break
                 print('Try again!')
-    input('Press Enter to exit')
+        input('\nWell done! Press Enter to exit')
+    else:
+        print('Remember, practice makes perfect!')
+    conn.close()
