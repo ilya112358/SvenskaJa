@@ -6,19 +6,19 @@ Practice to memorize
 * (russian) translations
 
 Install like a nerd (Windows)
-* Install python and git
-* Download: git clone https://github.com/ilya112358/SvenskaJa.git
-* cd SvenskaJa
+* Install python (3.10+) and git, clone this repo
 * Setup virtual environment: py -m venv --upgrade-deps env
 * Activate virtual environment: env\scripts\activate.bat
 * Install required libs: pip install -r requirements.txt
-* Run maintainance (py -m fillbase) to import wordbase from wordbase.txt and create repetition base
-* To build executables run build.bat
-* To edit code with IDLE run env.bat
+* To build Windows executables run build.bat
+* To play with code from python IDLE run env.bat
 
 Install like a normal person (Windows)
-* Download https://github.com/ilya112358/SvenskaJa/blob/310323ade6cfb334c3b54d505d8d776784c5304f/executable/SvenskaJaWin.zip
+* Download [SveskaJaWin.zip](https://github.com/ilya112358/SvenskaJa/blob/310323ade6cfb334c3b54d505d8d776784c5304f/executable/SvenskaJaWin.zip)
 * UnZip to a folder
-* Run maintainance (fillbase.exe) to import wordbase from wordbase.txt and create repetition base
 
-Run practice.exe (py -m practice) to improve your Swedish!
+**Run maintainance (maintain.exe/py) to import the word base from wordbase.txt. SQLite wordbase.db is created on the first run. You can lookup, add, delete, export entries.**
+
+**Run practice.exe (practice.exe/py) to improve your Swedish!**
+
+wordbase.txt is an ever growing list of verbs created with info from [Svenska Akademien's dictionaries](https://svenska.se/). Each line contains 5 comma separated fields in the strict order: Infinitiv, Presens, Preteritum, Supinum, Russian translation. Trailing and leading whitespace is removed. You can omit either three forms or a translation by having just commas. If a verb can have multiple sets of  forms (e.g., *simma*), only one set is given. Translations are obviously approximations, immerse into the language environment to fully grasp the meaning. Feel free to change the word base to your liking. 
