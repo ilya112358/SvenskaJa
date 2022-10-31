@@ -1,2 +1,2 @@
 call env\scripts\activate.bat
-start python -m idlelib.idle
+start py -m idlelib.idle maintain.py practice.py
