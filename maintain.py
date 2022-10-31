@@ -76,7 +76,7 @@ def add_el():
 
 def export_csv():
     """Export word base to csv file"""
-    csvbase = 'export.txt'
+    csvbase = 'wordbase.txt'
     if os.path.isfile(csvbase):
         if pyip.inputYesNo(f'Rewrite existing {csvbase}? ') == 'no':
             return
@@ -89,7 +89,7 @@ def export_csv():
 
 def import_csv():
     """Import verbs from csv file"""
-    csvbase = 'import.txt'
+    csvbase = 'wordbase.txt'
     if not os.path.isfile(csvbase):
         print(f'{csvbase} does not exist')
         return
