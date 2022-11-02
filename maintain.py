@@ -24,7 +24,7 @@ def infinitives():
 
 def lookup():
     """Ask for an infinitive, look it up, print, return with found boolean."""
-    inf = pyip.inputStr('\nInfinitiv? ').casefold()
+    inf = pyip.inputStr('\nInfinitive? ').casefold()
     if inf in infs:
         entry = True
         print(inf, verbs[inf])
@@ -40,7 +40,7 @@ def del_el():
         return
     if pyip.inputYesNo('Delete this entry? ') == 'no':
         return
-    query = "DELETE FROM VerbForms WHERE Infinitiv = ?"
+    query = "DELETE FROM VerbForms WHERE Infinitive = ?"
     cur.execute(query, (inf,))
     query = "DELETE FROM VerbTranslations WHERE Verb = ?"
     cur.execute(query, (inf,))
@@ -55,9 +55,9 @@ def add_el():
             return
     e1 = [inf, '', '', '']
     if pyip.inputYesNo('Do you want to enter verb forms? ') == 'yes':
-        e1[1] = pyip.inputStr('Presens? ').casefold()
-        e1[2] = pyip.inputStr('Preteritum? ').casefold()
-        e1[3] = pyip.inputStr('Supinum? ').casefold()
+        e1[1] = pyip.inputStr('Present? ').casefold()
+        e1[2] = pyip.inputStr('Past? ').casefold()
+        e1[3] = pyip.inputStr('Supine? ').casefold()
         query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
         cur.execute(query, tuple(e1))
     e2 = [inf, '']
@@ -148,22 +148,22 @@ def loadbase():
     verbs = {}
     query = """
         CREATE TABLE IF NOT EXISTS VerbForms (
-            Infinitiv TEXT NOT NULL PRIMARY KEY,
-            Presens TEXT NOT NULL,
-            Preteritum TEXT NOT NULL,
-            Supinum TEXT NOT NULL
+            Infinitive TEXT NOT NULL PRIMARY KEY,
+            Present TEXT NOT NULL,
+            Past TEXT NOT NULL,
+            Supine TEXT NOT NULL
         );
         CREATE TABLE IF NOT EXISTS VerbFormsPractice (
             Verb TEXT NOT NULL PRIMARY KEY,
             Priority INTEGER NOT NULL,
             FOREIGN KEY (Verb)
-            REFERENCES VerbForms (Infinitiv)
+            REFERENCES VerbForms (Infinitive)
                 ON DELETE CASCADE
         );
-        CREATE TRIGGER IF NOT EXISTS VerbAddPractice
+        CREATE TRIGGER IF NOT EXISTS VerbFormsAdd
             AFTER INSERT ON VerbForms
         BEGIN
-            INSERT INTO VerbFormsPractice VALUES (NEW.Infinitiv, 0);
+            INSERT INTO VerbFormsPractice VALUES (NEW.Infinitive, 0);
         END;
         CREATE TABLE IF NOT EXISTS VerbTranslations (
             Verb TEXT NOT NULL PRIMARY KEY,
@@ -174,15 +174,15 @@ def loadbase():
     conn.commit()
     # emulate FULL OUTER JOIN
     query = """
-        SELECT Infinitiv, Presens, Preteritum, Supinum, Russian
+        SELECT Infinitive, Present, Past, Supine, Russian
         FROM VerbForms LEFT JOIN VerbTranslations
-        ON VerbTranslations.Verb = VerbForms.Infinitiv
+        ON VerbTranslations.Verb = VerbForms.Infinitive
         UNION ALL
-        SELECT Verb, Presens, Preteritum, Supinum, Russian
+        SELECT Verb, Present, Past, Supine, Russian
         FROM VerbTranslations LEFT JOIN VerbForms
-        ON VerbForms.Infinitiv = VerbTranslations.Verb
-        WHERE Presens IS NULL
-        ORDER BY Infinitiv
+        ON VerbForms.Infinitive = VerbTranslations.Verb
+        WHERE Present IS NULL
+        ORDER BY Infinitive
         """
     for row in cur.execute(query):
         verbs[row[0]] = row[1:]

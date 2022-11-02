@@ -34,19 +34,19 @@ if __name__ == "__main__":
     # verb forms practice
     if inp == 1:
         query = """
-            SELECT Infinitiv, Presens, Preteritum, Supinum, Priority
+            SELECT Infinitive, Present, Past, Supine, Priority
             FROM VerbForms INNER JOIN VerbFormsPractice
-            ON VerbFormsPractice.Verb = VerbForms.Infinitiv
+            ON VerbFormsPractice.Verb = VerbForms.Infinitive
             ORDER BY Priority
             """
         verbs, num = loadbase(query)
         hint = ('Type in three forms of the verb - \n'
-                'Presens, Preteritum, Supinum - \n'
+                'Present, Past, Supine - \n'
                 'separated by spaces')
         print(hint)
         def test():
             while True:
-                prompt = f'\nInfinitiv: att {inf}, three forms? '
+                prompt = f'\nInfinitive: att {inf}, three forms? '
                 reply = pyip.inputStr(prompt).casefold().split()
                 if len(reply) == 3:
                     break
