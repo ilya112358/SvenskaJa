@@ -1,3 +1,4 @@
 acceptera,accepterar,accepterade,accepterat,принимать,accept
 agera,agerar,agerade,agerat,действовать,act
 ange,anger,angav,angett,предписывать,prescribe
+anlända,anländer,anlände,anlänt,прибывать,arrive

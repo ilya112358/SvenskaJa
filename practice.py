@@ -18,7 +18,7 @@ if __name__ == "__main__":
         """Query wordbase. Return verbs, number of exercises. Exit if empty."""
         verbs = []
         for row in cur.execute(query):
-            verbs.append(row) 
+            verbs.append(row)
         if not verbs:
             print(f'\nThe word base is empty. Run maintenance.')
             conn.close()
@@ -28,9 +28,9 @@ if __name__ == "__main__":
         num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
         return verbs, num
 
-    inp = pyip.inputNum('Choose 1 to practice forms, '
-                        '2 to practice translations, '
-                        '3 to exit: ', min=1, max=3)
+    inp = pyip.inputNum('Choose [1] to practice forms, '
+                        '[2] to practice translations, '
+                        '[3] to exit: ', min=1, max=3)
     # verb forms practice
     if inp == 1:
         query = """
@@ -40,9 +40,7 @@ if __name__ == "__main__":
             ORDER BY Priority
             """
         verbs, num = loadbase(query)
-        hint = ('Type in three forms of the verb - \n'
-                'Present, Past, Supine - \n'
-                'separated by spaces')
+        hint = ('Type in Present, Past, Supine separated by spaces')
         print(hint)
         def test():
             while True:
@@ -59,7 +57,7 @@ if __name__ == "__main__":
             if ok:
                 print('Correct')
             return ok
-        
+
         n_good, n_bad, badlist = 0, 0, []
         for i in range(num):
             verb = verbs[i]
@@ -86,7 +84,13 @@ if __name__ == "__main__":
         input('\nWell done! Press Enter to exit')
     # translations practice
     elif inp == 2:
-        query = "SELECT Verb, Russian FROM VerbTranslations"
+        lang = ('Russian', 'English')
+        inp = pyip.inputNum(f'Which translations to use: [1] {lang[0]} '
+                            f'or [2] {lang[1]}? ', min=1, max=2)
+        query = f"""
+            SELECT Verb, {lang[inp-1]} FROM VerbTranslations
+            WHERE {lang[inp-1]} <> ''
+            """
         verbs, num = loadbase(query)
         random.shuffle(verbs)
         print('Think of a translation then press Enter to choose from options')
@@ -95,18 +99,19 @@ if __name__ == "__main__":
             print('\nVerb:', word[0])
             input()
             choice = [word[1]]
-            while len(choice) < 6:
+            n_choices = 4
+            while len(choice) < n_choices:
                 random_trans = random.choice(verbs)[1]
                 if random_trans not in choice:
                     choice.append(random_trans)
             random.shuffle(choice)
             for i, trans in enumerate(choice):
-                print(i+1, trans)
+                print(f'[{i+1}] {trans}')
             while True:
                 inp = pyip.inputNum('Which translation is correct? ',
-                                    min=1, max=6)
+                                    min=1, max=n_choices)
                 if choice[inp-1] == word[1]:
-                    print(f"Yes, '{word[0]}' can be translated as '{word[1]}'")
+                    print(f'Yes, "{word[0]}" can be translated as "{word[1]}"')
                     print(f'{k+1} done, {num-k-1} to go')
                     break
                 print('Try again!')

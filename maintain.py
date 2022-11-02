@@ -94,7 +94,7 @@ def import_csv():
                 in_forms.append(tuple(verb[:4]))
             if any(verb[4:6]):
                 in_trans.append((verb[0], verb[4], verb[5]))
-            
+
         if verb[0] not in infs:
             ins_rep()
             print(f'{verb} new')
