@@ -21,4 +21,8 @@ Install like a normal person (Windows)
 
 **Run practice.exe (practice.exe/py) to improve your Swedish!**
 
-wordbase.txt is an ever growing list of verbs created with info from [Svenska Akademien's dictionaries](https://svenska.se/). Each line contains 5 comma separated fields in the strict order: Infinitiv, Presens, Preteritum, Supinum, Russian translation. Trailing and leading whitespace is removed. You can omit either three forms or a translation by having just commas. If a verb have multiple sets of forms (e.g., *simma*), only one set is given. Translations are obviously approximations, immerse into the language environment to fully grasp the meaning. Feel free to change the word base to your liking. 
+wordbase.txt is an ever growing list of verbs created with info from [Svenska Akademien's dictionaries](https://svenska.se/). Each line contains 5 comma separated fields in the strict order: Infinitiv, Presens, Preteritum, Supinum, Russian translation. Trailing and leading whitespace is removed. You can omit either three forms or a translation by having just commas. If a verb has multiple sets of forms (e.g., *simma*), only one set is given. Any translation is obviously an approximation, immerse into the language environment to fully grasp the meaning. Feel free to change the word base to your liking.
+
+Verb forms practice has a spaced repetition feature. After successful exercise the verb is pushed down the queue, after failed exercise the verb is brought back ahead.
+
+Translation practice is a choice based test. Try to recall the translation first then call up choices and choose the right one.
