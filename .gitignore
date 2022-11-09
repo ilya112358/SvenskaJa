@@ -3,6 +3,5 @@ build/
 dist/
 env/
 executable/
-!executable/SvenskaJaWin.zip
 *.spec
 *.db
