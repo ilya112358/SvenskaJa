@@ -14,7 +14,7 @@ Install like a nerd (Windows)
 * To play with the code from python IDLE run env.bat
 
 Install like a normal person (Windows)
-* Download [SvenskaJaWin.zip](https://github.com/ilya112358/SvenskaJa/blob/310323ade6cfb334c3b54d505d8d776784c5304f/executable/SvenskaJaWin.zip)
+* Download [SvenskaJaWin.zip](https://github.com/ilya112358/SvenskaJa/blob/main/executable/SvenskaJaWin.zip)
 * UnZip to a folder
 
 **Run maintainance (maintain.exe/py) to import the word base from wordbase.txt. SQLite wordbase.db is created on the first run. You can list, lookup, delete, export entries. Add entries through import.**
