@@ -89,6 +89,7 @@ def import_csv():
             continue
         verb.append(line[4].strip())
         verb.append(line[5].strip())
+        assert len(verb) == 6 and verb[0]
         def ins_rep():
             if all(verb[1:4]):
                 in_forms.append(tuple(verb[:4]))
@@ -173,16 +174,17 @@ if __name__ == "__main__":
         verbs = loadbase()
         infs = list(verbs)
         if not verbs:
-            print('\nThe word base is empty. '
-                  'Add a verb or import from a text file!\n')
-        print(f'\n{len(verbs)} verbs loaded from the word base\n')
-        inp = pyip.inputNum('Choose a number to:'
-                            '\n[1] import from wordbase.txt,'
-                            '\n[2] export to wordbase.txt,'
-                            '\n[3] list all,'
-                            '\n[4] look up,'
-                            '\n[5] delete,'
-                            '\n[6] exit\n',
-                            min=1, max=6)
-        tasks[inp-1]()
+            print("\nThe word base is empty. Let's import from wordbase.txt!\n")
+            import_csv()
+        else:
+            print(f'\n{len(verbs)} verbs loaded from the word base\n')
+            inp = pyip.inputNum('Choose a number to:'
+                                '\n[1] import from wordbase.txt,'
+                                '\n[2] export to wordbase.txt,'
+                                '\n[3] list all,'
+                                '\n[4] look up,'
+                                '\n[5] delete,'
+                                '\n[6] exit\n',
+                                min=1, max=6)
+            tasks[inp-1]()
         input('\nPress Enter to continue')

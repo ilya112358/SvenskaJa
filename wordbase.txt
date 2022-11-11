@@ -8,6 +8,7 @@ anta,antar,antog,antagit,принимать,admit
 använda,använder,använde,använt,использовать,use
 arbeta,arbetar,arbetade,arbetat,работать,work
 avse,avser,avsåg,avsett,намереваться,intend
+avsluta,avslutar,avslutade,avslutat,закончить,complete
 be,ber,bad,bett,просить,beg
 bedöma,bedömer,bedömde,bedömt,оценивать,appraise
 befinna sig,befinner,befann,befunnit,находиться,be situated
@@ -39,6 +40,7 @@ bryta,bryter,bröt,brutit,ломать,break
 bygga,bygger,byggde,byggt,строить,build
 byta,byter,bytte,bytt,поменять,change/switch
 bära,bär,bar,burit,нести,carry
+bättra,bättrar,bättrade,bättrat,улучшать,improve
 böra,bör,borde,bort,должен,should
 börja,börjar,började,börjat,начинать,begin
 dela,delar,delade,delat,делить,share
@@ -73,6 +75,7 @@ fundera,funderar,funderade,funderat,размышлять,ponder
 fungera,fungerar,fungerade,fungerat,функционировать,function
 fylla,fyller,fyllde,fyllt,наполнять,fill
 få,får,fick,fått,получать,receive
+föda,föder,födde,fött,рожать,give birth
 följa,följer,följde,följt,следовать,follow
 föra,för,förde,fört,везти,transport
 förbättra,förbättrar,förbättrade,förbättrat,улучшать,improve
@@ -112,6 +115,7 @@ hitta,hittar,hittade,hittat,находить,find
 hjälpa,hjälper,hjälpte,hjälpt,помогать,help
 hoppas,hoppas,hoppades,hoppats,надеяться,hope
 hugga,hugger,högg,huggit,рубить,chop
+hämta,hämtar,hämtade,hämtat,приносить,fetch
 hända,händer,hände,hänt,происходить,happen
 hänga,hänger,hängde,hängt,вешать,hang
 hävda,hävdar,hävdade,hävdat,утверждать,assert
@@ -181,6 +185,7 @@ presentera,presenterar,presenterade,presenterat,представлять,introdu
 prova,provar,provade,provat,попробовать,try out
 publicera,publicerar,publicerade,publicerat,публиковать,publish
 pågå,pågår,pågick,pågått,продолжаться,go on
+påpeka,påpekar,påpekade,påpekat,отмечать,point out
 påstå,påstår,påstod,påstått,утверждать,state
 påverka,påverkar,påverkade,påverkat,влиять,influence
 resa,reser,reste,rest,путешествовать,travel
@@ -200,12 +205,14 @@ röra,rör,rörde,rört,трогать,touch
 rösta,röstar,röstade,röstat,голосовать,vote
 sakna,saknar,saknade,saknat,скучать,miss
 samla,samlar,samlade,samlat,собирать,collect
+satsa,satsar,satsade,satsat,вкладываться,stake
 se,ser,såg,sett,видеть,see
 simma,simmar,simmade,simmat,плавать,swim
 sitta,sitter,satt,suttit,сидеть,sit
 sjuda,sjuder,sjöd,sjudit,кипятить на медленном огне,simmer
 sjunga,sjunger,sjöng,sjungit,петь,sing
 sjunka,sjunker,sjönk,sjunkit,тонуть,sink
+skaffa,skaffar,skaffade,skaffat,доставать,acquire
 skapa,skapar,skapade,skapat,создавать,create
 ske,sker,skedde,skett,иметь место,take place
 skicka,skickar,skickade,skickat,посылать,send
@@ -244,6 +251,7 @@ styra,styr,styrde,styrt,направлять,govern
 ställa,ställer,ställde,ställt,ставить,put
 stämma,stämmer,stämde,stämt,настраивать,tune
 stänga,stänger,stängde,stängt,закрывать,close
+stärka,stärker,stärkte,stärkt,усиливать,strengthen
 stå,står,stod,stått,стоять,stand
 stödja,stöder,stödde,stött,поддерживать,support
 supa,super,söp,supit,пьянствовать,booze
@@ -284,6 +292,7 @@ uppnå,uppnår,uppnådde,uppnått,достигать,achieve
 uppstå,uppstår,uppstod,uppstått,возникать,arise
 upptäcka,upptäcker,upptäckte,upptäckt,обнаруживать,discover
 utföra,utför,utförde,utfört,выполнять,perform
+utgå,utgår,utgick,utgått,исходить,assume
 utgöra,utgör,utgjorde,utgjort,составлять,constitute
 utnyttja,utnyttjar,utnyttjade,utnyttjat,воспользоваться,use up
 uttrycka,uttrycker,uttryckte,uttryckt,выражать,express
