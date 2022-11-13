@@ -98,12 +98,12 @@ def import_csv():
 
         if verb[0] not in infs:
             ins_rep()
-            print(f'{verb} new')
+            print(f'new: {verb}')
             n_added += 1
         else:
             if tuple(verb[1:]) != verbs[verb[0]]:
                 ins_rep()
-                print(f'{verb} changed')
+                print(f'changed: {verb}')
                 n_changed += 1
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
     cur.executemany(query, in_forms)
