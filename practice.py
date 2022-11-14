@@ -25,10 +25,10 @@ if __name__ == "__main__":
             sys.exit(0)
         total = len(verbs)
         print(f'\n{total} verbs loaded from the word base\n')
-        num = pyip.inputNum('How many verbs to practice? ', min=1, max=total)
+        num = pyip.inputInt('How many verbs to practice? ', min=1, max=total)
         return verbs, num
 
-    inp = pyip.inputNum('Choose [1] to practice forms, '
+    inp = pyip.inputInt('Choose [1] to practice forms, '
                         '[2] to practice translations, '
                         '[3] to exit: ', min=1, max=3)
     # verb forms practice
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     # translations practice
     elif inp == 2:
         lang = ('Russian', 'English')
-        inp = pyip.inputNum(f'Which translations to use: [1] {lang[0]} '
+        inp = pyip.inputInt(f'Which translations to use: [1] {lang[0]} '
                             f'or [2] {lang[1]}? ', min=1, max=2)
         query = f"""
             SELECT Verb, {lang[inp-1]} FROM VerbTranslations
@@ -108,7 +108,7 @@ if __name__ == "__main__":
             for i, trans in enumerate(choice):
                 print(f'[{i+1}] {trans}')
             while True:
-                inp = pyip.inputNum('Which translation is correct? ',
+                inp = pyip.inputInt('Which translation is correct? ',
                                     min=1, max=n_choices)
                 if choice[inp-1] == word[1]:
                     print(f'Yes, "{word[0]}" can be translated as "{word[1]}"')

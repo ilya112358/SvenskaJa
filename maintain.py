@@ -178,7 +178,7 @@ if __name__ == "__main__":
             import_csv()
         else:
             print(f'\n{len(verbs)} verbs loaded from the word base\n')
-            inp = pyip.inputNum('Choose a number to:'
+            inp = pyip.inputInt('Choose a number to:'
                                 '\n[1] import from wordbase.txt,'
                                 '\n[2] export to wordbase.txt,'
                                 '\n[3] list all,'
