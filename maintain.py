@@ -165,7 +165,7 @@ def loadbase():
     return verbs
 
 if __name__ == "__main__":
-    print('*** SvenskaJa ***')
+    print('*** SvenskaJa *** (https://github.com/ilya112358/SvenskaJa)')
     conn = sqlite3.connect('wordbase.db')
     conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()

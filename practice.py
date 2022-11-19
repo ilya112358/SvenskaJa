@@ -6,7 +6,7 @@ import sys
 import pyinputplus as pyip
 
 if __name__ == "__main__":
-    print('*** SvenskaJa ***')
+    print('*** SvenskaJa *** (https://github.com/ilya112358/SvenskaJa)')
     wordbase = 'wordbase.db'
     if not os.path.isfile(wordbase):
         print(f'\nNo {wordbase} found. Run maintenance.')
@@ -28,9 +28,8 @@ if __name__ == "__main__":
         num = pyip.inputInt('How many verbs to practice? ', min=1, max=total)
         return verbs, num
 
-    inp = pyip.inputInt('Choose [1] to practice forms, '
-                        '[2] to practice translations, '
-                        '[3] to exit: ', min=1, max=3)
+    inp = pyip.inputInt('Practice [1] forms, [2] translations. '
+                        '[3] Exit: ', min=1, max=3)
     # verb forms practice
     if inp == 1:
         query = """
@@ -40,7 +39,16 @@ if __name__ == "__main__":
             ORDER BY Priority
             """
         verbs, num = loadbase(query)
-        hint = ('Type in Present, Past, Supine separated by spaces')
+        inp = pyip.inputInt('Practice [1] all verbs, '
+                            '[2] only non-trivial (not group 1) verbs: ',
+                             min=1, max=2)
+        if inp == 2:
+            verbs = [verb for verb in verbs
+                     if not (verb[1][-2:] == 'ar' and
+                     verb[2][-3:] == 'ade' and
+                     verb[3][-2:] == 'at')]
+            num = min(num, len(verbs))
+        hint = 'Type in Present, Past, Supine forms separated by spaces'
         print(hint)
         def test():
             while True:
