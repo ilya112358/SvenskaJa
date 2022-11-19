@@ -19,9 +19,9 @@ Install like a normal person (Windows)
 
 **Run maintainance (`maintain.exe/.py`) to import the word base from wordbase.txt. SQLite wordbase.db is created on the first run. You can list, lookup, delete, export entries. Add and edit entries through import.**
 
-**Run practice.exe (`practice.exe/.py`) to improve your Swedish!**
+**Run practice (`practice.exe/.py`) to improve your Swedish!**
 
-Verb forms practice has a *spaced repetition* feature. After a successful exercise the verb is pushed down the queue, after a failed exercise the verb is brought back ahead.
+Verb forms practice has a *spaced repetition* feature. After a successful exercise the verb is pushed down the queue, after a failed exercise the verb is brought back ahead. You have an option to practice forms of non-trivial (not group 1) verbs only.
 
 Translation practice is a *multiple choice* test. Try to recall the translation first then call up choices and choose the right one.
 
