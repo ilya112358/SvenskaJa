@@ -47,7 +47,7 @@ if __name__ == "__main__":
                      if not (verb[1][-2:] == 'ar' and
                      verb[2][-3:] == 'ade' and
                      verb[3][-2:] == 'at')]
-            num = min(num, len(verbs))
+            num = len(verbs)
         hint = 'Type in Present, Past, Supine forms separated by spaces'
         print(hint)
         def test():
@@ -100,10 +100,9 @@ if __name__ == "__main__":
             WHERE {lang[inp-1]} <> ''
             """
         verbs, num = loadbase(query)
-        random.shuffle(verbs)
+        sample = random.sample(verbs, num)
         print('Think of a translation then press Enter to choose from options')
-        for k in range(num):
-            word = verbs.pop()
+        for k, word in enumerate(sample):
             print('\nVerb:', word[0])
             input()
             choice = [word[1]]

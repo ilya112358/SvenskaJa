@@ -323,7 +323,7 @@ undra,undrar,undrade,undrat,интересоваться,wonder
 undvika,undviker,undvek,undvikit,избегать,avoid
 unna,unnar,unnade,unnat,позволять,willingly let
 uppbära,uppbär,uppbar,uppburit,получать платеж,regularly collect
-uppfatta,uppfattar,uppfattade,uppfattat,распознать,perceive
+uppfatta,uppfattar,uppfattade,uppfattat,распознавать,perceive
 uppleva,upplever,upplevde,upplevt,испытывать,experience
 uppnå,uppnår,uppnådde,uppnått,достигать,achieve
 uppstå,uppstår,uppstod,uppstått,возникать,arise
