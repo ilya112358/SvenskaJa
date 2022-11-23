@@ -47,7 +47,7 @@ if __name__ == "__main__":
                      if not (verb[1][-2:] == 'ar' and
                      verb[2][-3:] == 'ade' and
                      verb[3][-2:] == 'at')]
-            num = len(verbs)
+            num = min(num, len(verbs))
         hint = 'Type in Present, Past, Supine forms separated by spaces'
         print(hint)
         def test():
@@ -67,8 +67,7 @@ if __name__ == "__main__":
             return ok
 
         n_good, n_bad, badlist = 0, 0, []
-        for i in range(num):
-            verb = verbs[i]
+        for verb in verbs[:num]:
             inf, forms, priority = verb[0], verb[1:4], verb[4]
             if test():
                 n_good += 1
