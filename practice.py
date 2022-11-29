@@ -5,13 +5,14 @@ import sqlite3
 import sys
 import pyinputplus as pyip
 
+from maintain import TITLE, WORDBASE
+
 if __name__ == "__main__":
-    print('*** SvenskaJa *** (https://github.com/ilya112358/SvenskaJa)')
-    wordbase = 'wordbase.db'
-    if not os.path.isfile(wordbase):
-        print(f'\nNo {wordbase} found. Run maintenance.')
+    print(TITLE)
+    if not os.path.isfile(WORDBASE):
+        print(f'\nNo {WORDBASE} found. Run maintenance.')
         sys.exit(0)
-    conn = sqlite3.connect('wordbase.db')
+    conn = sqlite3.connect(WORDBASE)
     conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
     def loadbase(query):

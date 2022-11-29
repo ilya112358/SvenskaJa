@@ -6,6 +6,11 @@ import sqlite3
 import sys
 import pyinputplus as pyip
 
+RELEASE = 'v0.3'
+TITLE = f'*** SvenskaJa {RELEASE} *** (https://github.com/ilya112358/SvenskaJa)'
+WORDBASE = 'wordbase.db'
+TEXTBASE = 'wordbase.txt'
+
 def infinitives():
     """Fancy print infs"""
     if not infs:
@@ -49,30 +54,28 @@ def delete():
 
 def export_csv():
     """Export word base to csv file"""
-    csvbase = 'wordbase.txt'
-    if os.path.isfile(csvbase):
-        if pyip.inputYesNo(f'Rewrite existing {csvbase}? ') == 'no':
+    if os.path.isfile(TEXTBASE):
+        if pyip.inputYesNo(f'Rewrite existing {TEXTBASE}? ') == 'no':
             return
     lines = []
     for inf in infs:
         lines.append([inf] + list(verbs[inf]))
-    with open(csvbase, 'w', newline='', encoding='utf-8') as csvfile:
+    with open(TEXTBASE, 'w', newline='', encoding='utf-8') as csvfile:
         csv.writer(csvfile).writerows(lines)
     print('Word base exported')
 
 def import_csv():
-    """Import verbs from csv file"""
-    csvbase = 'wordbase.txt'
-    if not os.path.isfile(csvbase):
-        print(f'{csvbase} does not exist')
-        return
+    """Import verbs from csv file. Return False if failed."""
+    if not os.path.isfile(TEXTBASE):
+        print(f'{TEXTBASE} does not exist')
+        return False
     lines = []
-    with open(csvbase, newline='', encoding='utf-8') as csvfile:
+    with open(TEXTBASE, newline='', encoding='utf-8') as csvfile:
         for row in csv.reader(csvfile):
             lines.append(row)
-    print(f'Adding with replacement {len(lines)} entries from {csvbase}')
+    print(f'Adding with replacement {len(lines)} entries from {TEXTBASE}')
     if pyip.inputYesNo('Proceed? ') == 'no':
-        return
+        return False
     n_added, n_changed = 0, 0
     in_forms, in_trans = [], []
     for line in lines:
@@ -111,6 +114,7 @@ def import_csv():
     cur.executemany(query, in_trans)
     conn.commit()
     print(f'{n_added} verbs added, {n_changed} verbs changed')
+    return True
 
 def end():
     """Cleanup and exit"""
@@ -118,29 +122,28 @@ def end():
     print('Goodbye!')
     sys.exit(0)
 
-def loadbase():
-    """Load or create word base. Return {inf: (verb forms, trans),...}."""
-    verbs = {}
+def makebase():
+    """Create the word base"""
     query = """
-        CREATE TABLE IF NOT EXISTS VerbForms (
+        CREATE TABLE VerbForms (
             Infinitive TEXT NOT NULL PRIMARY KEY,
             Present TEXT NOT NULL,
             Past TEXT NOT NULL,
             Supine TEXT NOT NULL
         );
-        CREATE TABLE IF NOT EXISTS VerbFormsPractice (
+        CREATE TABLE VerbFormsPractice (
             Verb TEXT NOT NULL PRIMARY KEY,
             Priority INTEGER NOT NULL,
             FOREIGN KEY (Verb)
             REFERENCES VerbForms (Infinitive)
                 ON DELETE CASCADE
         );
-        CREATE TRIGGER IF NOT EXISTS VerbFormsAdd
+        CREATE TRIGGER VerbFormsAdd
             AFTER INSERT ON VerbForms
         BEGIN
             INSERT INTO VerbFormsPractice VALUES (NEW.Infinitive, 0);
         END;
-        CREATE TABLE IF NOT EXISTS VerbTranslations (
+        CREATE TABLE VerbTranslations (
             Verb TEXT NOT NULL PRIMARY KEY,
             Russian TEXT NOT NULL,
             English TEXT NOT NULL
@@ -148,6 +151,10 @@ def loadbase():
         """
     cur.executescript(query)
     conn.commit()
+    
+def loadbase():
+    """Load the word base. Return {inf: (verb forms, trans),...}."""
+    verbs = {}
     # emulate FULL OUTER JOIN
     query = """
         SELECT Infinitive, Present, Past, Supine, Russian, English
@@ -165,22 +172,28 @@ def loadbase():
     return verbs
 
 if __name__ == "__main__":
-    print('*** SvenskaJa *** (https://github.com/ilya112358/SvenskaJa)')
-    conn = sqlite3.connect('wordbase.db')
+    print(TITLE)
+    create = not os.path.isfile(WORDBASE)
+    conn = sqlite3.connect(WORDBASE)
     conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
+    if create:
+        print('\nNo word base found. Creating...')
+        makebase()
     tasks = (import_csv, export_csv, infinitives, lookup, delete, end)
     while True:
         verbs = loadbase()
         infs = list(verbs)
         if not verbs:
-            print("\nThe word base is empty. Let's import from wordbase.txt!\n")
-            import_csv()
+            print('\nThe word base is empty. Importing...\n')
+            if not import_csv():
+                print('Import failed, exiting...')
+                end()
         else:
             print(f'\n{len(verbs)} verbs loaded from the word base\n')
             inp = pyip.inputInt('Choose a number to:'
-                                '\n[1] import from wordbase.txt,'
-                                '\n[2] export to wordbase.txt,'
+                                f'\n[1] import from {TEXTBASE},'
+                                f'\n[2] export to {TEXTBASE},'
                                 '\n[3] list all,'
                                 '\n[4] look up,'
                                 '\n[5] delete,'
