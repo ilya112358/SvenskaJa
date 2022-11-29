@@ -28,6 +28,7 @@ bestå,består,bestod,bestått,длиться,persist
 besöka,besöker,besökte,besökt,посещать,visit
 beta,betar,betade,betat,пастись,graze
 betala,betalar,betalade,betalat,платить,pay
+bete sig,beter,betedde,betett,вести себя,behave
 betrakta,betraktar,betraktade,betraktat,рассматривать,regard
 betyda,betyder,betydde,betytt,означать,mean
 bidra,bidrar,bidrog,bidragit,вносить долю,contribute
@@ -58,6 +59,7 @@ dricka,dricker,drack,druckit,пить,drink
 driva,driver,drev,drivit,двигать,drive
 drälla,dräller,drällde,drällt,слоняться,hang around
 dröja,dröjer,dröjde,dröjt,занимать время,take time
+duga,duger,dög,dugt,подходить для,be adequate
 dyka,dyker,dök,dykt,нырять,dive
 dö,dör,dog,dött,умирать,die
 döda,dödar,dödade,dödat,убивать,kill
@@ -68,6 +70,7 @@ ena,enar,enade,enat,объединять,unify
 erbjuda,erbjuder,erbjöd,erbjudit,предлагать,offer
 erkänna,erkänner,erkände,erkänt,признавать,plead guilty
 ersätta,ersätter,ersatte,ersatt,компенсировать,compensate
+existera,existerar,existerade,existerat,существовать,exist
 falla,faller,föll,fallit,падать,fall
 fara,far,for,farit,ехать,go
 fastställa,fastställer,fastställde,fastställt,устанавливать,establish
@@ -125,6 +128,7 @@ hitta,hittar,hittade,hittat,находить,find
 hjälpa,hjälper,hjälpte,hjälpt,помогать,help
 hoppa,hoppar,hoppade,hoppat,прыгать,jump
 hoppas,hoppas,hoppades,hoppats,надеяться,hope
+hota,hotar,hotade,hotat,угрожать,threaten
 hugga,hugger,högg,huggit,рубить,chop
 hämta,hämtar,hämtade,hämtat,приносить,fetch
 hända,händer,hände,hänt,происходить,happen
@@ -173,6 +177,7 @@ ljuga,ljuger,ljög,ljugit,лгать,lie
 lova,lovar,lovade,lovat,обещать,promise
 luta,lutar,lutade,lutat,наклоняться,lean
 lyckas,lyckas,lyckades,lyckats,добиваться успеха,succeed
+lyda,lyder,lydde,lytt,подчиняться,obey
 lyfta,lyfter,lyfte,lyft,поднимать,lift
 lyssna,lyssnar,lyssnade,lyssnat,слушать,listen
 lägga,lägger,lade,lagt,класть,lay
@@ -181,6 +186,7 @@ länka,länkar,länkade,länkat,соединять,link
 lära,lär,lärde,lärt,учить,teach
 läsa,läser,läste,läst,читать,read
 låta,låter,lät,låtit,разрешать,let
+löpa,löper,löpte,löpt,бежать,run
 lösa,löser,löste,löst,решать,solve
 meddela,meddelar,meddelade,meddelat,сообщать,inform
 medföra,medför,medförde,medfört,приносить,bring
@@ -220,6 +226,7 @@ rita,ritar,ritade,ritat,рисовать,draw
 riva,river,rev,rivit,царапать,scratch
 ro,ror,rodde,rott,грести,row
 rycka,rycker,ryckte,ryckt,дергать,lug
+ryka,ryker,rök,rykt,дымиться,smoke
 räcka,räcker,räckte,räckt,быть достаточным,be enough
 rädda,räddar,räddade,räddat,спасать,rescue
 räkna,räknar,räknade,räknat,считать,count
@@ -243,6 +250,7 @@ ske,sker,skedde,skett,иметь место,take place
 skicka,skickar,skickade,skickat,посылать,send
 skilja,skiljer,skilde,skilt,отделять,separate
 skina,skiner,sken,skinit,светить,shine
+skita,skiter,sket,skitit,срать,shit
 skjuta,skjuter,sköt,skjutit,стрелять,shoot
 skola,ska,skulle,skolat,намереваться,shall
 skratta,skrattar,skrattade,skrattat,смеяться,laugh
@@ -283,6 +291,7 @@ stänga,stänger,stängde,stängt,закрывать,close
 stärka,stärker,stärkte,stärkt,усиливать,strengthen
 stå,står,stod,stått,стоять,stand
 stödja,stöder,stödde,stött,поддерживать,support
+suga,suger,sög,sugit,сосать,suck
 supa,super,söp,supit,пьянствовать,booze
 svara,svarar,svarade,svarat,отвечать,answer
 svika,sviker,svek,svikit,предавать,betray
@@ -308,6 +317,7 @@ titta,tittar,tittade,tittat,смотреть,watch
 tjäna,tjänar,tjänade,tjänat,зарабатывать,earn
 tolka,tolkar,tolkade,tolkat,переводить,interpret
 toppa,toppar,toppade,toppat,быть наверху,top
+trivas,trivs,trivdes,trivts,быть довольным,enjoy
 tro,tror,trodde,trott,верить,believe
 trycka,trycker,tryckte,tryckt,нажимать,press
 trygga,tryggar,tryggade,tryggat,обеспечивать,secure
