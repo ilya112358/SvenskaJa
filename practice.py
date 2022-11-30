@@ -13,8 +13,9 @@ if __name__ == "__main__":
         print(f'\nNo {WORDBASE} found. Run maintenance.')
         sys.exit(0)
     conn = sqlite3.connect(WORDBASE)
-    conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
+    cur.execute("PRAGMA foreign_keys = ON")
+    
     def loadbase(query):
         """Query wordbase. Return verbs, number of exercises. Exit if empty."""
         verbs = []
@@ -28,6 +29,29 @@ if __name__ == "__main__":
         print(f'\n{total} verbs loaded from the word base\n')
         num = pyip.inputInt('How many verbs to practice? ', min=1, max=total)
         return verbs, num
+
+    def practice(words):
+        """Cycle through words which is dict {'verb': prio,}"""
+        num = len(words)
+        n_good = n_bad = 0
+        badlist = []
+        for word in words:
+            if question(word):
+                n_good += 1
+                words[word] += 1
+            else:
+                n_bad += 1
+                words[word] = 0
+                badlist.append(word)
+            print(f'{n_good} good, {n_bad} bad, {num-n_good-n_bad} to go')
+            db_update(word, words[word])
+        print(f'\nOut of {num} verbs {n_good} ({n_good/num:.0%}) correct')
+        if badlist and pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
+            while badlist:
+                word = badlist.pop()
+                if not question(word):
+                    badlist.append(word)
+        input('\nWell done! Press Enter to exit')
 
     inp = pyip.inputInt('Practice [1] forms, [2] translations. '
                         '[3] Exit: ', min=1, max=3)
@@ -51,9 +75,17 @@ if __name__ == "__main__":
             num = min(num, len(verbs))
         hint = 'Type in Present, Past, Supine forms separated by spaces'
         print(hint)
-        def test():
+        verbs_prio = {}
+        verbs_quest = {}
+        for verb in verbs[:num]:
+            verbs_prio[verb[0]] = verb[4]   # {'be': 0,}
+            verbs_quest[verb[0]] = verb[1:4]    # {'be': (ber,bad,bett),}
+        
+        def question(verb):
+            """Check knowledge of verb forms. Called from practice()"""
             while True:
-                prompt = f'\nInfinitive: att {inf}, three forms? '
+                forms = verbs_quest[verb]
+                prompt = f'\nInfinitive: att {verb}, three forms? '
                 reply = pyip.inputStr(prompt).casefold().split()
                 if len(reply) == 3:
                     break
@@ -67,29 +99,13 @@ if __name__ == "__main__":
                 print('Correct')
             return ok
 
-        n_good, n_bad, badlist = 0, 0, []
-        for verb in verbs[:num]:
-            inf, forms, priority = verb[0], verb[1:4], verb[4]
-            if test():
-                n_good += 1
-                priority += 1
-            else:
-                n_bad += 1
-                priority = 0
-                badlist.append(verb)
+        def db_update(verb, prio):
+            """Update priority. Called from practice()"""
             query = "UPDATE VerbFormsPractice SET Priority = ? WHERE Verb = ?"
-            cur.execute(query, (priority, inf))
+            cur.execute(query, (prio, verb))
             conn.commit()
-            print(f'{n_good} good, {n_bad} bad, {num-n_good-n_bad} to go')
-        print(f'\nOut of {num} verbs {n_good} ({n_good/num:.0%}) correct')
-        if badlist:
-            if pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
-                while badlist:
-                    verb = badlist.pop()
-                    inf, forms = verb[0], verb[1:4]
-                    if not test():
-                        badlist.append(verb)
-        input('\nWell done! Press Enter to exit')
+
+        practice(verbs_prio)
     # translations practice
     elif inp == 2:
         lang = ('Russian', 'English')
