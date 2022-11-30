@@ -6,8 +6,9 @@ import sqlite3
 import sys
 import pyinputplus as pyip
 
-RELEASE = 'v0.3'
-TITLE = f'*** SvenskaJa {RELEASE} *** (https://github.com/ilya112358/SvenskaJa)'
+RELEASE = 3
+TITLE = (f'*** SvenskaJa v0.{RELEASE} *** '
+         '(https://github.com/ilya112358/SvenskaJa)')
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
 
@@ -148,10 +149,52 @@ def makebase():
             Russian TEXT NOT NULL,
             English TEXT NOT NULL
         );
+        CREATE TABLE VerbTranslationsPractice (
+            Verb TEXT NOT NULL PRIMARY KEY,
+            Russian INTEGER NOT NULL,
+            English INTEGER NOT NULL,
+            FOREIGN KEY (Verb)
+            REFERENCES VerbTranslations (Verb)
+                ON DELETE CASCADE
+        );
+        CREATE TRIGGER VerbTranslationsAdd
+            AFTER INSERT ON VerbTranslations
+        BEGIN
+            INSERT INTO VerbTranslationsPractice VALUES (NEW.Verb, 0, 0);
+        END;
         """
     cur.executescript(query)
     conn.commit()
-    
+
+def upgradebase(vers):
+    """Upgrade the word base: add new tables and populate"""
+    print(f'Upgrading the word base from v0.{vers} to v0.{RELEASE}...')
+    if vers == 0:
+        query = """
+            CREATE TABLE VerbTranslationsPractice (
+                Verb TEXT NOT NULL PRIMARY KEY,
+                Russian INTEGER NOT NULL,
+                English INTEGER NOT NULL,
+                FOREIGN KEY (Verb)
+                REFERENCES VerbTranslations (Verb)
+                    ON DELETE CASCADE
+            );
+            CREATE TRIGGER VerbTranslationsAdd
+                AFTER INSERT ON VerbTranslations
+            BEGIN
+                INSERT INTO VerbTranslationsPractice VALUES (NEW.Verb, 0, 0);
+            END;
+            """
+        cur.executescript(query)
+        data = []
+        for row in cur.execute("SELECT Verb FROM VerbTranslations"):
+            data.append((row[0], 0, 0))
+        cur.executemany("INSERT INTO VerbTranslationsPractice VALUES(?, ?, ?)",
+                        data)
+        conn.commit()
+    cur.execute(f"PRAGMA user_version = {RELEASE}")
+    conn.commit()
+
 def loadbase():
     """Load the word base. Return {inf: (verb forms, trans),...}."""
     verbs = {}
@@ -175,11 +218,15 @@ if __name__ == "__main__":
     print(TITLE)
     create = not os.path.isfile(WORDBASE)
     conn = sqlite3.connect(WORDBASE)
-    conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
+    cur.execute("PRAGMA foreign_keys = ON")
     if create:
         print('\nNo word base found. Creating...')
         makebase()
+    else:
+        db_version = cur.execute("PRAGMA user_version").fetchone()[0]
+        if db_version != RELEASE:
+            upgradebase(db_version)
     tasks = (import_csv, export_csv, infinitives, lookup, delete, end)
     while True:
         verbs = loadbase()
