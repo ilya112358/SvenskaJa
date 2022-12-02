@@ -8,10 +8,8 @@ Practice to memorize
 Install like a nerd (Windows)
 * Install python (3.10+), download this repo
 * Setup virtual environment: `py -m venv --upgrade-deps env`
-* Activate virtual environment: `env\scripts\activate.bat`
+* Activate virtual environment: `env.bat`
 * Install required packages: `pip install -r requirements.txt`
-* To build Windows executables run `build.bat`
-* To play with the code from python IDLE run `env.bat`
 
 Install like a normal person (Windows)
 * Download [SvenskaJaWin.zip](https://github.com/ilya112358/SvenskaJa/releases/latest/download/SvenskaJaWin.zip)
