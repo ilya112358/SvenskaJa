@@ -21,6 +21,6 @@ Install like a normal person (Windows)
 
 Verb forms practice has a *spaced repetition* feature. After a successful exercise the verb is pushed down the queue, after a failed exercise the verb is brought back ahead. You have an option to practice forms of non-trivial (not group 1) verbs only.
 
-Translation practice is a *multiple choice* test. Try to recall the translation first then call up choices and choose the right one.
+Translation practice is of two types: a *multiple choice* test and a *flashcard* test with spaced repetition. Try to recall the translation first then either call up choices and choose the right one (multiple choice), or input whether or not you remembered correctly (flashcard).
 
 The word base in [wordbase.txt](wordbase.txt) is an ever growing list of verbs created with info from [Svenska Akademien's dictionaries](https://svenska.se/). The base contains two types of verbs: most common and strong/irregular. Each line contains 6 comma separated fields in the strict order: Infinitive, Present, Past, Supine, Russian translation, English translation. Trailing and leading whitespace is removed. You can omit either three forms or a translation by having just commas. If a verb has multiple sets of forms (e.g., *simma*), only one set is given. Any translation is obviously an approximation, immerse into the language environment to fully grasp the meaning.
