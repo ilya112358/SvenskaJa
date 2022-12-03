@@ -279,7 +279,7 @@ spinna,spinner,spann,spunnit,прясть,spin
 spricka,spricker,sprack,spruckit,трескаться,crack
 sprida,sprider,spred,spritt,распространяться,spread
 springa,springer,sprang,sprungit,бежать,run
-spåra,spåra,spårade,spårat,следовать,track
+spåra,spårar,spårade,spårat,следовать,track
 stanna,stannar,stannade,stannat,остановиться,stop
 starta,startar,startade,startat,стартовать,start
 sticka,sticker,stack,stuckit,колоть,prick

@@ -33,10 +33,10 @@ if __name__ == "__main__":
     def practice(words):
         """Cycle through words which is dict {'verb': prio,}"""
         num = len(words)
+        shuffled = random.sample(list(words), num)
         n_good = n_bad = 0
         badlist = []
-        for word in words:
-            print(f'practice {word}')
+        for word in shuffled:
             if question(word):
                 n_good += 1
                 words[word] += 1
@@ -49,9 +49,7 @@ if __name__ == "__main__":
         print(f'\nOut of {num} verbs {n_good} ({n_good/num:.0%}) correct')
         if badlist and pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
             while badlist:
-                word = badlist.pop()
-                if not question(word):
-                    badlist.append(word)
+                badlist = [word for word in badlist if not question(word)]
         input('\nWell done! Press Enter to exit')
 
     inp = pyip.inputInt('Practice [1] forms, [2] translations. '
