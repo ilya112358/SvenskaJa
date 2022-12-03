@@ -1,4 +1,3 @@
-acceptera,accepterar,accepterade,accepterat,принимать,accept
 agera,agerar,agerade,agerat,действовать,act
 anföra,anför,anförde,anfört,приводить,adduce
 ange,anger,angav,angett,указывать,indicate
@@ -16,6 +15,8 @@ bedriva,bedriver,bedrev,bedrivit,заниматься,engage in
 bedöma,bedömer,bedömde,bedömt,оценивать,appraise
 befinna sig,befinner,befann,befunnit,находиться,be situated
 befinnas,befinns,befanns,befunnits,оказываться,prove to be
+begära,begär,begärde,begärt,требовать,demand
+begå,begår,begick,begått,совершать,commit
 behandla,behandlar,behandlade,behandlat,обращаться,treat
 behålla,behåller,behöll,behållit,держать,keep
 behöva,behöver,behövde,behövt,нуждаться,need
@@ -70,7 +71,6 @@ ena,enar,enade,enat,объединять,unify
 erbjuda,erbjuder,erbjöd,erbjudit,предлагать,offer
 erkänna,erkänner,erkände,erkänt,признавать,plead guilty
 ersätta,ersätter,ersatte,ersatt,компенсировать,compensate
-existera,existerar,existerade,existerat,существовать,exist
 falla,faller,föll,fallit,падать,fall
 fara,far,for,farit,ехать,go
 fastställa,fastställer,fastställde,fastställt,устанавливать,establish
@@ -156,11 +156,9 @@ klicka,klickar,klickade,klickat,нажимать,click
 knyta,knyter,knöt,knutit,завязывать,tie
 kolla,kollar,kollade,kollat,проверять,check
 komma,kommer,kom,kommit,приходить,come
-kommentera,kommenterar,kommenterade,kommenterat,комментировать,comment
 konstatera,konstaterar,konstaterade,konstaterat,констатировать,state
 kontrollera,kontrollerar,kontrollerade,kontrollerat,проверять,check
 kosta,kostar,kostade,kostat,стоить,cost
-kritisera,kritiserar,kritiserade,kritiserat,критиковать,criticize
 krypa,kryper,kröp,krupit,ползти,crawl
 kräva,kräver,krävde,krävt,требовать,demand
 kunna,kan,kunde,kunnat,мочь,be able to
@@ -211,13 +209,10 @@ oroa,oroar,oroade,oroat,беспокоить,worry
 para,parar,parade,parat,объединять,couple
 passa,passar,passade,passat,соответствовать,suit
 peka,pekar,pekade,pekat,показывать на что-либо,point
-placera,placerar,placerade,placerat,помещать,place
-planera,planerar,planerade,planerat,планировать,plan
 plugga,pluggar,pluggade,pluggat,зубрить,cram
 prata,pratar,pratade,pratat,разговаривать,talk
 presentera,presenterar,presenterade,presenterat,представлять,introduce
 prova,provar,provade,provat,попробовать,try out
-publicera,publicerar,publicerade,publicerat,публиковать,publish
 pågå,pågår,pågick,pågått,продолжаться,go on
 påpeka,påpekar,påpekade,påpekat,отмечать,point out
 påstå,påstår,påstod,påstått,утверждать,state
@@ -228,7 +223,6 @@ rida,rider,red,ridit,ехать верхом,ride
 rikta,riktar,riktade,riktat,направить,direct
 ringa,ringer,ringde,ringt,звонить,ring
 rinna,rinner,rann,runnit,течь,flow
-riskera,riskerar,riskerade,riskerat,рисковать,risk
 rita,ritar,ritade,ritat,рисовать,draw
 riva,river,rev,rivit,царапать,scratch
 ro,ror,rodde,rott,грести,row
@@ -246,6 +240,7 @@ sakna,saknar,saknade,saknat,скучать,miss
 samla,samlar,samlade,samlat,собирать,collect
 satsa,satsar,satsade,satsat,вкладываться,stake
 se,ser,såg,sett,видеть,see
+sikta,siktar,siktade,siktat,целиться,aim
 simma,simmar,simmade,simmat,плавать,swim
 sitta,sitter,satt,suttit,сидеть,sit
 sjuda,sjuder,sjöd,sjudit,кипятить на медленном огне,simmer
@@ -265,6 +260,8 @@ skrika,skriker,skrek,skrikit,кричать,scream
 skriva,skriver,skrev,skrivit,писать,write
 skryta,skryter,skröt,skrutit,хвастать,boast
 skydda,skyddar,skyddade,skyddat,защищать,protect
+skynda,skyndar,skyndade,skyndat,торопиться,hurry
+skämta,skämtar,skämtade,skämtat,шутить,joke
 skära,skär,skar,skurit,резать,cut
 sköta,sköter,skötte,skött,заботиться,look after
 slippa,slipper,slapp,sluppit,избегать,be spared
@@ -282,6 +279,7 @@ spinna,spinner,spann,spunnit,прясть,spin
 spricka,spricker,sprack,spruckit,трескаться,crack
 sprida,sprider,spred,spritt,распространяться,spread
 springa,springer,sprang,sprungit,бежать,run
+spåra,spåra,spårade,spårat,следовать,track
 stanna,stannar,stannade,stannat,остановиться,stop
 starta,startar,startade,startat,стартовать,start
 sticka,sticker,stack,stuckit,колоть,prick
@@ -335,9 +333,11 @@ träffa,träffar,träffade,träffat,встречать,meet
 tvinga,tvingar,tvingade,tvingat,принуждать,force
 tvätta,tvättar,tvättade,tvättat,мыть,wash
 tycka,tycker,tyckte,tyckt,полагать,think
+tyckas,tycks,tycktes,tyckts,казаться,seem
 tyda,tyder,tydde,tytt,расшифровывать,interpret
 täcka,täcker,täckte,täckt,покрывать,cover
 tänka,tänker,tänkte,tänkt,думать,think
+umgås,umgås,umgicks,umgåtts,общаться,socialize
 undervisa,undervisar,undervisade,undervisat,преподавать,teach
 undra,undrar,undrade,undrat,интересоваться,wonder
 undvika,undviker,undvek,undvikit,избегать,avoid
