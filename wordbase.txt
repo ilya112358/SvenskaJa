@@ -212,7 +212,7 @@ peka,pekar,pekade,pekat,показывать на что-либо,point
 plugga,pluggar,pluggade,pluggat,зубрить,cram
 prata,pratar,pratade,pratat,разговаривать,talk
 presentera,presenterar,presenterade,presenterat,представлять,introduce
-prova,provar,provade,provat,попробовать,try out
+prova,provar,provade,provat,пробовать,try out
 pågå,pågår,pågick,pågått,продолжаться,go on
 påpeka,påpekar,påpekade,påpekat,отмечать,point out
 påstå,påstår,påstod,påstått,утверждать,state
@@ -250,7 +250,7 @@ skaffa,skaffar,skaffade,skaffat,доставать,acquire
 skapa,skapar,skapade,skapat,создавать,create
 ske,sker,skedde,skett,иметь место,take place
 skicka,skickar,skickade,skickat,посылать,send
-skilja,skiljer,skilde,skilt,отделять,separate
+skilja,skiljer,skilde,skilt,различать,separate
 skina,skiner,sken,skinit,светить,shine
 skita,skiter,sket,skitit,срать,shit
 skjuta,skjuter,sköt,skjutit,стрелять,shoot
@@ -280,7 +280,7 @@ spricka,spricker,sprack,spruckit,трескаться,crack
 sprida,sprider,spred,spritt,распространяться,spread
 springa,springer,sprang,sprungit,бежать,run
 spåra,spårar,spårade,spårat,следовать,track
-stanna,stannar,stannade,stannat,остановиться,stop
+stanna,stannar,stannade,stannat,останавливаться,stop
 starta,startar,startade,startat,стартовать,start
 sticka,sticker,stack,stuckit,колоть,prick
 stiga,stiger,steg,stigit,подниматься,rise
