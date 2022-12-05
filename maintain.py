@@ -164,6 +164,7 @@ def makebase():
         END;
         """
     cur.executescript(query)
+    cur.execute(f"PRAGMA user_version = {RELEASE}")    
     conn.commit()
 
 def upgradebase(vers):

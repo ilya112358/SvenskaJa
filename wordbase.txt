@@ -1,4 +1,5 @@
 agera,agerar,agerade,agerat,действовать,act
+akta,aktar,aktade,aktat,беречься,take care
 anföra,anför,anförde,anfört,приводить,adduce
 ange,anger,angav,angett,указывать,indicate
 anlända,anländer,anlände,anlänt,прибывать,arrive
@@ -98,6 +99,7 @@ föreslå,föreslår,föreslog,föreslagit,предлагать,suggest
 förklara,förklarar,förklarade,förklarat,объяснять,explain
 förlora,förlorar,förlorade,förlorat,терять,lose
 förstå,förstår,förstod,förstått,понимать,understand
+förstöra,förstör,förstörde,förstört,уничтожать,destroy
 försvara,försvarar,försvarade,försvarat,защищать,defend
 försvinna,försvinner,försvann,försvunnit,исчезать,disappear
 försöka,försöker,försökte,försökt,пробовать,try
@@ -113,6 +115,7 @@ glädja,glädjer,gladde,glatt,радовать,gladden
 glömma,glömmer,glömde,glömt,забывать,forget
 gnida,gnider,gned,gnidit,тереть,rub
 gripa,griper,grep,gripit,хватать,seize
+grunda,grundar,grundade,grundat,основывать,found
 gråta,gråter,grät,gråtit,плакать,cry
 gynna,gynnar,gynnade,gynnat,благоприятствовать,benefit
 gälla,gäller,gällde,gällt,применяться,be valid
@@ -206,9 +209,11 @@ nå,når,nådde,nått,доставать,reach
 omfatta,omfattar,omfattade,omfattat,включать в себя,include
 orka,orkar,orkade,orkat,быть в состоянии,have the energy to
 oroa,oroar,oroade,oroat,беспокоить,worry
+orsaka,orsakar,orsakade,orsakat,быть причиной,cause
 para,parar,parade,parat,объединять,couple
 passa,passar,passade,passat,соответствовать,suit
 peka,pekar,pekade,pekat,показывать на что-либо,point
+plocka,plockar,plockade,plockat,собирать,pick
 plugga,pluggar,pluggade,pluggat,зубрить,cram
 prata,pratar,pratade,pratat,разговаривать,talk
 presentera,presenterar,presenterade,presenterat,представлять,introduce
@@ -246,6 +251,7 @@ sitta,sitter,satt,suttit,сидеть,sit
 sjuda,sjuder,sjöd,sjudit,кипятить на медленном огне,simmer
 sjunga,sjunger,sjöng,sjungit,петь,sing
 sjunka,sjunker,sjönk,sjunkit,тонуть,sink
+skada,skadar,skadade,skadat,повреждать,damage
 skaffa,skaffar,skaffade,skaffat,доставать,acquire
 skapa,skapar,skapade,skapat,создавать,create
 ske,sker,skedde,skett,иметь место,take place
@@ -304,6 +310,7 @@ svara,svarar,svarade,svarat,отвечать,answer
 svika,sviker,svek,svikit,предавать,betray
 svälta,svälter,svalt,svultit,голодать,starve
 svära,svär,svor,svurit,клясться,swear
+syfta,syftar,syftade,syftat,быть направленным,refer
 synas,syns,syntes,synts,быть видимым,be seen
 säga,säger,sade,sagt,говорить,say
 sälja,säljer,sålde,sålt,продавать,sell
@@ -330,6 +337,7 @@ tro,tror,trodde,trott,верить,believe
 trycka,trycker,tryckte,tryckt,нажимать,press
 trygga,tryggar,tryggade,tryggat,обеспечивать,secure
 träffa,träffar,träffade,träffat,встречать,meet
+träna,tränar,tränade,tränat,тренировать,train
 tvinga,tvingar,tvingade,tvingat,принуждать,force
 tvätta,tvättar,tvättade,tvättat,мыть,wash
 tycka,tycker,tyckte,tyckt,полагать,think
@@ -344,6 +352,7 @@ undvika,undviker,undvek,undvikit,избегать,avoid
 unna,unnar,unnade,unnat,позволять,willingly let
 uppbära,uppbär,uppbar,uppburit,получать платеж,regularly collect
 uppfatta,uppfattar,uppfattade,uppfattat,распознавать,perceive
+uppfylla,uppfyller,uppfyllde,uppfyllt,исполнять,fulfil
 uppleva,upplever,upplevde,upplevt,испытывать,experience
 uppnå,uppnår,uppnådde,uppnått,достигать,achieve
 uppstå,uppstår,uppstod,uppstått,возникать,arise
@@ -359,6 +368,7 @@ vakna,vaknar,vaknade,vaknat,пробудиться,wake up
 vara,är,var,varit,быть,be
 verka,verkar,verkade,verkat,казаться,seem
 veta,vet,visste,vetat,знать,know
+vidta,vidtar,vidtog,vidtagit,предпринимать,undertake
 vika,viker,vek,vikit,сгибать,fold
 vila,vilar,vilade,vilat,отдыхать,rest
 vilja,vill,ville,velat,хотеть,want
