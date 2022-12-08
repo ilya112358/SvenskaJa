@@ -23,14 +23,18 @@ class PracticeSRS:
         shuffled = random.sample(list(self.words), num)
         n_good = n_bad = 0
         badlist = []
+        print('\n(to abort practice press Ctrl-C)')
         for word in shuffled:
-            if self.question(word, self.quest[word]):
-                n_good += 1
-                self.words[word] += 1
-            else:
-                n_bad += 1
-                self.words[word] = 0
-                badlist.append(word)
+            try:
+                if self.question(word, self.quest[word]):
+                    n_good += 1
+                    self.words[word] += 1
+                else:
+                    n_bad += 1
+                    self.words[word] = 0
+                    badlist.append(word)
+            except KeyboardInterrupt:
+                finish('Practice aborted.')
             print(f'{n_good} good, {n_bad} bad, {num-n_good-n_bad} to go')
             self.db_update(word, self.words[word])
         print(f'\nOut of {num} verbs {n_good} ({n_good/num:.0%}) are correct')
@@ -40,34 +44,37 @@ class PracticeSRS:
                            if not self.question(word, self.quest[word])]
         input('\nWell done! Press Enter to exit.')
 
+def finish(string, code=0):
+    """Graceful exit with connection close"""
+    if code == 1:
+        string += ' Run maintenance.'
+    print('\nAttention!', string)
+    if conn is not None:
+        conn.close()
+    sys.exit(code)
+
+def loadbase(query):
+    """Query wordbase. Return verbs, number of exercises. Exit if empty."""
+    verbs = []
+    for row in cur.execute(query):
+        verbs.append(row)
+    if not verbs:
+        finish('The word base is empty.', 1)
+    total = len(verbs)
+    print(f'\n{total} verbs loaded from the word base\n')
+    num = pyip.inputInt('How many verbs to practice? ', min=1, max=total)
+    return verbs, num
 
 if __name__ == "__main__":
     print(TITLE)
+    conn = None
     if not os.path.isfile(WORDBASE):
-        print(f'\nNo {WORDBASE} found. Run maintenance.')
-        sys.exit(1)
+        finish(f'No {WORDBASE} found.', 1)
     conn = sqlite3.connect(WORDBASE)
     cur = conn.cursor()
     cur.execute("PRAGMA foreign_keys = ON")
     if cur.execute("PRAGMA user_version").fetchone()[0] != RELEASE:
-        print(f'\nThe word base needs upgrading. Run maintenance.')
-        conn.close()
-        sys.exit(1)
-    
-    def loadbase(query):
-        """Query wordbase. Return verbs, number of exercises. Exit if empty."""
-        verbs = []
-        for row in cur.execute(query):
-            verbs.append(row)
-        if not verbs:
-            print(f'\nThe word base is empty. Run maintenance.')
-            conn.close()
-            sys.exit(0)
-        total = len(verbs)
-        print(f'\n{total} verbs loaded from the word base\n')
-        num = pyip.inputInt('How many verbs to practice? ', min=1, max=total)
-        return verbs, num
-
+        finish('The word base needs upgrading.', 1)
     inp = pyip.inputInt('\nPractice [1] forms, [2] translations, or '
                         '[3] exit: ', min=1, max=3)
     # verb forms practice
@@ -84,9 +91,9 @@ if __name__ == "__main__":
                              min=1, max=2)
         if inp == 2:
             verbs = [verb for verb in verbs
-                     if not (verb[1][-2:] == 'ar' and
-                     verb[2][-3:] == 'ade' and
-                     verb[3][-2:] == 'at')]
+                     if not (verb[1].endswith('ar') and
+                     verb[2].endswith('ade') and
+                     verb[3].endswith('at'))]
             num = min(num, len(verbs))
         hint = 'Type in Present, Past, Supine forms separated by spaces'
         print(hint)
@@ -97,7 +104,7 @@ if __name__ == "__main__":
                 for verb in verbs:
                     self.words[verb[0]] = verb[4] # {'be': 0,}
                     self.quest[verb[0]] = verb[1:4] # {'be': (ber,bad,bett),}
-                
+
             def question(self, verb, answer):
                 """Check knowledge of verb forms"""
                 while True:
@@ -115,7 +122,7 @@ if __name__ == "__main__":
                 if ok:
                     print('Correct')
                 return ok
-        
+
             def db_update(self, verb, prio):
                 """Update priority"""
                 query = """
@@ -151,32 +158,36 @@ if __name__ == "__main__":
             sample = random.sample(verbs, num)
             print('Try to recall a translation '
                   'then press Enter to choose from options')
+            print('\n(to abort practice press Ctrl-C)')
             for k, word in enumerate(sample):
-                print('\nVerb:', word[0])
-                input()
-                choice = [word[1]]
-                n_choices = 4
-                while len(choice) < n_choices:
-                    random_trans = random.choice(verbs)[1]
-                    if random_trans not in choice:
-                        choice.append(random_trans)
-                random.shuffle(choice)
-                for i, trans in enumerate(choice):
-                    print(f'[{i+1}] {trans}')
-                while True:
-                    inp = pyip.inputInt('Which translation is correct? ',
-                                        min=1, max=n_choices)
-                    if choice[inp-1] == word[1]:
-                        print(f'Yes, "{word[0]}" can be translated as '
-                              f'"{word[1]}"')
-                        print(f'{k+1} done, {num-k-1} to go')
-                        break
-                    print('Try again!')
+                try:
+                    print('\nVerb:', word[0])
+                    input()
+                    choice = [word[1]]
+                    n_choices = 4
+                    while len(choice) < n_choices:
+                        random_trans = random.choice(verbs)[1]
+                        if random_trans not in choice:
+                            choice.append(random_trans)
+                    random.shuffle(choice)
+                    for i, trans in enumerate(choice):
+                        print(f'[{i+1}] {trans}')
+                    while True:
+                        inp = pyip.inputInt('Which translation is correct? ',
+                                            min=1, max=n_choices)
+                        if choice[inp-1] == word[1]:
+                            print(f'Yes, "{word[0]}" can be translated as '
+                                  f'"{word[1]}"')
+                            print(f'{k+1} done, {num-k-1} to go')
+                            break
+                        print('Try again!')
+                except KeyboardInterrupt:
+                    finish('Practice aborted.')
             input('\nWell done! Press Enter to exit')
         elif inp == 2:
             print('Try to recall a translation '
                   'then press Enter to see the answer')
-            
+
             class PracticeTranslations(PracticeSRS):
                 def __init__(self, verbs):
                     super().__init__()
