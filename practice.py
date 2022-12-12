@@ -53,7 +53,7 @@ def finish(string, code=0):
         conn.close()
     sys.exit(code)
 
-def loadbase(query):
+def loadbase(query) -> (list, int):
     """Query wordbase. Return verbs, number of exercises. Exit if empty."""
     verbs = []
     for row in cur.execute(query):
@@ -105,7 +105,7 @@ if __name__ == "__main__":
                     self.words[verb[0]] = verb[4] # {'be': 0,}
                     self.quest[verb[0]] = verb[1:4] # {'be': (ber,bad,bett),}
 
-            def question(self, verb, answer):
+            def question(self, verb: str, answer: tuple) -> bool:
                 """Check knowledge of verb forms"""
                 while True:
                     prompt = f'\nInfinitive: att {verb}, three forms? '
@@ -123,7 +123,7 @@ if __name__ == "__main__":
                     print('Correct')
                 return ok
 
-            def db_update(self, verb, prio):
+            def db_update(self, verb: str, prio: int):
                 """Update priority"""
                 query = """
                         UPDATE VerbFormsPractice
@@ -195,7 +195,7 @@ if __name__ == "__main__":
                         self.words[verb[0]] = verb[2] # {'be': 0,}
                         self.quest[verb[0]] = verb[1] # {'be': 'beg',}
 
-                def question(self, verb, answer):
+                def question(self, verb: str, answer: str) -> bool:
                     """Check knowledge of a translation"""
                     print('\nVerb:', verb)
                     input()
@@ -205,7 +205,7 @@ if __name__ == "__main__":
                                         '[2] if not: ', min=1, max=2)
                     return inp == 1
 
-                def db_update(self, verb, prio):
+                def db_update(self, verb: str, prio: int):
                     """Update priority"""
                     query = f"""
                         UPDATE VerbTranslationsPractice

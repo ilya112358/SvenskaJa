@@ -28,8 +28,8 @@ def infinitives():
         list_verbs += line
     print(list_verbs)
 
-def lookup():
-    """Ask for an infinitive, print, return with found boolean"""
+def lookup() -> (str, bool):
+    """Ask for an infinitive, print, return with found status"""
     inf = pyip.inputStr('\nInfinitive? ').casefold()
     if inf in infs:
         entry = True
@@ -196,7 +196,7 @@ def upgradebase(vers):
     cur.execute(f"PRAGMA user_version = {RELEASE}")
     conn.commit()
 
-def loadbase():
+def loadbase() -> dict:
     """Load the word base. Return {inf: (verb forms, trans),...}."""
     verbs = {}
     # emulate FULL OUTER JOIN
