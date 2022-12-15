@@ -11,6 +11,7 @@ TITLE = (f'*** SvenskaJa v0.{RELEASE} *** '
          '(https://github.com/ilya112358/SvenskaJa)')
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
+PYTHON_REQ = (3, 11, 1)
 
 def infinitives():
     """Fancy print infs"""
@@ -60,7 +61,7 @@ def export_csv():
             return
     lines = []
     for inf in infs:
-        lines.append([inf] + list(verbs[inf]))
+        lines.append([inf] + verbs[inf])
     with open(TEXTBASE, 'w', newline='', encoding='utf-8') as csvfile:
         csv.writer(csvfile).writerows(lines)
     print('Word base exported')
@@ -105,7 +106,7 @@ def import_csv():
             print(f'new: {verb}')
             n_added += 1
         else:
-            if tuple(verb[1:]) != verbs[verb[0]]:
+            if verb[1:] != verbs[verb[0]]:
                 ins_rep()
                 print(f'changed: {verb}')
                 n_changed += 1
@@ -197,26 +198,26 @@ def upgradebase(vers):
     conn.commit()
 
 def loadbase() -> dict:
-    """Load the word base. Return {inf: (verb forms, trans),...}."""
+    """Load the word base. Return {inf: [3 verb forms, 2 translations],...}.
+    Replace None with '' for easy compare when importing.
+    """
     verbs = {}
-    # emulate FULL OUTER JOIN
     query = """
-        SELECT Infinitive, Present, Past, Supine, Russian, English
-        FROM VerbForms LEFT JOIN VerbTranslations
+        SELECT COALESCE (Infinitive, Verb) AS Verb,
+        Present, Past, Supine, Russian, English
+        FROM VerbForms FULL JOIN VerbTranslations
         ON VerbTranslations.Verb = VerbForms.Infinitive
-        UNION ALL
-        SELECT Verb, Present, Past, Supine, Russian, English
-        FROM VerbTranslations LEFT JOIN VerbForms
-        ON VerbForms.Infinitive = VerbTranslations.Verb
-        WHERE Present IS NULL
-        ORDER BY Infinitive
+        ORDER BY Verb
         """
     for row in cur.execute(query):
-        verbs[row[0]] = row[1:]
+        verbs[row[0]] = ['' if not el else el for el in row[1:]]
     return verbs
 
 if __name__ == "__main__":
     print(TITLE)
+    if sys.version_info < PYTHON_REQ:
+        print(f'Python version >= {PYTHON_REQ} required. Please, upgrade!')
+        sys.exit(1)
     create = not os.path.isfile(WORDBASE)
     conn = sqlite3.connect(WORDBASE)
     cur = conn.cursor()
