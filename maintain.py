@@ -166,7 +166,6 @@ def makebase():
         """
     cur.executescript(query)
     cur.execute(f"PRAGMA user_version = {RELEASE}")    
-    conn.commit()
 
 def upgradebase(vers):
     """Upgrade the word base: add new tables and populate"""
@@ -195,7 +194,6 @@ def upgradebase(vers):
                         data)
         conn.commit()
     cur.execute(f"PRAGMA user_version = {RELEASE}")
-    conn.commit()
 
 def loadbase() -> dict:
     """Load the word base. Return {inf: [3 verb forms, 2 translations],...}.
