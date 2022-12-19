@@ -9,7 +9,7 @@ Install like a nerd (Windows)
 * Install python (3.11.1+), download this repo
 * Setup virtual environment: `py -m venv --upgrade-deps env`
 * Activate virtual environment: `env.bat`
-* Install required packages: `pip install -r requirements.txt`
+* Install required packages: `pip install -r requirements.txt` ([PyInputPlus](https://github.com/asweigart/pyinputplus) for input, [tabulate](https://github.com/astanin/python-tabulate) for output)
 
 Install like a normal person (Windows)
 * Download [SvenskaJaWin.zip](https://github.com/ilya112358/SvenskaJa/releases/latest/download/SvenskaJaWin.zip)

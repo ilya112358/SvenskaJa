@@ -1,1 +1,2 @@
 PyInputPlus == 0.2.12
+tabulate == 0.9.*

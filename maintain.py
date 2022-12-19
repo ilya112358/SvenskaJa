@@ -5,6 +5,7 @@ import re
 import sqlite3
 import sys
 import pyinputplus as pyip
+from tabulate import tabulate
 
 RELEASE = 3
 TITLE = (f'*** SvenskaJa v0.{RELEASE} *** '
@@ -17,28 +18,22 @@ def infinitives():
     """Fancy print infs"""
     if not infs:
         return
-    list_verbs = '\nList of verbs in the word base:\n'
-    width = len(max(infs, key=len)) + 3 # 3 spaces wider than the longest
-    line = '\n'
-    for inf in infs:
-        line += f'{inf:{width}}'
-        if len(line) > (80-width):  # rows are 80 chars max
-            list_verbs += line
-            line = '\n'
-    if len(line) > 1:   # add tailing row
-        list_verbs += line
-    print(list_verbs)
+    table = [infs[i:i+5] for i in range(0, len(infs), 5)]
+    print(tabulate(table))
 
 def lookup() -> (str, bool):
-    """Ask for an infinitive, print, return with found status"""
+    """Ask for an inf, pretty-print wordbase entry, return inf with found/not"""
     inf = pyip.inputStr('\nInfinitive? ').casefold()
     if inf in infs:
         entry = True
-        print(inf, verbs[inf])
+        table = {'Infinitive':
+                 ['Present', 'Past', 'Supine', 'Russian', 'English'],
+                 inf: verbs[inf]}
+        print(tabulate(table, headers='keys', tablefmt='simple_grid'))
     else:
         entry = False
         print(f'"{inf}" is not in the word base')
-    return inf, entry
+    return (inf, entry)
 
 def delete():
     """Delete a verb from the list"""
@@ -165,7 +160,7 @@ def makebase():
         END;
         """
     cur.executescript(query)
-    cur.execute(f"PRAGMA user_version = {RELEASE}")    
+    cur.execute(f"PRAGMA user_version = {RELEASE}")
 
 def upgradebase(vers):
     """Upgrade the word base: add new tables and populate"""
