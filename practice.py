@@ -4,6 +4,7 @@ import random
 import sqlite3
 import sys
 import pyinputplus as pyip
+from tabulate import tabulate
 
 from maintain import RELEASE, TITLE, WORDBASE
 
@@ -173,11 +174,11 @@ if __name__ == "__main__":
                     for i, trans in enumerate(choice):
                         print(f'[{i+1}] {trans}')
                     while True:
-                        inp = pyip.inputInt('Which translation is correct? ',
+                        inp = pyip.inputInt('\nWhich translation is correct? ',
                                             min=1, max=n_choices)
                         if choice[inp-1] == word[1]:
-                            print(f'Yes, "{word[0]}" can be translated as '
-                                  f'"{word[1]}"')
+                            print(tabulate([[word[0], word[1]]],
+                                            tablefmt='simple_grid'))
                             print(f'{k+1} done, {num-k-1} to go')
                             break
                         print('Try again!')

@@ -19,7 +19,7 @@ def infinitives():
     if not infs:
         return
     table = [infs[i:i+5] for i in range(0, len(infs), 5)]
-    print(tabulate(table))
+    print(tabulate(table, tablefmt='simple_grid'))
 
 def lookup() -> (str, bool):
     """Ask for an inf, pretty-print wordbase entry, return inf with found/not"""
@@ -33,7 +33,7 @@ def lookup() -> (str, bool):
     else:
         entry = False
         print(f'"{inf}" is not in the word base')
-    return (inf, entry)
+    return inf, entry
 
 def delete():
     """Delete a verb from the list"""
@@ -98,19 +98,19 @@ def import_csv():
 
         if verb[0] not in infs:
             ins_rep()
-            print(f'new: {verb}')
+            print(f'new: {verb[0]}')
             n_added += 1
         else:
             if verb[1:] != verbs[verb[0]]:
                 ins_rep()
-                print(f'changed: {verb}')
+                print(f'changed: {verb[0]}')
                 n_changed += 1
     query = "INSERT OR REPLACE INTO VerbForms VALUES (?, ?, ?, ?)"
     cur.executemany(query, in_forms)
     query = "INSERT OR REPLACE INTO VerbTranslations VALUES (?, ?, ?)"
     cur.executemany(query, in_trans)
     conn.commit()
-    print(f'{n_added} verbs added, {n_changed} verbs changed')
+    print(f'\n{n_added} verbs added, {n_changed} verbs changed')
     return True
 
 def end():
