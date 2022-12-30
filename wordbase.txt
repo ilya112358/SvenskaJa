@@ -99,7 +99,7 @@ flyga,flyger,flög,flugit,летать,fly
 flyta,flyter,flöt,flutit,плавать,float
 flytta,flyttar,flyttade,flyttat,переезжать,move
 fortsätta,fortsätter,fortsatte,fortsatt,продолжать,continue
-framföra,framför,framförde,framfört,формально выражать,present
+framföra,framför,framförde,framfört,выражать,present
 framgå,framgår,framgick,framgått,логически следовать,be evident
 framhålla,framhåller,framhöll,framhållit,отмечать,note
 framstå,framstår,framstod,framstått,казаться,appear

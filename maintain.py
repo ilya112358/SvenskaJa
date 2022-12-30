@@ -4,21 +4,24 @@ import os.path
 import re
 import sqlite3
 import sys
+
 import pyinputplus as pyip
 from tabulate import tabulate
 
 RELEASE = 3
-TITLE = (f'*** SvenskaJa v0.{RELEASE} *** (https://github.com/ilya112358/SvenskaJa)')
+TITLE = f'*** SvenskaJa v0.{RELEASE} *** (https://github.com/ilya112358/SvenskaJa)'
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
 PYTHON_REQ = (3, 11, 1)
+
 
 def infinitives():
     """Fancy print infs"""
     if not infs:
         return
-    table = [infs[i:i+5] for i in range(0, len(infs), 5)]
+    table = [infs[i : i + 5] for i in range(0, len(infs), 5)]
     print(tabulate(table, tablefmt='simple_grid'))
+
 
 def lookup() -> (str, bool):
     """Ask for an inf, pretty-print wordbase entry, return inf with found status"""
@@ -41,22 +44,24 @@ def lookup() -> (str, bool):
         if (data := cur.execute(query, (inf,)).fetchone()) is not None:
             prio[1], prio[2] = data
         table = {
-            'Infinitive': ['Present',
-                           'Past',
-                           'Supine', 
-                           'Russian', 
-                           'English',
-                           'Verb forms practice priority',
-                           'Russian flashcard priority',
-                           'English flashcard priority',
-                           ],
-            inf: verbs[inf]+prio
-            }
+            'Infinitive': [
+                'Present',
+                'Past',
+                'Supine',
+                'Russian',
+                'English',
+                'Verb forms practice priority',
+                'Russian flashcard priority',
+                'English flashcard priority',
+            ],
+            inf: verbs[inf] + prio,
+        }
         print(tabulate(table, headers='keys', tablefmt='simple_grid'))
     else:
         entry = False
         print(f'"{inf}" is not in the word base')
     return inf, entry
+
 
 def delete():
     """Delete a verb from the list"""
@@ -72,6 +77,7 @@ def delete():
     conn.commit()
     print(f'"{inf}" deleted from the word base')
 
+
 def export_csv():
     """Export word base to csv file"""
     if os.path.isfile(TEXTBASE):
@@ -83,6 +89,7 @@ def export_csv():
     with open(TEXTBASE, 'w', newline='', encoding='utf-8') as csvfile:
         csv.writer(csvfile).writerows(lines)
     print('Word base exported')
+
 
 def import_csv():
     """Import verbs from csv file. Return False if failed."""
@@ -114,6 +121,7 @@ def import_csv():
         verb.append(line[4].strip())
         verb.append(line[5].strip())
         assert len(verb) == 6 and verb[0]
+
         def ins_rep():
             if all(verb[1:4]):
                 in_forms.append(tuple(verb[:4]))
@@ -137,11 +145,13 @@ def import_csv():
     print(f'\n{n_added} verbs added, {n_changed} verbs changed')
     return True
 
+
 def end():
     """Cleanup and exit"""
     conn.close()
     print('Goodbye!')
     sys.exit(0)
+
 
 def makebase():
     """Create the word base"""
@@ -186,6 +196,7 @@ def makebase():
     cur.executescript(query)
     cur.execute(f"PRAGMA user_version = {RELEASE}")
 
+
 def upgradebase(vers):
     """Upgrade the word base: add new tables and populate"""
     print(f'Upgrading the word base from v0.{vers} to v0.{RELEASE}...')
@@ -209,10 +220,10 @@ def upgradebase(vers):
         data = []
         for row in cur.execute("SELECT Verb FROM VerbTranslations"):
             data.append((row[0], 0, 0))
-        cur.executemany("INSERT INTO VerbTranslationsPractice VALUES(?, ?, ?)",
-                        data)
+        cur.executemany("INSERT INTO VerbTranslationsPractice VALUES(?, ?, ?)", data)
         conn.commit()
     cur.execute(f"PRAGMA user_version = {RELEASE}")
+
 
 def loadbase() -> dict:
     """Load the word base. Return {inf: [3 verb forms, 2 translations],...}.
@@ -229,6 +240,7 @@ def loadbase() -> dict:
     for row in cur.execute(query):
         verbs[row[0]] = ['' if not el else el for el in row[1:]]
     return verbs
+
 
 if __name__ == "__main__":
     print(TITLE)
@@ -257,13 +269,16 @@ if __name__ == "__main__":
                 end()
         else:
             print(f'\n{len(verbs)} verbs loaded from the word base\n')
-            inp = pyip.inputInt('Choose a number to:'
-                                f'\n[1] import from {TEXTBASE},'
-                                f'\n[2] export to {TEXTBASE},'
-                                '\n[3] list all,'
-                                '\n[4] look up,'
-                                '\n[5] delete,'
-                                '\n[6] exit\n',
-                                min=1, max=6)
-            tasks[inp-1]()
+            inp = pyip.inputInt(
+                'Choose a number to:'
+                f'\n[1] import from {TEXTBASE},'
+                f'\n[2] export to {TEXTBASE},'
+                '\n[3] list all,'
+                '\n[4] look up,'
+                '\n[5] delete,'
+                '\n[6] exit\n',
+                min=1,
+                max=6,
+            )
+            tasks[inp - 1]()
         input('\nPress Enter to continue')
