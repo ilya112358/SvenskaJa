@@ -8,8 +8,7 @@ import pyinputplus as pyip
 from tabulate import tabulate
 
 RELEASE = 3
-TITLE = (f'*** SvenskaJa v0.{RELEASE} *** '
-         '(https://github.com/ilya112358/SvenskaJa)')
+TITLE = (f'*** SvenskaJa v0.{RELEASE} *** (https://github.com/ilya112358/SvenskaJa)')
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
 PYTHON_REQ = (3, 11, 1)
@@ -22,13 +21,37 @@ def infinitives():
     print(tabulate(table, tablefmt='simple_grid'))
 
 def lookup() -> (str, bool):
-    """Ask for an inf, pretty-print wordbase entry, return inf with found/not"""
+    """Ask for an inf, pretty-print wordbase entry, return inf with found status"""
     inf = pyip.inputStr('\nInfinitive? ').casefold()
     if inf in infs:
         entry = True
-        table = {'Infinitive':
-                 ['Present', 'Past', 'Supine', 'Russian', 'English'],
-                 inf: verbs[inf]}
+        prio = [None, None, None]
+        query = """
+            SELECT Priority
+            FROM VerbFormsPractice
+            WHERE Verb = ?
+            """
+        if (data := cur.execute(query, (inf,)).fetchone()) is not None:
+            prio[0] = data[0]
+        query = """
+            SELECT Russian, English
+            FROM VerbTranslationsPractice
+            WHERE Verb = ?
+            """
+        if (data := cur.execute(query, (inf,)).fetchone()) is not None:
+            prio[1], prio[2] = data
+        table = {
+            'Infinitive': ['Present',
+                           'Past',
+                           'Supine', 
+                           'Russian', 
+                           'English',
+                           'Verb forms practice priority',
+                           'Russian flashcard priority',
+                           'English flashcard priority',
+                           ],
+            inf: verbs[inf]+prio
+            }
         print(tabulate(table, headers='keys', tablefmt='simple_grid'))
     else:
         entry = False
@@ -73,6 +96,7 @@ def import_csv():
     print(f'Adding with replacement {len(lines)} entries from {TEXTBASE}')
     if pyip.inputYesNo('Proceed? ') == 'no':
         return False
+    print()
     n_added, n_changed = 0, 0
     in_forms, in_trans = [], []
     for line in lines:
