@@ -9,9 +9,10 @@ import pyinputplus as pyip
 from tabulate import tabulate
 
 RELEASE = 3
-TITLE = f'*** SvenskaJa v0.{RELEASE} *** (https://github.com/ilya112358/SvenskaJa)'
+TITLE = f'*** SvenskaJa v0.{RELEASE} *** https://github.com/ilya112358/SvenskaJa'
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
+IGNORE = 'ignore.txt'
 PYTHON_REQ = (3, 11, 1)
 
 
@@ -92,17 +93,27 @@ def export_csv():
 
 
 def import_csv():
-    """Import verbs from csv file. Return False if failed."""
-    if not os.path.isfile(TEXTBASE):
-        print(f'{TEXTBASE} does not exist')
-        return False
+    """Import verbs from csv file. Return False if failed, True if successful."""
+    ignore = []
+    try:
+        with open(IGNORE, encoding='utf-8') as f:
+            for line in f:
+                ignore.append(line.strip().casefold())
+        print(f'{len(ignore)} entries loaded from {IGNORE} and will be ignored during import')
+    except FileNotFoundError:
+        print(f'{IGNORE} file not found, all entries will be accepted')
     lines = []
-    with open(TEXTBASE, newline='', encoding='utf-8') as csvfile:
-        for row in csv.reader(csvfile):
-            lines.append(row)
+    try:
+        with open(TEXTBASE, newline='', encoding='utf-8') as csvfile:
+            for row in csv.reader(csvfile):
+                lines.append(row)
+    except FileNotFoundError:
+        print(f'{TEXTBASE} file not found, nothing to import')
+        return False
     print(f'Adding with replacement {len(lines)} entries from {TEXTBASE}')
     if pyip.inputYesNo('Proceed? ') == 'no':
         return False
+
     print()
     n_added, n_changed = 0, 0
     in_forms, in_trans = [], []
@@ -128,6 +139,9 @@ def import_csv():
             if any(verb[4:6]):
                 in_trans.append((verb[0], verb[4], verb[5]))
 
+        if verb[0] in ignore:
+            print(f'ignored: {verb[0]}')
+            continue
         if verb[0] not in infs:
             ins_rep()
             print(f'new: {verb[0]}')
