@@ -8,7 +8,7 @@ import sys
 import pyinputplus as pyip
 from tabulate import tabulate
 
-RELEASE = 3
+RELEASE = 4
 TITLE = f'*** SvenskaJa v0.{RELEASE} *** https://github.com/ilya112358/SvenskaJa'
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
@@ -99,7 +99,9 @@ def import_csv():
         with open(IGNORE, encoding='utf-8') as f:
             for line in f:
                 ignore.append(line.strip().casefold())
-        print(f'{len(ignore)} entries loaded from {IGNORE} and will be ignored during import')
+        print(
+            f'{len(ignore)} entries loaded from {IGNORE} and will be ignored during import'
+        )
     except FileNotFoundError:
         print(f'{IGNORE} file not found, all entries will be accepted')
     lines = []
