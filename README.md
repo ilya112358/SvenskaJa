@@ -1,3 +1,4 @@
+![Example Snapshot](https://user-images.githubusercontent.com/9436418/212070009-2956646e-7ced-4924-8706-c8c4d46d6d0d.png)
 # SvenskaJa
 tools for learning Swedish *verbs*
 
@@ -27,4 +28,4 @@ Translation practice is of two types: a **multiple choice** test and a **flashca
 
 Each line contains 6 comma separated fields in the strict order: Infinitive form, Present form, Past form, Supine form, Russian translation, English translation. Trailing and leading whitespace is removed. You can omit either three forms or a translation by having just commas. If a verb has multiple sets of forms (e.g., *simma*), only one set is given. Any translation is obviously an approximation, immerse into the language environment to fully grasp the meaning.
 
-Add the verbs which you manually deleted or changed into ignore.txt to prevent updating during the next import.
+Add the verbs which you manually deleted or changed into `ignore.txt` to prevent updating during the next import.
