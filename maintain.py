@@ -13,7 +13,7 @@ TITLE = f'*** SvenskaJa v0.{RELEASE} *** https://github.com/ilya112358/SvenskaJa
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
 IGNORE = 'ignore.txt'
-PYTHON_REQ = (3, 11, 1)
+PYTHON_REQ = (3, 8, 10)
 
 
 def infinitives():
@@ -253,7 +253,22 @@ def loadbase() -> dict:
         ON VerbTranslations.Verb = VerbForms.Infinitive
         ORDER BY Verb
         """
-    for row in cur.execute(query):
+    query_old = """
+        SELECT Infinitive, Present, Past, Supine, Russian, English
+        FROM VerbForms LEFT JOIN VerbTranslations
+        ON VerbTranslations.Verb = VerbForms.Infinitive
+        UNION ALL
+        SELECT Verb, Present, Past, Supine, Russian, English
+        FROM VerbTranslations LEFT JOIN VerbForms
+        ON VerbForms.Infinitive = VerbTranslations.Verb
+        WHERE Present IS NULL
+        ORDER BY Infinitive
+        """
+    try:
+        rows = cur.execute(query)
+    except sqlite3.OperationalError:  # sqlite3 before 3.39
+        rows = cur.execute(query_old)
+    for row in rows:
         verbs[row[0]] = ['' if not el else el for el in row[1:]]
     return verbs
 
