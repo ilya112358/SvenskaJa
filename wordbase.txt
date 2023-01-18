@@ -49,7 +49,7 @@ betona,betonar,betonade,betonat,акцентировать,emphasize
 betrakta,betraktar,betraktade,betraktat,рассматривать,regard
 betyda,betyder,betydde,betytt,означать,mean
 bevara,bevarar,bevarade,bevarat,хранить,preserve
-bevisa,bevisar,bevisade,bevisat,доказывать,prova
+bevisa,bevisar,bevisade,bevisat,доказывать,prove
 bidra,bidrar,bidrog,bidragit,содействовать,contribute
 bilda,bildar,bildade,bildat,формировать,form
 binda,binder,band,bundit,связывать,bind
