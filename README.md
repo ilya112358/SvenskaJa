@@ -7,7 +7,7 @@ Practice to memorize:
 * *russian and english* translations
 
 Install like a nerd (Windows):
-* Install python (3.11.1+), download this repo
+* Install python (3.8.10+), download this repo
 * Setup virtual environment: `py -m venv --upgrade-deps env`
 * Activate virtual environment: `env.bat`
 * Install required packages: `pip install -r requirements.txt` ([PyInputPlus](https://github.com/asweigart/pyinputplus) for input, [tabulate](https://github.com/astanin/python-tabulate) for output)
