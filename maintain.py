@@ -7,13 +7,31 @@ import sys
 
 import pyinputplus as pyip
 from tabulate import tabulate
+from colorama import just_fix_windows_console, Fore, Back, Style
+
+
+class c:
+    """Color aliases"""
+
+    END = Style.RESET_ALL
+    BOLD = Style.BRIGHT
+    GREEN = Fore.GREEN
+    RED = Fore.RED
+    YELLOW = Style.BRIGHT + Fore.YELLOW
+
 
 RELEASE = 4
-TITLE = f'*** SvenskaJa v0.{RELEASE} *** https://github.com/ilya112358/SvenskaJa'
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
 IGNORE = 'ignore.txt'
 PYTHON_REQ = (3, 8, 10)
+TITLE = f'*** {c.BOLD}SvenskaJa v0.{RELEASE}{c.END} *** https://github.com/ilya112358/SvenskaJa'
+
+
+def choose(string, **kwargs):
+    """Color options and call pyip.inputInt"""
+    string = string.replace('[', c.YELLOW + '[').replace(']', ']' + c.END)
+    return pyip.inputInt(string, **kwargs)
 
 
 def infinitives():
@@ -92,8 +110,8 @@ def export_csv():
     print('Word base exported')
 
 
-def import_csv():
-    """Import verbs from csv file. Return False if failed, True if successful."""
+def import_csv() -> bool:
+    """Import verbs from csv file. Return success status."""
     ignore = []
     try:
         with open(IGNORE, encoding='utf-8') as f:
@@ -274,6 +292,7 @@ def loadbase() -> dict:
 
 
 if __name__ == "__main__":
+    just_fix_windows_console()
     print(TITLE)
     if sys.version_info < PYTHON_REQ:
         print(f'Python version >= {PYTHON_REQ} required. Please, upgrade!')
@@ -300,13 +319,13 @@ if __name__ == "__main__":
                 end()
         else:
             print(f'\n{len(verbs)} verbs loaded from the word base\n')
-            inp = pyip.inputInt(
+            inp = choose(
                 'Choose a number to:'
-                f'\n[1] import from {TEXTBASE},'
-                f'\n[2] export to {TEXTBASE},'
-                '\n[3] list all,'
-                '\n[4] look up,'
-                '\n[5] delete,'
+                f'\n[1] import from {TEXTBASE}'
+                f'\n[2] export to {TEXTBASE}'
+                '\n[3] list all'
+                '\n[4] look up'
+                '\n[5] delete'
                 '\n[6] exit\n',
                 min=1,
                 max=6,

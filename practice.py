@@ -6,15 +6,17 @@ import sys
 
 import pyinputplus as pyip
 from tabulate import tabulate
+from colorama import just_fix_windows_console
 
-from maintain import RELEASE, TITLE, WORDBASE
+from maintain import RELEASE, TITLE, WORDBASE, c, choose
 
 
 class PracticeSRS:
     """
-    Practice words with spaced repetition system. Parent class.
-    Child class should populate self.words and self.quest and also
-    define self.question() and self.db_update().
+    Practice words with spaced repetition system.
+    Parent class defines self.practice().
+    Child class should populate self.words and self.quest
+    and also define self.question() and self.db_update().
     """
 
     def __init__(self):
@@ -27,7 +29,7 @@ class PracticeSRS:
         shuffled = random.sample(list(self.words), num)
         n_good = n_bad = 0
         badlist = []
-        print('\n(to abort practice press Ctrl-C)')
+        print(f'(to abort practice press {c.BOLD}Ctrl-C{c.END})')
         for word in shuffled:
             try:
                 if self.question(word, self.quest[word]):
@@ -39,7 +41,9 @@ class PracticeSRS:
                     badlist.append(word)
             except KeyboardInterrupt:
                 finish('Practice aborted.')
-            print(f'{n_good} good, {n_bad} bad, {num-n_good-n_bad} to go')
+            print(
+                f'{c.GREEN}{n_good} good,{c.END} {c.RED}{n_bad} bad,{c.END} {num-n_good-n_bad} to go'
+            )
             self.db_update(word, self.words[word])
         print(f'\nOut of {num} verbs {n_good} ({n_good/num:.0%}) are correct')
         if badlist and pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
@@ -76,6 +80,7 @@ def loadbase(query) -> (list, int):
 
 
 if __name__ == "__main__":
+    just_fix_windows_console()
     print(TITLE)
     conn = None
     if not os.path.isfile(WORDBASE):
@@ -85,9 +90,7 @@ if __name__ == "__main__":
     cur.execute("PRAGMA foreign_keys = ON")
     if cur.execute("PRAGMA user_version").fetchone()[0] != RELEASE:
         finish('The word base needs upgrading.', 1)
-    inp = pyip.inputInt(
-        '\nPractice [1] forms, [2] translations, or [3] exit: ', min=1, max=3
-    )
+    inp = choose('\nPractice [1] forms, [2] translations, or [3] exit: ', min=1, max=3)
     # verb forms practice
     if inp == 1:
         query = """
@@ -97,8 +100,8 @@ if __name__ == "__main__":
             ORDER BY Priority
             """
         verbs, num = loadbase(query)
-        inp = pyip.inputInt(
-            'Practice [1] all verbs, [2] only non-trivial (not group 1) verbs: ',
+        inp = choose(
+            'Practice [1] all verbs, [2] skip group 1 verbs: ',
             min=1,
             max=2,
         )
@@ -126,7 +129,7 @@ if __name__ == "__main__":
             def question(self, verb: str, answer: tuple) -> bool:
                 """Check knowledge of verb forms"""
                 while True:
-                    prompt = f'\nInfinitive: att {verb}, three forms? '
+                    prompt = f'\nInfinitive: att {c.BOLD}{verb}{c.END}, three forms? '
                     reply = pyip.inputStr(prompt).casefold().split()
                     if len(reply) == 3:
                         break
@@ -134,7 +137,9 @@ if __name__ == "__main__":
                 ok = True
                 for i in range(3):
                     if reply[i] != answer[i]:
-                        print(f'Incorrect form! {reply[i]} instead of {answer[i]}')
+                        print(
+                            f'Incorrect form! {c.BOLD}{reply[i]}{c.END} instead of {c.BOLD}{answer[i]}{c.END}'
+                        )
                         ok = False
                 if ok:
                     print('Correct')
@@ -143,10 +148,10 @@ if __name__ == "__main__":
             def db_update(self, verb: str, prio: int):
                 """Update priority"""
                 query = """
-                        UPDATE VerbFormsPractice
-                        SET Priority = ?
-                        WHERE Verb = ?
-                        """
+                    UPDATE VerbFormsPractice
+                    SET Priority = ?
+                    WHERE Verb = ?
+                    """
                 cur.execute(query, (prio, verb))
                 conn.commit()
 
@@ -155,7 +160,7 @@ if __name__ == "__main__":
     # translations practice
     elif inp == 2:
         lang = ('Russian', 'English')
-        inp = pyip.inputInt(
+        inp = choose(
             f'Which translations to use: [1] {lang[0]} or [2] {lang[1]}? ', min=1, max=2
         )
         lang = lang[inp - 1]
@@ -170,18 +175,19 @@ if __name__ == "__main__":
             ORDER BY VerbTranslationsPractice.{lang}
             """
         verbs, num = loadbase(query)
-        inp = pyip.inputInt(
+        inp = choose(
             'Do you want to practice [1] multiple choice test or [2] flashcard test? ',
             min=1,
             max=2,
         )
+        # multiple choice test
         if inp == 1:
             sample = random.sample(verbs, num)
             print('Try to recall a translation then press Enter to choose from options')
-            print('\n(to abort practice press Ctrl-C)')
+            print(f'(to abort practice press {c.BOLD}Ctrl-C{c.END})')
             for k, word in enumerate(sample):
                 try:
-                    print('\nVerb:', word[0])
+                    print(f'\natt {word[0]}')
                     input()
                     choice = [word[1]]
                     n_choices = 4
@@ -190,22 +196,21 @@ if __name__ == "__main__":
                         if random_trans not in choice:
                             choice.append(random_trans)
                     random.shuffle(choice)
-                    for i, trans in enumerate(choice):
-                        print(f'[{i+1}] {trans}')
-                    while True:
-                        inp = pyip.inputInt(
-                            '\nWhich translation is correct? ', min=1, max=n_choices
-                        )
-                        if choice[inp - 1] == word[1]:
-                            print(
-                                tabulate([[word[0], word[1]]], tablefmt='simple_grid')
-                            )
-                            print(f'{k+1} done, {num-k-1} to go')
-                            break
-                        print('Try again!')
+                    choices = '\n'.join(
+                        [f'[{i+1}] {trans}' for i, trans in enumerate(choice)]
+                    )
+                    choices += '\nWhich translation is correct? '
+                    inp = choose(choices, min=1, max=n_choices)
+                    if choice[inp - 1] == word[1]:
+                        print(f'{c.GREEN}Correct{c.END}')
+                    else:
+                        print(f'{c.RED}Incorrect!{c.END}')
+                    print(tabulate([[word[0], word[1]]], tablefmt='simple_grid'))
+                    print(f'{k+1} done, {num-k-1} to go')
                 except KeyboardInterrupt:
                     finish('Practice aborted.')
             input('\nWell done! Press Enter to exit')
+        # flashcard test
         elif inp == 2:
             print('Try to recall a translation then press Enter to see the answer')
 
@@ -218,10 +223,9 @@ if __name__ == "__main__":
 
                 def question(self, verb: str, answer: str) -> bool:
                     """Check knowledge of a translation"""
-                    print('\nVerb:', verb)
-                    input()
+                    input(f'\n{verb}')
                     print(f'{answer}')
-                    inp = pyip.inputInt(
+                    inp = choose(
                         'Enter [1] if you remembered correctly, [2] if not: ',
                         min=1,
                         max=2,
