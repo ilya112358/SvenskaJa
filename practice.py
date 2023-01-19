@@ -223,8 +223,7 @@ if __name__ == "__main__":
 
                 def question(self, verb: str, answer: str) -> bool:
                     """Check knowledge of a translation"""
-                    print(f'\n{verb}')
-                    input()
+                    input(f'\n{verb}')
                     print(f'{answer}')
                     inp = choose(
                         'Enter [1] if you remembered correctly, [2] if not: ',

@@ -17,7 +17,7 @@ class c:
     BOLD = Style.BRIGHT
     GREEN = Fore.GREEN
     RED = Fore.RED
-    YELLOW = Style.BRIGHT+Fore.YELLOW
+    YELLOW = Style.BRIGHT + Fore.YELLOW
 
 
 RELEASE = 4
@@ -321,11 +321,11 @@ if __name__ == "__main__":
             print(f'\n{len(verbs)} verbs loaded from the word base\n')
             inp = choose(
                 'Choose a number to:'
-                f'\n[1] import from {TEXTBASE},'
-                f'\n[2] export to {TEXTBASE},'
-                '\n[3] list all,'
-                '\n[4] look up,'
-                '\n[5] delete,'
+                f'\n[1] import from {TEXTBASE}'
+                f'\n[2] export to {TEXTBASE}'
+                '\n[3] list all'
+                '\n[4] look up'
+                '\n[5] delete'
                 '\n[6] exit\n',
                 min=1,
                 max=6,
