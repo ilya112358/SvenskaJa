@@ -47,12 +47,15 @@ class PracticeSRS:
             self.db_update(word, self.words[word])
         print(f'\nOut of {num} verbs {n_good} ({n_good/num:.0%}) are correct')
         if badlist and pyip.inputYesNo('Repeat incorrect ones? ') == 'yes':
-            while badlist:
-                badlist = [
-                    word
-                    for word in badlist
-                    if not self.question(word, self.quest[word])
-                ]
+            try:
+                while badlist:
+                    badlist = [
+                        word
+                        for word in badlist
+                        if not self.question(word, self.quest[word])
+                    ]
+            except KeyboardInterrupt:
+                finish('Practice aborted.')
         input('\nWell done! Press Enter to exit.')
 
 
@@ -138,7 +141,7 @@ if __name__ == "__main__":
                 for i in range(3):
                     if reply[i] != answer[i]:
                         print(
-                            f'Incorrect form! {c.BOLD}{reply[i]}{c.END} instead of {c.BOLD}{answer[i]}{c.END}'
+                            f'Incorrect form! {reply[i]} instead of {c.BOLD}{answer[i]}{c.END}'
                         )
                         ok = False
                 if ok:

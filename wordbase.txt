@@ -97,7 +97,7 @@ ena,enar,enade,enat,объединять,unify
 engagera,engagerar,engagerade,engagerat,вовлекать,engage
 erbjuda,erbjuder,erbjöd,erbjudit,предлагать,offer
 erhålla,erhåller,erhöll,erhållit,получать,receive
-erkänna,erkänner,erkände,erkänt,признавать,plead guilty
+erkänna,erkänner,erkände,erkänt,признавать,admit
 ersätta,ersätter,ersatte,ersatt,компенсировать,compensate
 etablera,etablerar,etablerade,etablerat,устанавливать,establish
 falla,faller,föll,fallit,падать,fall
@@ -107,7 +107,7 @@ fatta,fattar,fattade,fattat,cхватывать,grasp
 fattas,fattas,fattades,fattats,недоставать,be missing
 fika,fikar,fikade,fikat,пить кофе,have coffee
 finna,finner,fann,funnit,находить,find
-finnas,finns,fanns,funnits,быть,be
+finnas,finns,fanns,funnits,иметься,be
 fira,firar,firade,firat,праздновать,celebrate
 fixa,fixar,fixade,fixat,приводить в порядок,fix
 fly,flyr,flydde,flytt,убегать,flee
@@ -537,7 +537,7 @@ våga,vågar,vågade,vågat,осмеливаться,dare
 åka,åker,åkte,åkt,ехать,go by riding
 åsamka,åsamkar,åsamkade,åsamkat,причинять,inflict
 åstadkomma,åstadkommer,åstadkom,åstadkommit,достигать,accomplish
-åta,åtar,åtog,åtagit,брать ответственность,undertake
+åta sig,åtar,åtog,åtagit,браться,undertake
 återkomma,återkommer,återkom,återkommit,возвращаться,return
 återstå,återstår,återstod,återstått,оставаться,remain
 återvända,återvänder,återvände,återvänt,возвращаться,return
