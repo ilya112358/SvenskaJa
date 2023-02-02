@@ -116,10 +116,11 @@ def import_csv() -> bool:
     try:
         with open(IGNORE, encoding='utf-8') as f:
             for line in f:
-                ignore.append(line.strip().casefold())
-        print(
-            f'{len(ignore)} entries loaded from {IGNORE} and will be ignored during import'
-        )
+                line = line.strip().casefold()
+                if line and not line.startswith('#'):
+                    ignore.append(line)
+        if l := len(ignore):
+            print(f'{l} entries loaded from {IGNORE} and will be ignored during import')
     except FileNotFoundError:
         print(f'{IGNORE} file not found, all entries will be accepted')
     lines = []
@@ -138,6 +139,8 @@ def import_csv() -> bool:
     n_added, n_changed = 0, 0
     in_forms, in_trans = [], []
     for line in lines:
+        if not line:
+            continue
         if len(line) != 6 or not line[0] or not any(line[1:]):
             print(f'Incorrect format in {line}')
             continue

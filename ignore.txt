@@ -1,1 +1,5 @@
-respektera
+# Verbs from this list will be ignored during import.
+# Useful if you changed or deleted entries.
+# Enter one verb (and nothing else) per line.
+
+#respektera

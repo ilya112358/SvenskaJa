@@ -1,3 +1,4 @@
+
 agera,agerar,agerade,agerat,действовать,act
 akta,aktar,aktade,aktat,беречься,take care
 ana,anar,anade,anat,предчувствовать,suspect
