@@ -103,22 +103,6 @@ if __name__ == "__main__":
             ORDER BY Priority
             """
         verbs, num = loadbase(query)
-        inp = choose(
-            'Practice [1] all verbs, [2] skip group 1 verbs: ',
-            min=1,
-            max=2,
-        )
-        if inp == 2:
-            verbs = [
-                verb
-                for verb in verbs
-                if not (
-                    verb[1].endswith('ar')
-                    and verb[2].endswith('ade')
-                    and verb[3].endswith('at')
-                )
-            ]
-            num = min(num, len(verbs))
         hint = 'Type in Present, Past, Supine forms separated by spaces'
         print(hint)
 
@@ -137,6 +121,12 @@ if __name__ == "__main__":
                     if len(reply) == 3:
                         break
                     print(hint)
+                if reply[0].endswith('ar'):  # group 1 shortcut: agerar ade at
+                    stem = reply[0][:-2]
+                    if reply[1] == 'ade':
+                        reply[1] = stem + 'ade'
+                    if reply[2] == 'at':
+                        reply[2] = stem + 'at'
                 ok = True
                 for i in range(3):
                     if reply[i] != answer[i]:
