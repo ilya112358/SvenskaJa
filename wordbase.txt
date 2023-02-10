@@ -7,13 +7,14 @@ andas,andas,andades,andats,дышать,breathe
 anföra,anför,anförde,anfört,приводить аргумент,offer as reason
 ange,anger,angav,angett,указывать,indicate
 angripa,angriper,angrep,angripit,нападать,attack
+angå,angår,angick,angått,касаться,concern
 anklaga,anklagar,anklagade,anklagat,обвинять,accuse
 anlända,anländer,anlände,anlänt,прибывать,arrive
 anmäla,anmäler,anmälde,anmält,уведомлять,report
 anmäla sig,,,,записываться,enroll
 annonsera,annonserar,annonserade,annonserat,рекламировать,advertise
 anpassa,anpassar,anpassade,anpassat,адаптировать,adapt
-anse,anser,ansåg,ansett,полагать,consider
+anse,anser,ansåg,ansett,полагать,think
 ansluta,ansluter,anslöt,anslutit,соединять,connect
 anställa,anställer,anställde,anställt,нанимать,employ
 ansvara,ansvarar,ansvarade,ansvarat,отвечать,be responsible
@@ -30,7 +31,7 @@ avgöra,avgör,avgjorde,avgjort,определять,decide
 avlägsna,avlägsnar,avlägsnade,avlägsnat,удалять,remove
 avse,avser,avsåg,avsett,намереваться,intend
 avskaffa,avskaffar,avskaffade,avskaffat,ликвидировать,abolish
-avsluta,avslutar,avslutade,avslutat,завершать,complete
+avsluta,avslutar,avslutade,avslutat,завершать,finish
 avslöja,avslöjar,avslöjade,avslöjat,раскрывать,disclose
 avstå,avstår,avstod,avstått,воздерживаться,abstain
 avvisa,avvisar,avvisade,avvisat,не принимать,reject
@@ -108,6 +109,7 @@ böra,bör,borde,bort,долженствовать,should
 börja,börjar,började,börjat,начинать,begin
 campa,campar,campade,campat,располагаться лагерем,camp
 citera,citerar,citerade,citerat,цитировать,quote
+cykla,cyklar,cyklade,cyklat,ездить на велосипеде,bike
 dansa,dansar,dansade,dansat,танцевать,dance
 debitera,debiterar,debiterade,debiterat,запрашивать оплату,charge
 definiera,definierar,definierade,definierat,определять,define
@@ -127,7 +129,7 @@ dunka,dunkar,dunkade,dunkat,стучать,pound
 dyka,dyker,dök,dykt,нырять,dive
 dö,dör,dog,dött,умирать,die
 döda,dödar,dödade,dödat,убивать,kill
-dölja,döljer,dolde,dolt,скрывать,conceal
+dölja,döljer,dolde,dolt,скрывать,hide
 döma,dömer,dömde,dömt,судить,judge
 eka,ekar,ekade,ekat,отдаваться эхом,echo
 ena,enar,enade,enat,объединять,unify
@@ -135,7 +137,7 @@ engagera,engagerar,engagerade,engagerat,вовлекать,engage
 erbjuda,erbjuder,erbjöd,erbjudit,предлагать,offer
 erhålla,erhåller,erhöll,erhållit,получать,get
 erkänna,erkänner,erkände,erkänt,признавать,admit
-ersätta,ersätter,ersatte,ersatt,компенсировать,compensate
+ersätta,ersätter,ersatte,ersatt,возмещать,replace
 etablera,etablerar,etablerade,etablerat,устанавливать,establish
 existera,existerar,existerade,existerat,существовать,exist
 falla,faller,föll,fallit,падать,fall
@@ -197,7 +199,7 @@ förhindra,förhindrar,förhindrade,förhindrat,предотвращать,preve
 förhålla sig,förhåller,förhöll,förhållit,обстоять,be
 förklara,förklarar,förklarade,förklarat,объяснять,explain
 förlora,förlorar,förlorade,förlorat,терять,lose
-förmedla,förmedlar,förmedlade,förmedlat,передавать,convey
+förmedla,förmedlar,förmedlade,förmedlat,передавать,communicate
 förmå,förmår,förmådde,förmått,мочь,be able to
 förneka,förnekar,förnekade,förnekat,отрицать,deny
 förstärka,förstärker,förstärkte,förstärkt,укреплять,reinforce
@@ -209,6 +211,7 @@ försöka,försöker,försökte,försökt,пытаться,try
 förtjäna,förtjänar,förtjänade,förtjänat,зарабатывать,earn
 förutsätta,förutsätter,förutsatte,förutsatt,предполагать,presuppose
 förvandla,förvandlar,förvandlade,förvandlat,преобразовывать,transform
+förvirra,förvirrar,förvirrade,förvirrat,запутывать,confuse
 förvänta,förväntar,förväntade,förväntat,ожидать,expect
 förändra,förändrar,förändrade,förändrat,изменять,change
 garantera,garanterar,garanterade,garanterat,гарантировать,guarantee
@@ -248,6 +251,7 @@ hitta,hittar,hittade,hittat,находить,find
 hjälpa,hjälper,hjälpte,hjälpt,помогать,help
 hoppa,hoppar,hoppade,hoppat,прыгать,jump
 hoppas,hoppas,hoppades,hoppats,надеяться,hope
+hosta,hostar,hostade,hostat,кашлять,cough
 hota,hotar,hotade,hotat,угрожать,threaten
 hugga,hugger,högg,huggit,рубить,chop
 hylla,hyllar,hyllade,hyllat,чествовать,praise
@@ -296,7 +300,7 @@ koka,kokar,kokade,kokat,кипятить,boil
 kolla,kollar,kollade,kollat,проверять,check
 komma,kommer,kom,kommit,приходить,come
 kommentera,kommenterar,kommenterade,kommenterat,комментировать,comment
-kommunicera,kommunicerar,kommunicerade,kommunicerat,общаться,comminicate
+kommunicera,kommunicerar,kommunicerade,kommunicerat,общаться,communicate
 komplettera,kompletterar,kompletterade,kompletterat,дополнять,supplement
 koncentrera,koncentrerar,koncentrerade,koncentrerat,концентрировать,concentrate
 konstatera,konstaterar,konstaterade,konstaterat,констатировать,state
@@ -304,17 +308,21 @@ kontakta,kontaktar,kontaktade,kontaktat,связываться,contact
 kontrollera,kontrollerar,kontrollerade,kontrollerat,проверять,check
 kopiera,kopierar,kopierade,kopierat,копировать,copy
 koppla,kopplar,kopplade,kopplat,соединять,connect
+korsa,korsar,korsade,korsat,скрещивать,cross
 kosta,kostar,kostade,kostat,стоить,cost
 kritisera,kritiserar,kritiserade,kritiserat,критиковать,criticize
+krocka,krockar,krockade,krockat,сталкиваться,crash
+krossa,krossar,krossade,krossat,раздавливать,crush
 krypa,kryper,kröp,krupit,ползти,crawl
 kräva,kräver,krävde,krävt,требовать,demand
+kröka,kröker,krökte,krökt,сгибать,bend
 kunna,kan,kunde,kunnat,мочь,be able to
 kämpa,kämpar,kämpade,kämpat,бороться,fight
 känna,känner,kände,känt,чувствовать,feel
 köpa,köper,köpte,köpt,покупать,buy
 köra,kör,körde,kört,вести машину,drive
 ladda,laddar,laddade,laddat,заряжать,charge
-laga,lagar,lagade,lagat,чинить,repair
+laga,lagar,lagade,lagat,готовить,cook
 landa,landar,landade,landat,приземляться,land
 lansera,lanserar,lanserade,lanserat,запускать,launch
 le,ler,log,lett,улыбаться,smile
@@ -354,6 +362,7 @@ löpa,löper,löpte,löpt,бежать,run
 lösa,löser,löste,löst,решать,solve
 mana,manar,manade,manat,призывать,exhort
 markera,markerar,markerade,markerat,помечать,mark
+mata,matar,matade,matat,кормить,feed
 meddela,meddelar,meddelade,meddelat,сообщать,inform
 medföra,medför,medförde,medfört,приносить,bring
 medge,medger,medgav,medgett,позволять,allow
@@ -378,7 +387,7 @@ möta,möter,mötte,mött,встречать,meet
 neka,nekar,nekade,nekat,отрицать,deny
 njuta,njuter,njöt,njutit,наслаждаться,enjoy
 notera,noterar,noterade,noterat,записывать,note
-nyttja,nyttjar,nyttjade,nyttjat,употреблять,consume
+nyttja,nyttjar,nyttjade,nyttjat,употреблять,use
 nämna,nämner,nämnde,nämnt,упоминать,mention
 närma,närmar,närmade,närmat,приближать,bring closer
 närvara,närvarar,närvarade,närvarat,присутствовать,attend
@@ -397,7 +406,7 @@ peka,pekar,pekade,pekat,показывать на,point
 placera,placerar,placerade,placerat,помещать,place
 planera,planerar,planerade,planerat,планировать,plan
 plocka,plockar,plockade,plockat,собирать,pick
-plugga,pluggar,pluggade,pluggat,зубрить,cram
+plugga,pluggar,pluggade,pluggat,затыкать,plug
 posta,postar,postade,postat,отправлять по почте,mail
 prata,pratar,pratade,pratat,разговаривать,talk
 presentera,presenterar,presenterade,presenterat,представлять,introduce
@@ -496,7 +505,7 @@ skära,skär,skar,skurit,резать,cut
 sköta,sköter,skötte,skött,заботиться,look after
 slippa,slipper,slapp,sluppit,избегать,avoid
 slita,sliter,slet,slitit,изнашивать,wear out
-sluta,slutar,slutade,slutat,заканчивать,finish
+sluta,slutar,slutade,slutat,заканчиваться,end
 släcka,släcker,släckte,släckt,тушить,extinguish
 slänga,slänger,slängde,slängt,кидать,toss
 släppa,släpper,släppte,släppt,отпускать,let go
@@ -591,6 +600,7 @@ träda,träder,trädde,trätt,вступать,step
 träffa,träffar,träffade,träffat,встречать,meet
 träna,tränar,tränade,tränat,тренировать,train
 tränga,tränger,trängde,trängt,пробиваться,push
+trösta,tröstar,tröstade,tröstat,утешать,comfort
 tröttna,tröttnar,tröttnade,tröttnat,уставать,get tired
 tvinga,tvingar,tvingade,tvingat,принуждать,force
 tvätta,tvättar,tvättade,tvättat,мыть,wash
@@ -633,8 +643,8 @@ utesluta,utesluter,uteslöt,uteslutit,исключать,exclude
 utforma,utformar,utformade,utformat,формировать,design
 utfärda,utfärdar,utfärdade,utfärdat,выдавать документ,issue
 utföra,utför,utförde,utfört,исполнять,perform
-utgå,utgår,utgick,utgått,исходить,come from
-utgöra,utgör,utgjorde,utgjort,составлять,constitute
+utgå,utgår,utgick,utgått,выходить,depart
+utgöra,utgör,utgjorde,utgjort,формировать,form
 uthärda,uthärdar,uthärdade,uthärdat,переносить,bear
 utnyttja,utnyttjar,utnyttjade,utnyttjat,использовать,make use of
 utreda,utreder,utredde,utrett,расследовать,investigate
@@ -698,4 +708,4 @@ yrka,yrkar,yrkade,yrkat,требовать,demand
 överleva,överlever,överlevde,överlevt,переживать,survive
 överlämna,överlämnar,överlämnade,överlämnat,передавать,hand
 översätta,översätter,översatte,översatt,переводить,translate
-överväga,överväger,övervägde,övervägt,рассматривать возможность,consider
+överväga,överväger,övervägde,övervägt,обдумывать,consider
