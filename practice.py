@@ -175,30 +175,37 @@ if __name__ == "__main__":
         )
         # multiple choice test
         if inp == 1:
+            wbase = {}
+            for verb in verbs:
+                if verb[1] in wbase:
+                    wbase[verb[1]].append(verb[0])
+                else:
+                    wbase[verb[1]] = [verb[0]]
+            print(f'{len(wbase)} unique translations')
             sample = random.sample(verbs, num)
             print('Try to recall a translation then press Enter to choose from options')
             print(f'(to abort practice press {c.BOLD}Ctrl-C{c.END})')
             for k, word in enumerate(sample):
                 try:
-                    print(f'\natt {word[0]}')
+                    print(f'\n... {word[1]}')
                     input()
-                    choice = [word[1]]
+                    choice = [word[0]]
                     n_choices = 4
                     while len(choice) < n_choices:
-                        random_trans = random.choice(verbs)[1]
-                        if random_trans not in choice:
-                            choice.append(random_trans)
+                        random_word = random.choice(verbs)
+                        if random_word[1] != word[1]:
+                            choice.append(random_word[0])
                     random.shuffle(choice)
                     choices = '\n'.join(
                         [f'[{i+1}] {trans}' for i, trans in enumerate(choice)]
                     )
-                    choices += '\nWhich translation is correct? '
+                    choices += '\nWhich is the best translation? '
                     inp = choose(choices, min=1, max=n_choices)
-                    if choice[inp - 1] == word[1]:
+                    if choice[inp - 1] == word[0]:
                         print(f'{c.GREEN}Correct{c.END}')
                     else:
                         print(f'{c.RED}Incorrect!{c.END}')
-                    print(tabulate([[word[0], word[1]]], tablefmt='simple_grid'))
+                    print(tabulate([[word[1]], wbase[word[1]]], tablefmt='simple_grid'))
                     print(f'{k+1} done, {num-k-1} to go')
                 except KeyboardInterrupt:
                     finish('Practice aborted.')
@@ -212,7 +219,7 @@ if __name__ == "__main__":
                     super().__init__()
                     for verb in verbs:
                         self.words[verb[0]] = verb[2]  # {'be': 0,}
-                        self.quest[verb[0]] = verb[1]  # {'be': 'beg',}
+                        self.quest[verb[0]] = verb[1]  # {'be': 'ask',}
 
                 def question(self, verb: str, answer: str) -> bool:
                     """Check knowledge of a translation"""
