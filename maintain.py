@@ -20,7 +20,7 @@ class c:
     YELLOW = Style.BRIGHT + Fore.YELLOW
 
 
-RELEASE = 4
+RELEASE = 5
 WORDBASE = 'wordbase.db'
 TEXTBASE = 'wordbase.txt'
 IGNORE = 'ignore.txt'
