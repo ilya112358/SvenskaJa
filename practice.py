@@ -182,6 +182,8 @@ if __name__ == "__main__":
                 else:
                     wbase[verb[1]] = [verb[0]]
             print(f'{len(wbase)} unique translations')
+            if len(wbase) < 4:
+                finish('At least 4 unique translations required.')
             sample = random.sample(verbs, num)
             print('Try to recall a translation then press Enter to choose from options')
             print(f'(to abort practice press {c.BOLD}Ctrl-C{c.END})')
@@ -193,7 +195,7 @@ if __name__ == "__main__":
                     n_choices = 4
                     while len(choice) < n_choices:
                         random_word = random.choice(verbs)
-                        if random_word[1] != word[1]:
+                        if random_word[1] != word[1] and random_word[0] not in choice:
                             choice.append(random_word[0])
                     random.shuffle(choice)
                     choices = '\n'.join(
